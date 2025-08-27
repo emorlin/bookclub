@@ -14,8 +14,8 @@ function BookList() {
                                 <th className="px-4 py-2 text-left">Författare</th>
                                 <th className="px-4 py-2 text-left">Sidor</th>
                                 <th className="px-4 py-2 text-left">Land</th>
-                                <th className="px-4 py-2 text-left">Läst datum</th>
-                                <th className="px-4 py-2 text-left">Picked by</th>
+                                <th className="px-4 py-2 whitespace-nowrap text-left">Läst datum</th>
+                                <th className="px-4 py-2 text-left">Vald av</th>
                                 <th className="px-4 py-2 text-left">Goodreads</th>
                                 <th className="px-4 py-2 text-left">Erik</th>
                                 <th className="px-4 py-2 text-left">Tomas</th>
