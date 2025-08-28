@@ -1,29 +1,4 @@
-// src/api/hardcover.js
-
-const endpoint = "/api/hardcover"; // 👈 din proxy, inte direkt Hardcover
-// const token = import.meta.env.VITE_HARDCOVER_TOKEN; // behövs inte i frontend längre!
-
-const hcClient = {
-    /**
-     * Minimal GraphQL-klient, nu via din proxy.
-     */
-    query: async (query, variables = {}) => {
-        const res = await fetch(endpoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ query, variables }),
-        });
-
-        if (!res.ok) {
-            const text = await res.text().catch(() => "");
-            throw new Error(`Proxy request failed: ${res.status} ${text}`);
-        }
-
-        return res.json();
-    },
-};
+import { hcClient } from "./hcClient";
 
 /**
  * Ta emot ett ISBN (10/13, med/utan bindestreck) och returnera bok som JSON (normaliserad).
