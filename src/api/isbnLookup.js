@@ -3,7 +3,6 @@ import { hcClient } from "./hcClient";
 /**
  * Ta emot ett ISBN (10/13, med/utan bindestreck) och returnera bok som JSON (normaliserad).
  * Returnerar `null` om ingen träff. Loggar fel och returnerar `null` vid exception,
- * samma mönster som i din Contentful-helper.
  */
 export const getBookByIsbn = async (rawIsbn) => {
     try {
@@ -82,7 +81,7 @@ function normalizeEdition(e) {
         language: e.language?.language ?? null,
         rating: typeof e.book?.rating === "number" ? e.book.rating : null,
         // Behåll rådata om du vill:
-        // raw: e,
+        raw: e,
     };
 }
 export default {

@@ -1,11 +1,26 @@
 import { getBookByIsbn } from "../api/isbnLookup";
+import { getCover } from "../api/getCover";
+import { useEffect, useState } from "react";
 const Book = (selectedBook) => {
     console.log(selectedBook);
 
     const { bookTitle, author, isbn } = selectedBook.book.fields;
     const bookData = getBookByIsbn(isbn);
+
+    const [bookCover, setBookCover] = useState(null);
+
+    useEffect(() => {
+        let alive = true;
+        getCover(isbn).then((url) => {
+            if (alive) setBookCover(url);
+        });
+        return () => {
+            alive = false;
+        };
+    }, [isbn]);
+
     if (bookData) {
-        console.log(bookData);
+        console.dir(bookData);
     } else {
         console.log("no book data");
     }
@@ -54,13 +69,19 @@ const Book = (selectedBook) => {
                             </dl>
                         </div>
                     </div>
-                    <img
-                        alt="Product screenshot"
-                        src="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png"
-                        width={2432}
-                        height={1442}
-                        className="w-3xl max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-228 md:-ml-4 lg:-ml-0"
-                    />
+
+                    {bookCover ? (
+                        <img
+                            src={bookCover}
+                            alt={bookTitle}
+                        />
+                    ) : (
+                        <img
+                            className=" max-w-100 "
+                            src="/missingCover.png"
+                            alt="Omslag saknas"
+                        />
+                    )}
                 </div>
             </div>
         </div>
