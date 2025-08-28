@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useBooks } from "../context/BooksContext";
 
 const StartpageHero = () => {
@@ -56,7 +55,7 @@ const StartpageHero = () => {
                 <div className="mx-auto max-w-2xl lg:mx-0">
                     <h2 className="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Bokklubben</h2>
                     <p className="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-                        Erik, Tomas och Mathias har sen 2016 läst böcke tillsammans. På den tiden har vi hunnit med:
+                        Erik, Tomas och Mathias har sen 2016 läst böcker tillsammans. Sedan dess har vi hunnit med:
                     </p>
                 </div>
                 <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">

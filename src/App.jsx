@@ -1,17 +1,20 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useCallback, useState } from "react";
+
 import "./App.css";
 import StartpageHero from "./components/StartpageHero";
 import BookList from "./components/BookList";
+import Book from "./components/Book";
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [selectedBook, setSelectedBook] = useState();
+    const setSelectedBookWrapper = useCallback((book) => {
+        setSelectedBook(book);
+    }, []);
 
     return (
         <>
             <StartpageHero></StartpageHero>
-            <BookList></BookList>
+            {selectedBook ? <Book book={selectedBook} /> : <BookList selectedBook={setSelectedBookWrapper}></BookList>}
         </>
     );
 }
