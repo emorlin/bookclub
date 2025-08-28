@@ -4,7 +4,7 @@ const Book = (selectedBook) => {
 
     const { bookTitle, author, isbn } = selectedBook.book.fields;
     const bookData = getBookByIsbn(isbn);
-    if (!bookData) {
+    if (bookData) {
         console.log(bookData);
     } else {
         console.log("no book data");
