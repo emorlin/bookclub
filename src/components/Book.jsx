@@ -2,6 +2,7 @@ import { getBookByIsbn } from "../api/isbnLookup";
 import { getCover } from "../api/getCover";
 import { useEffect, useState } from "react";
 import { getAverageRating } from "../utils/bookstats/ratings";
+import { formatDate } from "../utils/formatter";
 const Book = (selectedBook) => {
     console.log(selectedBook);
 
@@ -17,6 +18,7 @@ const Book = (selectedBook) => {
         mathiasGrade,
         authorsSex,
         goodreadGrade,
+        readDate,
     } = selectedBook.book.fields;
     const [bookCover, setBookCover] = useState(null);
     const [loadingCover, setLoadingCover] = useState(true);
@@ -74,21 +76,6 @@ const Book = (selectedBook) => {
         console.log("no book data");
     }
 */
-    const features = [
-        {
-            name: "Push to deploy.",
-            description:
-                "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.",
-        },
-        {
-            name: "SSL certificates.",
-            description: "Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.",
-        },
-        {
-            name: "Database backups.",
-            description: "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-        },
-    ];
 
     return (
         <div className="overflow-hidden bg-white py-24 sm:py-32">
@@ -102,6 +89,7 @@ const Book = (selectedBook) => {
                             <p className="mt-4  text-2xl font-semibold">{author}</p>
                             <p className="mt-2">Bokklubbens betyg: {getAverageRating(selectedBook.book)}</p>
                             <p>Vald av: {pickedBy}</p>
+                            <p>Läst i {formatDate(readDate)}</p>
                             <div>
                                 <div class="px-4 sm:px-0 mt-8">
                                     <h3 class="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
@@ -127,7 +115,7 @@ const Book = (selectedBook) => {
                             </div>
                             <div>
                                 <div class="px-4 sm:px-0 mt-8">
-                                    <h3 class="text-base/7 font-semibold text-gray-900">Betyg:</h3>
+                                    <h3 class="text-base/7 font-semibold text-gray-900">Satta betyg:</h3>
                                 </div>
                                 <div class="mt-4 border-t border-gray-100">
                                     <dl class="divide-y divide-gray-100">

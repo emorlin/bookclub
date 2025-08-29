@@ -16,14 +16,7 @@ function BookList({ selectedBook }) {
                                 <th className="px-4 py-2 text-left align-bottom">Vald av</th>
                                 <th className="px-4 py-2 text-left align-bottom">Titel</th>
                                 <th className="px-4 py-2 text-left align-bottom">Författare</th>
-                                <th className="px-4 py-2 text-left align-bottom">Snittbetyg</th>
-                                <th className="px-4 py-2 text-left align-bottom">Erik betyg</th>
-                                <th className="px-4 py-2 text-left align-bottom">Tomas betyg</th>
-                                <th className="px-4 py-2 text-left align-bottom">Mathias betyg</th>
-                                <th className="px-4 py-2 text-left align-bottom">Goodreads betyg</th>
-                                <th className="px-4 py-2 text-left align-bottom">Sidor</th>
-                                <th className="px-4 py-2 text-left align-bottom">Land</th>
-                                <th className="px-4 py-2 text-left align-bottom">ISBN</th>
+                                <th className="px-4 py-2 text-left align-bottom">Bokklubbens betyg</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,14 +34,6 @@ function BookList({ selectedBook }) {
                                     <td className="px-4 py-2">{book.fields.bookTitle}</td>
                                     <td className="px-4 py-2">{book.fields.author}</td>
                                     <td className="px-4 py-2 text-1xl">{getAverageRating(book)}</td>
-
-                                    <td className="px-4 py-2">{book.fields.eriksGrade}</td>
-                                    <td className="px-4 py-2">{book.fields.tomasGrade}</td>
-                                    <td className="px-4 py-2">{book.fields.mathiasGrade}</td>
-                                    <td className="px-4 py-2">{book.fields.goodreadGrade}</td>
-                                    <td className="px-4 py-2">{book.fields.pages}</td>
-                                    <td className="px-4 py-2">{book.fields.country}</td>
-                                    <td className="px-4 py-2">{book.fields.isbn}</td>
                                 </tr>
                             ))}
                         </tbody>
