@@ -6,8 +6,6 @@ function BookList({ selectedBook }) {
 
     return (
         <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
-            <h2>To rated books</h2>
-
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-700">
