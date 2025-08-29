@@ -5,14 +5,30 @@ const Book = (selectedBook) => {
     console.log(selectedBook);
 
     const { bookTitle, author, isbn } = selectedBook.book.fields;
-    const bookData = getBookByIsbn(isbn);
-
     const [bookCover, setBookCover] = useState(null);
+    const [loadingCover, setLoadingCover] = useState(true);
+    const [coverError, setCoverError] = useState(false);
+    const [bookData, setBookdata] = useState(null);
 
     useEffect(() => {
         let alive = true;
+        setLoadingCover(true);
+        setCoverError(false);
         getCover(isbn).then((url) => {
-            if (alive) setBookCover(url);
+            if (!alive) return;
+            if (url) {
+                setBookCover(url);
+            } else {
+                setCoverError(true);
+            }
+            setLoadingCover(false);
+        });
+    }, [isbn]);
+
+    useEffect(() => {
+        let alive = true;
+        getBookByIsbn(isbn).then((url) => {
+            if (alive) setBookdata(isbn);
         });
         return () => {
             alive = false;
@@ -70,18 +86,21 @@ const Book = (selectedBook) => {
                         </div>
                     </div>
 
-                    {bookCover ? (
+                    {loadingCover ? (
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-500" />
+                    ) : bookCover ? (
                         <img
                             src={bookCover}
                             alt={bookTitle}
+                            className="max-w-100"
                         />
-                    ) : (
+                    ) : coverError ? (
                         <img
-                            className=" max-w-100 "
                             src="/missingCover.png"
                             alt="Omslag saknas"
+                            className="max-w-100"
                         />
-                    )}
+                    ) : null}
                 </div>
             </div>
         </div>

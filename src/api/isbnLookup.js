@@ -33,6 +33,7 @@ export const getBookByIsbn = async (rawIsbn) => {
             id
             title
             rating
+            description
             contributions { author { name } }
           }
         }
