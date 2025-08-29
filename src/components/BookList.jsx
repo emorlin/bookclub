@@ -1,5 +1,5 @@
 import { useBooks } from "../context/BooksContext";
-import { getTopRatedBooks } from "../utils/bookstats/ratings";
+import { getTopRatedBooks, getAverageRating } from "../utils/bookstats/ratings";
 
 function BookList({ selectedBook }) {
     const { books } = useBooks();
@@ -32,7 +32,7 @@ function BookList({ selectedBook }) {
                                 <tr
                                     onClick={() => selectedBook(book)}
                                     key={book.sys.id}
-                                    className="border-b border-gray-700">
+                                    className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer">
                                     <td className="px-4 py-2 whitespace-nowrap">
                                         {book.fields.readDate
                                             ? new Date(book.fields.readDate).toLocaleDateString()
@@ -41,23 +41,7 @@ function BookList({ selectedBook }) {
                                     <td className="px-4 py-2">{book.fields.pickedBy}</td>
                                     <td className="px-4 py-2">{book.fields.bookTitle}</td>
                                     <td className="px-4 py-2">{book.fields.author}</td>
-                                    <td className="px-4 py-2 text-1xl">
-                                        {(
-                                            (book.fields.eriksGrade +
-                                                book.fields.tomasGrade +
-                                                book.fields.mathiasGrade) /
-                                            3
-                                        ).toFixed(2) === "5.00" ? (
-                                            <span className="text-yellow-400">5.00 ⭐</span>
-                                        ) : (
-                                            (
-                                                (book.fields.eriksGrade +
-                                                    book.fields.tomasGrade +
-                                                    book.fields.mathiasGrade) /
-                                                3
-                                            ).toFixed(2)
-                                        )}
-                                    </td>
+                                    <td className="px-4 py-2 text-1xl">{getAverageRating(book)}</td>
 
                                     <td className="px-4 py-2">{book.fields.eriksGrade}</td>
                                     <td className="px-4 py-2">{book.fields.tomasGrade}</td>
