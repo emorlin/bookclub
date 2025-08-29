@@ -1,21 +1,16 @@
 import { useBooks } from "../context/BooksContext";
+import { formatNumber } from "../utils/formatter";
 
 const StartpageHero = () => {
     const { books } = useBooks();
     const booksStats = {
         readBooks: books.length,
-        readPages: books.reduce((total, book) => total + (book.fields.pages || 0), 0),
+        readPages: formatNumber(books.reduce((total, book) => total + (book.fields.pages || 0), 0)),
         readAuthors: new Set(books.map((book) => book.fields.author)).size,
         countries: new Set(books.map((book) => book.fields.country)).size,
         booksPerYear: Math.round(books.length / (new Date().getFullYear() - 2020 || 1)),
     };
 
-    const links = [
-        { name: "Open roles", href: "#" },
-        { name: "Internship program", href: "#" },
-        { name: "Our values", href: "#" },
-        { name: "Meet our leadership", href: "#" },
-    ];
     const stats = [
         { name: "Lästa böcker", value: booksStats.readBooks },
         { name: "Lästa sidor", value: booksStats.readPages },
@@ -55,7 +50,8 @@ const StartpageHero = () => {
                 <div className="mx-auto max-w-2xl lg:mx-0">
                     <h2 className="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Bokklubben</h2>
                     <p className="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-                        Erik, Tomas och Mathias har sen 2016 läst böcker tillsammans. Sedan dess har vi hunnit med:
+                        Erik, Tomas och Mathias har sen 2016 läst böcker tillsammans.
+                        <br /> Sedan dess har vi hunnit med:
                     </p>
                 </div>
                 <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
@@ -69,16 +65,6 @@ const StartpageHero = () => {
                             </div>
                         ))}
                     </dl>
-
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10 sm:mt-20">
-                        {links.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}>
-                                {link.name} <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        ))}
-                    </div>
                 </div>
             </div>
         </div>

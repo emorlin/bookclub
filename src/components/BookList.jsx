@@ -8,6 +8,7 @@ function BookList({ selectedBook }) {
         <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
                 <div className="overflow-x-auto">
+                    <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-2xl">Alla lästa böcker</h2>
                     <table className="min-w-full divide-y divide-gray-700">
                         <thead>
                             <tr>
