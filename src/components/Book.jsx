@@ -3,6 +3,12 @@ import { getCover } from "../api/getCover";
 import { useEffect, useState } from "react";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
+
+/*
+import loadingStatus from "../utils/loadingStatus";
+    const [loadingState, setLoadingState] = useState("loadingStatus.isLoading");
+        setLoadingState("isLoading");
+*/
 const Book = (selectedBook) => {
     console.log(selectedBook);
 
