@@ -1,7 +1,7 @@
 import { useBooks } from "../context/BooksContext";
 import { getTopRatedBooks, getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
-import LoadingIndicator from "./loadingIndicator";
+import LoadingIndicator from "./LoadingIndicator";
 
 function BookList({ selectedBook }) {
     const { books, status } = useBooks();
