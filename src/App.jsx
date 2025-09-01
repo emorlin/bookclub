@@ -7,8 +7,8 @@ import Book from "./components/Book";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
-    const [selectedBook, setSelectedBook] = useState();
-    const setSelectedBookWrapper = useCallback((book) => {
+    const [selectedBook, setSelectedBook] = useState(null);
+    const handleSelectedBook = useCallback((book) => {
         setSelectedBook(book);
     }, []);
 
@@ -19,7 +19,7 @@ function App() {
                 {selectedBook ? (
                     <Book book={selectedBook} />
                 ) : (
-                    <BookList selectedBook={setSelectedBookWrapper}></BookList>
+                    <BookList onSelectedBook={handleSelectedBook}></BookList>
                 )}
             </ErrorBoundary>
         </>

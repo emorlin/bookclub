@@ -3,7 +3,7 @@ import { getTopRatedBooks, getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
 import LoadingIndicator from "./LoadingIndicator";
 
-function BookList({ selectedBook }) {
+function BookList({ onSelectedBook }) {
     const { books, status } = useBooks();
 
     if (status !== loadingStatus.loaded) {
@@ -37,7 +37,7 @@ function BookList({ selectedBook }) {
                             <tbody>
                                 {books.map((book) => (
                                     <tr
-                                        onClick={() => selectedBook(book)}
+                                        onClick={() => onSelectedBook(book)}
                                         key={book.sys.id}
                                         className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer">
                                         <td className="px-4 py-2 whitespace-nowrap">
