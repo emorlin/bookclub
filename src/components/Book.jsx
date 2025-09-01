@@ -97,55 +97,59 @@ const Book = (selectedBook) => {
                             <p>Vald av: {pickedBy}</p>
                             <p>Läst i {formatDate(readDate)}</p>
                             <div>
-                                <div class="px-4 sm:px-0 mt-8">
-                                    <h3 class="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
+                                <div className="px-4 sm:px-0 mt-8">
+                                    <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
                                 </div>
-                                <div class="mt-4 border-t border-gray-100">
-                                    <dl class="divide-y divide-gray-100">
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">ISBN</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{isbn}</dd>
+                                <div className="mt-4 border-t border-gray-100">
+                                    <dl className="divide-y divide-gray-100">
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">ISBN</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                {isbn}
+                                            </dd>
                                         </div>
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">Land</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">Land</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                                                 {country}
                                             </dd>
                                         </div>
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">Antal sidor</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{pages}</dd>
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">Antal sidor</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                {pages}
+                                            </dd>
                                         </div>
                                     </dl>
                                 </div>
                             </div>
                             <div>
-                                <div class="px-4 sm:px-0 mt-8">
-                                    <h3 class="text-base/7 font-semibold text-gray-900">Satta betyg:</h3>
+                                <div className="px-4 sm:px-0 mt-8">
+                                    <h3 className="text-base/7 font-semibold text-gray-900">Satta betyg:</h3>
                                 </div>
-                                <div class="mt-4 border-t border-gray-100">
-                                    <dl class="divide-y divide-gray-100">
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">Eriks betyg</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <div className="mt-4 border-t border-gray-100">
+                                    <dl className="divide-y divide-gray-100">
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">Eriks betyg</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                                                 {eriksGrade}
                                             </dd>
                                         </div>
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">Tomas betyg</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">Tomas betyg</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                                                 {tomasGrade}
                                             </dd>
                                         </div>
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">Mathias betyg</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">Mathias betyg</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                                                 {mathiasGrade}
                                             </dd>
                                         </div>
-                                        <div class="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt class="text-sm/6 font-medium text-gray-900">Goodreads betyg</dt>
-                                            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm/6 font-medium text-gray-900">Goodreads betyg</dt>
+                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                                                 {goodreadGrade}
                                             </dd>
                                         </div>

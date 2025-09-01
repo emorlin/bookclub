@@ -1,7 +1,7 @@
 import { useBooks } from "../context/BooksContext";
 import { getTopRatedBooks, getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
-import LoadinngIndicator from "./loadingIndicator";
+import LoadingIndicator from "./loadingIndicator";
 
 function BookList({ selectedBook }) {
     const { books, status } = useBooks();
@@ -11,7 +11,7 @@ function BookList({ selectedBook }) {
             <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
                     <div className="overflow-x-auto">
-                        <LoadinngIndicator status={status} />
+                        <LoadingIndicator status={status} />
                     </div>
                 </div>
             </div>
