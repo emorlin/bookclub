@@ -4,6 +4,7 @@ import "./App.css";
 import StartpageHero from "./components/StartpageHero";
 import BookList from "./components/BookList";
 import Book from "./components/Book";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
     const [selectedBook, setSelectedBook] = useState();
@@ -13,8 +14,14 @@ function App() {
 
     return (
         <>
-            <StartpageHero></StartpageHero>
-            {selectedBook ? <Book book={selectedBook} /> : <BookList selectedBook={setSelectedBookWrapper}></BookList>}
+            <ErrorBoundary fallback="Error">
+                <StartpageHero></StartpageHero>
+                {selectedBook ? (
+                    <Book book={selectedBook} />
+                ) : (
+                    <BookList selectedBook={setSelectedBookWrapper}></BookList>
+                )}
+            </ErrorBoundary>
         </>
     );
 }
