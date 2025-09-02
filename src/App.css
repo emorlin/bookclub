@@ -1,1 +1,19 @@
 #root {}
+
+
+[data-sorted="asc"]:after {
+    content: " ▲";
+    position: relative;
+    left: 8px
+}
+
+[data-sorted="desc"]:after {
+    content: " ▼";
+    position: relative;
+    left: 8px
+}
+
+[data-sorted="unsorted"]:after {
+    content: " ▼";
+    opacity: 0;
+}

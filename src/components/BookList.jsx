@@ -1,10 +1,24 @@
+import { useState } from "react";
 import { useBooks } from "../context/BooksContext";
 import { getTopRatedBooks, getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
 import LoadingIndicator from "./LoadingIndicator";
+import sortBooks from "../utils/booksSorter";
 
 function BookList({ onSelectedBook }) {
-    const { books, status } = useBooks();
+    const { books, setBooks, status } = useBooks();
+    const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: true });
+    console.log(books);
+    const handleSort = (order) => {
+        let asc = true;
+        if (sortConfig.order === order && sortConfig.asc) {
+            asc = false; // toggle
+        }
+        setSortConfig({ order, asc });
+
+        const sorted = sortBooks({ books, order, asc });
+        setBooks(sorted);
+    };
 
     if (status !== loadingStatus.loaded) {
         return (
@@ -27,11 +41,66 @@ function BookList({ onSelectedBook }) {
                         <table className="min-w-full divide-y divide-gray-700">
                             <thead>
                                 <tr>
-                                    <th className="px-4 py-2 whitespace-nowrap text-left align-bottom">Läst</th>
-                                    <th className="px-4 py-2 text-left align-bottom">Vald av</th>
-                                    <th className="px-4 py-2 text-left align-bottom">Titel</th>
-                                    <th className="px-4 py-2 text-left align-bottom">Författare</th>
-                                    <th className="px-4 py-2 text-left align-bottom">Bokklubbens betyg</th>
+                                    <th
+                                        data-sorted={
+                                            sortConfig.order === "readDate"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "not-sorted"
+                                        }
+                                        className="px-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer"
+                                        onClick={() => handleSort("readDate")}>
+                                        Läst
+                                    </th>
+                                    <th
+                                        data-sorted={
+                                            sortConfig.order === "pickedBy"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
+                                        onClick={() => handleSort("pickedBy")}>
+                                        Vald av
+                                    </th>
+                                    <th
+                                        data-sorted={
+                                            sortConfig.order === "title"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
+                                        onClick={() => handleSort("title")}>
+                                        Titel
+                                    </th>
+                                    <th
+                                        data-sorted={
+                                            sortConfig.order === "author"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
+                                        onClick={() => handleSort("author")}>
+                                        Författare
+                                    </th>
+                                    <th
+                                        data-sorted={
+                                            sortConfig.order === "rating"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
+                                        onClick={() => handleSort("rating")}>
+                                        Bokklubbens betyg
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
