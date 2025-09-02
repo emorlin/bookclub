@@ -3,6 +3,7 @@ import { getCover } from "../api/getCover";
 import { useEffect, useState } from "react";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
+import { Rating } from "react-simple-star-rating";
 
 /*
 import loadingStatus from "../utils/loadingStatus";
@@ -25,6 +26,7 @@ const Book = (selectedBook) => {
         authorsSex,
         goodreadGrade,
         readDate,
+        bookLink,
     } = selectedBook.book.fields;
     const [bookCover, setBookCover] = useState(null);
     const [loadingCover, setLoadingCover] = useState(true);
@@ -93,7 +95,15 @@ const Book = (selectedBook) => {
                                 {bookTitle}
                             </h2>
                             <p className="mt-4  text-2xl font-semibold">{author}</p>
-                            <p className="mt-2">Bokklubbens betyg: {getAverageRating(selectedBook.book)}</p>
+                            <p className="mt-2 mb-4">
+                                <Rating
+                                    readonly
+                                    allowFraction
+                                    initialValue={parseFloat(getAverageRating(selectedBook.book)) || 0}
+                                    size={26}
+                                    SVGstyle={{ display: "inline-block" }} // för säkerhets skull
+                                />
+                            </p>
                             <p>Vald av: {pickedBy}</p>
                             <p>Läst i {formatDate(readDate)}</p>
                             <div>
@@ -105,7 +115,12 @@ const Book = (selectedBook) => {
                                         <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm/6 font-medium text-gray-900">ISBN</dt>
                                             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {isbn}
+                                                <a
+                                                    className="text-blue-600 "
+                                                    href={bookLink}
+                                                    target="_blank">
+                                                    <span className="underline">{isbn}</span> ⧉
+                                                </a>
                                             </dd>
                                         </div>
                                         <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -125,7 +140,7 @@ const Book = (selectedBook) => {
                             </div>
                             <div>
                                 <div className="px-4 sm:px-0 mt-8">
-                                    <h3 className="text-base/7 font-semibold text-gray-900">Satta betyg:</h3>
+                                    <h3 className="text-base/7 font-semibold text-gray-900">Betyg:</h3>
                                 </div>
                                 <div className="mt-4 border-t border-gray-100">
                                     <dl className="divide-y divide-gray-100">

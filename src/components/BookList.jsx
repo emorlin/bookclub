@@ -4,6 +4,7 @@ import { getTopRatedBooks, getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
 import LoadingIndicator from "./LoadingIndicator";
 import sortBooks from "../utils/booksSorter";
+import { Rating } from "react-simple-star-rating";
 
 function BookList({ onSelectedBook }) {
     const { books, setBooks, status } = useBooks();
@@ -35,8 +36,8 @@ function BookList({ onSelectedBook }) {
             <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
                     <div className="overflow-x-auto">
-                        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-2xl">
-                            Alla lästa böcker {status}
+                        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-2xl mb-4">
+                            Alla lästa böcker
                         </h2>
                         <table className="min-w-full divide-y divide-gray-700">
                             <thead>
@@ -47,7 +48,7 @@ function BookList({ onSelectedBook }) {
                                                 ? sortConfig.asc
                                                     ? "asc"
                                                     : "desc"
-                                                : "not-sorted"
+                                                : "unsorted"
                                         }
                                         className="px-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer"
                                         onClick={() => handleSort("readDate")}>
@@ -117,7 +118,15 @@ function BookList({ onSelectedBook }) {
                                         <td className="px-4 py-2">{book.fields.pickedBy}</td>
                                         <td className="px-4 py-2">{book.fields.bookTitle}</td>
                                         <td className="px-4 py-2">{book.fields.author}</td>
-                                        <td className="px-4 py-2 text-1xl">{getAverageRating(book)}</td>
+                                        <td className="px-4 py-2 text-1xl">
+                                            <Rating
+                                                readonly
+                                                allowFraction
+                                                initialValue={parseFloat(getAverageRating(book)) || 0}
+                                                size={20}
+                                                SVGstyle={{ display: "inline-block" }} // för säkerhets skull
+                                            />
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
