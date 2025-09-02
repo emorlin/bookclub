@@ -1,11 +1,12 @@
 import { useBooks } from "../context/BooksContext";
 import { formatNumber } from "../utils/formatter";
+import CountUp from "react-countup";
 
 const StartpageHero = () => {
     const { books } = useBooks();
     const booksStats = {
         readBooks: books.length,
-        readPages: formatNumber(books.reduce((total, book) => total + (book.fields.pages || 0), 0)),
+        readPages: books.reduce((total, book) => total + (book.fields.pages || 0), 0),
         readAuthors: new Set(books.map((book) => book.fields.author)).size,
         countries: new Set(books.map((book) => book.fields.country)).size,
         booksPerYear: Math.round(books.length / (new Date().getFullYear() - 2020 || 1)),
@@ -61,7 +62,12 @@ const StartpageHero = () => {
                                 key={stat.name}
                                 className="flex flex-col-reverse gap-1">
                                 <dt className="text-base/7 text-gray-300">{stat.name}</dt>
-                                <dd className="text-4xl font-semibold tracking-tight text-white">{stat.value}</dd>
+                                <dd className="text-4xl font-semibold tracking-tight text-white">
+                                    <CountUp
+                                        end={stat.value}
+                                        separator=" "
+                                    />
+                                </dd>
                             </div>
                         ))}
                     </dl>
