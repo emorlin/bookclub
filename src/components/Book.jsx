@@ -11,8 +11,6 @@ import loadingStatus from "../utils/loadingStatus";
         setLoadingState("isLoading");
 */
 const Book = (selectedBook) => {
-    console.log(selectedBook);
-
     const {
         bookTitle,
         author,

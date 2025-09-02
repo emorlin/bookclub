@@ -9,7 +9,7 @@ import { Rating } from "react-simple-star-rating";
 function BookList({ onSelectedBook }) {
     const { books, setBooks, status } = useBooks();
     const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: true });
-    console.log(books);
+
     const handleSort = (order) => {
         let asc = true;
         if (sortConfig.order === order && sortConfig.asc) {
