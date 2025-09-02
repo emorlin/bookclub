@@ -50,7 +50,7 @@ function BookList({ onSelectedBook }) {
                                                     : "desc"
                                                 : "unsorted"
                                         }
-                                        className="px-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer"
+                                        className="pr-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer"
                                         onClick={() => handleSort("readDate")}>
                                         Läst
                                     </th>
@@ -110,7 +110,7 @@ function BookList({ onSelectedBook }) {
                                         onClick={() => onSelectedBook(book)}
                                         key={book.sys.id}
                                         className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer">
-                                        <td className="px-4 py-2 whitespace-nowrap">
+                                        <td className="pr-4 py-2 whitespace-nowrap">
                                             {book.fields.readDate
                                                 ? new Date(book.fields.readDate).toLocaleDateString()
                                                 : ""}

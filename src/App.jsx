@@ -8,6 +8,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import navigationValues from "./navigation/navigationValues";
 import navigationContext from "./navigation/navigationContext";
 import ComponentPicker from "./components/ComponentPicker";
+import Header from "./components/Header";
 
 function App() {
     const [selectedBook, setSelectedBook] = useState(null);
@@ -23,13 +24,19 @@ function App() {
         <>
             <navigationContext.Provider value={nav}>
                 <ErrorBoundary fallback="Error">
-                    <StartpageHero></StartpageHero>
-                    {selectedBook ? (
-                        <Book book={selectedBook} />
-                    ) : (
-                        <BookList onSelectedBook={handleSelectedBook}></BookList>
-                    )}
-                    {/*  <ComponentPicker currentLocation={nav.current}></ComponentPicker>*/}
+                    <Header></Header>
+                    <main>
+                        {selectedBook ? (
+                            <Book book={selectedBook} />
+                        ) : (
+                            <>
+                                {" "}
+                                <StartpageHero></StartpageHero>
+                                <BookList onSelectedBook={handleSelectedBook}></BookList>
+                            </>
+                        )}
+                        {/*  <ComponentPicker currentLocation={nav.current}></ComponentPicker>*/}
+                    </main>
                 </ErrorBoundary>
             </navigationContext.Provider>
         </>
