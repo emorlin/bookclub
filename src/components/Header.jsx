@@ -1,6 +1,5 @@
-import { useBooks } from "../context/BooksContext";
-import { formatNumber } from "../utils/formatter";
 import CountUp from "react-countup";
+import Modal from "./Modal";
 
 const Header = () => {
     return (
@@ -9,17 +8,7 @@ const Header = () => {
                 className="max-w-7xl mx-auto px-6 lg:px-8  flex flex-row
                 justify-between items-center gap-6 lg:px-8">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">Bokklubben</h1>
-                <nav className="flex text-center">
-                    <ul className="flex flex-row gap-6">
-                        <li>
-                            <button
-                                className="px-4 py-2 rounded-xl border border-white text-white cursor-pointer"
-                                type="button">
-                                Lägg till bok
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+                <Modal></Modal>
             </div>
         </header>
     );

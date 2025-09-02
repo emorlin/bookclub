@@ -37,6 +37,7 @@ function App() {
                         )}
                         {/*  <ComponentPicker currentLocation={nav.current}></ComponentPicker>*/}
                     </main>
+
                     <Footer></Footer>
                 </ErrorBoundary>
             </navigationContext.Provider>
