@@ -9,6 +9,7 @@ import navigationValues from "./navigation/navigationValues";
 import navigationContext from "./navigation/navigationContext";
 import ComponentPicker from "./components/ComponentPicker";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
     const [selectedBook, setSelectedBook] = useState(null);
@@ -30,13 +31,13 @@ function App() {
                             <Book book={selectedBook} />
                         ) : (
                             <>
-                                {" "}
                                 <StartpageHero></StartpageHero>
                                 <BookList onSelectedBook={handleSelectedBook}></BookList>
                             </>
                         )}
                         {/*  <ComponentPicker currentLocation={nav.current}></ComponentPicker>*/}
                     </main>
+                    <Footer></Footer>
                 </ErrorBoundary>
             </navigationContext.Provider>
         </>

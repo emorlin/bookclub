@@ -27,7 +27,7 @@ const StartpageHero = () => {
             />
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:mx-0">
-                    <p className="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
+                    <p className="mt-8 sm:text-2xl text-lg  text-white xl:mb-16 ">
                         Erik, Tomas och Mathias har sen 2016 läst böcker tillsammans.
                         <br /> Sedan dess har vi hunnit med:
                     </p>
@@ -37,9 +37,9 @@ const StartpageHero = () => {
                         {stats.map((stat) => (
                             <div
                                 key={stat.name}
-                                className="flex flex-col-reverse gap-1">
-                                <dt className="text-base/7 text-gray-300">{stat.name}</dt>
-                                <dd className="text-4xl font-semibold tracking-tight text-white">
+                                className="flex flex-col-reverse gap-4">
+                                <dt className="text-base/7 text-gray-300 text-xl">{stat.name}</dt>
+                                <dd className="text-5xl lg:text-6xl font-semibold tracking-tight text-white">
                                     <CountUp
                                         end={stat.value}
                                         separator=" "
