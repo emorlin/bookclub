@@ -31,7 +31,6 @@ function App() {
                             <BookList onSelectedBook={handleSelectedBook}></BookList>
                         </>
                     )}
-                    {/*  <ComponentPicker currentLocation={nav.current}></ComponentPicker>*/}
                 </main>
                 <Footer></Footer>
             </ErrorBoundary>
