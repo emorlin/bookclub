@@ -1,4 +1,4 @@
-import { use, useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 
 import "./App.css";
 import StartpageHero from "./components/StartpageHero";
@@ -12,6 +12,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 function App() {
+    useEffect(() => {
+        document.body.classList.add("bg-gray-900");
+    }, []);
     const [selectedBook, setSelectedBook] = useState(null);
 
     const handleSelectedBook = useCallback((book) => {
