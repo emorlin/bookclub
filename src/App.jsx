@@ -4,18 +4,16 @@ import "./App.css";
 import StartpageHero from "./components/StartpageHero";
 import BookList from "./components/BookList";
 import Book from "./components/Book";
-import ErrorBoundary from "./components/ErrorBoundary";
-
-import ComponentPicker from "./components/ComponentPicker";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
     useEffect(() => {
         document.body.classList.add("bg-gray-900");
     }, []);
-    const [selectedBook, setSelectedBook] = useState(null);
 
+    const [selectedBook, setSelectedBook] = useState(null);
     const handleSelectedBook = useCallback((book) => {
         setSelectedBook(book);
     }, []);
