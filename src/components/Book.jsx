@@ -30,6 +30,8 @@ const Book = (selectedBook) => {
     const [coverError, setCoverError] = useState(false);
     const [bookData, setBookdata] = useState(null);
 
+    const { publisher: publisher, language: language, releaseDate: releaseDate, title: originalTitle } = bookData || {};
+
     useEffect(() => {
         let alive = true;
         setLoadingCover(true);
@@ -89,7 +91,7 @@ const Book = (selectedBook) => {
                             <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
                                 {bookTitle}
                             </h2>
-                            <p className="mt-4  text-2xl font-semibold">{author}</p>
+                            <p className="mt-2 text-2xl font-semibold">{author}</p>
                             <p className="mt-2 mb-4">
                                 <Rating
                                     readonly
@@ -101,11 +103,30 @@ const Book = (selectedBook) => {
                             </p>
                             <p>Vald av: {pickedBy}</p>
                             <p>Läst i {formatDate(readDate)}</p>
+                            <dl className="mt-4">
+                                <div className="flex gap-2">
+                                    <dt className="inline">Eriks betyg:</dt>
+                                    <dd className="inline">{eriksGrade}</dd>
+                                </div>
+                                <div className="flex gap-2">
+                                    <dt className="inline">Tomas betyg:</dt>
+                                    <dd className="inline">{tomasGrade}</dd>
+                                </div>
+                                <div className="flex gap-2">
+                                    <dt className="inline">Mathias betyg:</dt>
+                                    <dd className="inline">{mathiasGrade}</dd>
+                                </div>
+                                <div className="flex gap-2">
+                                    <dt className="inline">Betyg från Goodreads:</dt>
+                                    <dd className="inline">{goodreadGrade}</dd>
+                                </div>
+                            </dl>
+
                             <div>
                                 <div className="mt-8">
                                     <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
                                 </div>
-                                <div className="mt-4 border-t border-gray-100">
+                                <div className="mt-2 border-t border-gray-100">
                                     <dl className="divide-y divide-gray-100">
                                         <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm/6 font-medium text-gray-900">ISBN</dt>
@@ -130,39 +151,44 @@ const Book = (selectedBook) => {
                                                 {pages}
                                             </dd>
                                         </div>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="px-0 mt-8">
-                                    <h3 className="text-base/7 font-semibold text-gray-900">Betyg:</h3>
-                                </div>
-                                <div className="mt-4 border-t border-gray-100">
-                                    <dl className="divide-y divide-gray-100">
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">Eriks betyg</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {eriksGrade}
-                                            </dd>
-                                        </div>
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">Tomas betyg</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {tomasGrade}
-                                            </dd>
-                                        </div>
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">Mathias betyg</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {mathiasGrade}
-                                            </dd>
-                                        </div>
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">Goodreads betyg</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {goodreadGrade}
-                                            </dd>
-                                        </div>
+
+                                        {publisher && (
+                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm/6 font-medium text-gray-900">Förlag</dt>
+                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    {publisher}
+                                                </dd>
+                                            </div>
+                                        )}
+
+                                        {language && (
+                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm/6 font-medium text-gray-900">Språk</dt>
+                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    {language === "English"
+                                                        ? "Engelska"
+                                                        : language === "Swedish"
+                                                        ? "Svenska"
+                                                        : language}
+                                                </dd>
+                                            </div>
+                                        )}
+                                        {releaseDate && (
+                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm/6 font-medium text-gray-900">Utgivningsdag</dt>
+                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    {releaseDate}
+                                                </dd>
+                                            </div>
+                                        )}
+                                        {originalTitle && (
+                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm/6 font-medium text-gray-900">Originaltitel</dt>
+                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    {originalTitle}
+                                                </dd>
+                                            </div>
+                                        )}
                                     </dl>
                                 </div>
                             </div>
