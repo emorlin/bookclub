@@ -116,8 +116,8 @@ function BookList({ onSelectedBook }) {
                                                 : ""}
                                         </td>
                                         <td className="px-4 py-2">{book.fields.pickedBy}</td>
-                                        <td className="px-4 py-2">{book.fields.bookTitle}</td>
-                                        <td className="px-4 py-2">{book.fields.author}</td>
+                                        <td className="px-4 py-2 min-w-2xs">{book.fields.bookTitle}</td>
+                                        <td className="px-4 py-2 whitespace-nowrap">{book.fields.author}</td>
                                         <td className="px-4 py-2 text-1xl">
                                             <Rating
                                                 readonly

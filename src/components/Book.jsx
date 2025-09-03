@@ -21,7 +21,6 @@ const Book = (selectedBook) => {
         eriksGrade,
         tomasGrade,
         mathiasGrade,
-        authorsSex,
         goodreadGrade,
         readDate,
         bookLink,
@@ -29,7 +28,7 @@ const Book = (selectedBook) => {
     const [bookCover, setBookCover] = useState(null);
     const [loadingCover, setLoadingCover] = useState(true);
     const [coverError, setCoverError] = useState(false);
-    // const [bookData, setBookdata] = useState(null);
+    const [bookData, setBookdata] = useState(null);
 
     useEffect(() => {
         let alive = true;
@@ -52,7 +51,7 @@ const Book = (selectedBook) => {
             alive = false;
         };
     }, [isbn]);
-    /*
+
     useEffect(() => {
         let alive = true;
 
@@ -74,20 +73,18 @@ const Book = (selectedBook) => {
             alive = false;
         };
     }, [isbn]);
-    */
-    /*
+
     if (bookData) {
         console.log(bookData);
     } else {
         console.log("no book data");
     }
-*/
 
     return (
         <div className="overflow-hidden bg-white py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-                    <div className="lg:pt-4 lg:pr-8">
+                    <div className="lg:pr-8">
                         <div className="lg:max-w-lg">
                             <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
                                 {bookTitle}
@@ -105,7 +102,7 @@ const Book = (selectedBook) => {
                             <p>Vald av: {pickedBy}</p>
                             <p>Läst i {formatDate(readDate)}</p>
                             <div>
-                                <div className="px-4 sm:px-0 mt-8">
+                                <div className="mt-8">
                                     <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
                                 </div>
                                 <div className="mt-4 border-t border-gray-100">
@@ -137,7 +134,7 @@ const Book = (selectedBook) => {
                                 </div>
                             </div>
                             <div>
-                                <div className="px-4 sm:px-0 mt-8">
+                                <div className="px-0 mt-8">
                                     <h3 className="text-base/7 font-semibold text-gray-900">Betyg:</h3>
                                 </div>
                                 <div className="mt-4 border-t border-gray-100">
@@ -171,22 +168,23 @@ const Book = (selectedBook) => {
                             </div>
                         </div>
                     </div>
-
-                    {loadingCover ? (
-                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-500" />
-                    ) : bookCover ? (
-                        <img
-                            src={bookCover}
-                            alt={bookTitle}
-                            className="max-w-100"
-                        />
-                    ) : coverError ? (
-                        <img
-                            src="/missingCover.png"
-                            alt="Omslag saknas"
-                            className="max-w-100"
-                        />
-                    ) : null}
+                    <div className=" max-w-sm">
+                        {loadingCover ? (
+                            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-500" />
+                        ) : bookCover ? (
+                            <img
+                                src={bookCover}
+                                alt={bookTitle}
+                                className=" w-auto"
+                            />
+                        ) : coverError ? (
+                            <img
+                                src="/missingCover.png"
+                                alt="Omslag saknas"
+                                className=" w-auto"
+                            />
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </div>
