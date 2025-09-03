@@ -7,6 +7,7 @@ import Book from "./components/Book";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 function App() {
     useEffect(() => {
@@ -20,20 +21,29 @@ function App() {
 
     return (
         <>
-            <ErrorBoundary fallback="Något har gått fruktansvärt fel.">
-                <Header></Header>
-                <main>
-                    {selectedBook ? (
-                        <Book book={selectedBook} />
-                    ) : (
-                        <>
-                            <StartpageHero></StartpageHero>
-                            <BookList onSelectedBook={handleSelectedBook}></BookList>
-                        </>
-                    )}
-                </main>
-                <Footer></Footer>
-            </ErrorBoundary>
+            <BrowserRouter>
+                <ErrorBoundary fallback="Något har gått fruktansvärt fel.">
+                    <Header></Header>
+                    <main>
+                        <Routes>
+                            <Route
+                                index
+                                element={
+                                    <>
+                                        <StartpageHero />
+                                        <BookList />
+                                    </>
+                                }
+                            />
+                            <Route
+                                path="/book/:isbn"
+                                element={<Book />}
+                            />
+                        </Routes>
+                    </main>
+                    <Footer></Footer>
+                </ErrorBoundary>
+            </BrowserRouter>
         </>
     );
 }

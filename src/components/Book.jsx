@@ -1,22 +1,24 @@
+import { useEffect, useState, useMemo } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { getBookByIsbn } from "../api/isbnLookup";
 import { getCover } from "../api/getCover";
-import { useEffect, useState } from "react";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
 
-/*
-import loadingStatus from "../utils/loadingStatus";
-    const [loadingState, setLoadingState] = useState("loadingStatus.isLoading");
-        setLoadingState("isLoading");
-*/
-const Book = (selectedBook) => {
+const Book = () => {
+    const location = useLocation();
+    const selectedBook = location.state?.book; // <-- Här får du boken från BookList
+    // 1) Fält från Contentful om de finns
+    const fields = selectedBook?.fields ?? {};
+
+    const { isbn: isbnParam } = useParams();
+    const isbn = fields.isbn ?? isbnParam;
+
     const {
-        bookTitle,
-        author,
-        isbn,
+        bookTitle = "",
+        author = "",
         pages,
-        country,
         pickedBy,
         eriksGrade,
         tomasGrade,
@@ -24,15 +26,28 @@ const Book = (selectedBook) => {
         goodreadGrade,
         readDate,
         bookLink,
-    } = selectedBook.book.fields;
+    } = fields;
+
+    // 3) State
     const [bookCover, setBookCover] = useState(null);
     const [loadingCover, setLoadingCover] = useState(true);
     const [coverError, setCoverError] = useState(false);
     const [bookData, setBookdata] = useState(null);
 
-    const { publisher: publisher, language: language, releaseDate: releaseDate, title: originalTitle } = bookData || {};
+    // 4) Säker destructuring från Hardcover-normaliserad data
+    const { publisher: publisherName, language: langName, releaseDate, title: originalTitle } = bookData || {};
 
+    // 5) Mappning av språk till svenska
+    const languageLabel = useMemo(() => {
+        if (!langName) return null;
+        if (langName === "English") return "Engelska";
+        if (langName === "Swedish") return "Svenska";
+        return langName;
+    }, [langName]);
+
+    // 6) Hämta omslag
     useEffect(() => {
+        if (!isbn) return;
         let alive = true;
         setLoadingCover(true);
         setCoverError(false);
@@ -42,9 +57,8 @@ const Book = (selectedBook) => {
                 if (url) setBookCover(url);
                 else setCoverError(true);
             })
-            .catch((e) => {
+            .catch(() => {
                 if (alive) setCoverError(true);
-                console.error("getCover error:", e);
             })
             .finally(() => {
                 if (alive) setLoadingCover(false);
@@ -54,33 +68,23 @@ const Book = (selectedBook) => {
         };
     }, [isbn]);
 
+    // 7) Hämta Hardcover-data
     useEffect(() => {
+        if (!isbn) return;
         let alive = true;
-
-        // Debug: logga vilket ISBN som används
-        console.log("Fetching book by ISBN:", isbn, typeof isbn);
-
         getBookByIsbn(isbn)
             .then((data) => {
-                if (!alive) return;
-                console.log("getBookByIsbn raw result:", data); // 👈 debug
-                setBookdata(data);
+                if (alive) setBookdata(data);
             })
-            .catch((e) => {
-                console.error("getBookByIsbn error:", e);
-                setBookdata(null);
+            .catch(() => {
+                if (alive) setBookdata(null);
             });
-
         return () => {
             alive = false;
         };
     }, [isbn]);
 
-    if (bookData) {
-        console.log(bookData);
-    } else {
-        console.log("no book data");
-    }
+    // Om både selectedBook saknas och getBookByIsbn returnerar null → visa felmeddelande
 
     return (
         <div className="overflow-hidden bg-white py-24 sm:py-32">
@@ -89,90 +93,96 @@ const Book = (selectedBook) => {
                     <div className="lg:pr-8">
                         <div className="lg:max-w-lg">
                             <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
-                                {bookTitle}
+                                {bookTitle || originalTitle || "Okänd titel"}
                             </h2>
-                            <p className="mt-2 text-2xl font-semibold">{author}</p>
-                            <p className="mt-2 mb-4">
-                                <Rating
-                                    readonly
-                                    allowFraction
-                                    initialValue={parseFloat(getAverageRating(selectedBook.book)) || 0}
-                                    size={26}
-                                    SVGstyle={{ display: "inline-block" }} // för säkerhets skull
-                                />
-                            </p>
-                            <p>Vald av: {pickedBy}</p>
-                            <p>Läst i {formatDate(readDate)}</p>
-                            <dl className="mt-4">
-                                <div className="flex gap-2">
-                                    <dt className="inline">Eriks betyg:</dt>
-                                    <dd className="inline">{eriksGrade}</dd>
-                                </div>
-                                <div className="flex gap-2">
-                                    <dt className="inline">Tomas betyg:</dt>
-                                    <dd className="inline">{tomasGrade}</dd>
-                                </div>
-                                <div className="flex gap-2">
-                                    <dt className="inline">Mathias betyg:</dt>
-                                    <dd className="inline">{mathiasGrade}</dd>
-                                </div>
-                                <div className="flex gap-2">
-                                    <dt className="inline">Betyg från Goodreads:</dt>
-                                    <dd className="inline">{goodreadGrade}</dd>
-                                </div>
-                            </dl>
+                            {author && <p className="mt-2 text-2xl font-semibold">{author}</p>}
 
-                            <div>
-                                <div className="mt-8">
-                                    <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
-                                </div>
+                            {selectedBook && (
+                                <p className="mt-2 mb-4">
+                                    <Rating
+                                        readonly
+                                        allowFraction
+                                        initialValue={parseFloat(getAverageRating(selectedBook)) || 0}
+                                        size={26}
+                                        SVGstyle={{ display: "inline-block" }}
+                                    />
+                                </p>
+                            )}
+
+                            {pickedBy && <p>Vald av: {pickedBy}</p>}
+                            {readDate && <p>Läst i {formatDate(readDate)}</p>}
+
+                            {selectedBook && (
+                                <dl className="mt-6">
+                                    <div className="flex gap-2">
+                                        <dt className="inline">Eriks betyg:</dt>
+                                        <dd className="inline">{eriksGrade}</dd>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <dt className="inline">Tomas betyg:</dt>
+                                        <dd className="inline">{tomasGrade}</dd>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <dt className="inline">Mathias betyg:</dt>
+                                        <dd className="inline">{mathiasGrade}</dd>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <dt className="inline">Betyg från Goodreads:</dt>
+                                        <dd className="inline">{goodreadGrade}</dd>
+                                    </div>
+                                </dl>
+                            )}
+
+                            <div className="mt-8">
+                                <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
                                 <div className="mt-2 border-t border-gray-100">
                                     <dl className="divide-y divide-gray-100">
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">ISBN</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                <a
-                                                    className="text-blue-600 "
-                                                    href={bookLink}
-                                                    target="_blank">
-                                                    <span className="underline">{isbn}</span> ⧉
-                                                </a>
-                                            </dd>
-                                        </div>
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">Land</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {country}
-                                            </dd>
-                                        </div>
-                                        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm/6 font-medium text-gray-900">Antal sidor</dt>
-                                            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                {pages}
-                                            </dd>
-                                        </div>
+                                        {isbn && (
+                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm/6 font-medium text-gray-900">ISBN</dt>
+                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    {bookLink ? (
+                                                        <a
+                                                            className="text-blue-600"
+                                                            href={bookLink}
+                                                            target="_blank"
+                                                            rel="noreferrer">
+                                                            <span className="underline">{isbn}</span> ⧉
+                                                        </a>
+                                                    ) : (
+                                                        isbn
+                                                    )}
+                                                </dd>
+                                            </div>
+                                        )}
 
-                                        {publisher && (
+                                        {pages && (
+                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm/6 font-medium text-gray-900">Antal sidor</dt>
+                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    {pages}
+                                                </dd>
+                                            </div>
+                                        )}
+
+                                        {publisherName && (
                                             <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                                 <dt className="text-sm/6 font-medium text-gray-900">Förlag</dt>
                                                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {publisher}
+                                                    {publisherName}
                                                 </dd>
                                             </div>
                                         )}
 
-                                        {language && (
+                                        {languageLabel && (
                                             <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                                 <dt className="text-sm/6 font-medium text-gray-900">Språk</dt>
                                                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {language === "English"
-                                                        ? "Engelska"
-                                                        : language === "Swedish"
-                                                        ? "Svenska"
-                                                        : language}
+                                                    {languageLabel}
                                                 </dd>
                                             </div>
                                         )}
+
                                         {releaseDate && (
                                             <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                                 <dt className="text-sm/6 font-medium text-gray-900">Utgivningsdag</dt>
@@ -181,7 +191,8 @@ const Book = (selectedBook) => {
                                                 </dd>
                                             </div>
                                         )}
-                                        {originalTitle && (
+
+                                        {originalTitle && !bookTitle && (
                                             <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                                 <dt className="text-sm/6 font-medium text-gray-900">Originaltitel</dt>
                                                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -194,20 +205,22 @@ const Book = (selectedBook) => {
                             </div>
                         </div>
                     </div>
-                    <div className=" max-w-sm">
+
+                    {/* Omslag */}
+                    <div className="max-w-sm">
                         {loadingCover ? (
                             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-500" />
                         ) : bookCover ? (
                             <img
                                 src={bookCover}
-                                alt={bookTitle}
-                                className=" w-auto"
+                                alt={bookTitle || originalTitle || "Omslag"}
+                                className="w-auto"
                             />
                         ) : coverError ? (
                             <img
                                 src="/missingCover.png"
                                 alt="Omslag saknas"
-                                className=" w-auto"
+                                className="w-auto"
                             />
                         ) : null}
                     </div>

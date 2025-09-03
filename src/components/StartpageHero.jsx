@@ -1,5 +1,4 @@
 import { useBooks } from "../context/BooksContext";
-import { formatNumber } from "../utils/formatter";
 import CountUp from "react-countup";
 
 const StartpageHero = () => {

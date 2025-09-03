@@ -7,7 +7,9 @@ const Header = () => {
             <div
                 className="max-w-7xl mx-auto px-6 lg:px-8  flex flex-row
                 justify-between items-center gap-6 lg:px-8">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">Bokklubben</h1>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+                    <a href="/">Bokklubben</a>
+                </h1>
                 <Modal></Modal>
             </div>
         </header>
