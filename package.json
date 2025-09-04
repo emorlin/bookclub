@@ -8,7 +8,8 @@
         "dev:vercel": "vite --port %PORT%",
         "build": "vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "dev:local": "vercel dev --local-config vercel.dev.json"
     },
     "dependencies": {
         "@headlessui/react": "^2.2.7",
