@@ -114,9 +114,7 @@ function BookList() {
                                             key={book.sys.id}
                                             className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer">
                                             <td className="pr-4 py-2 whitespace-nowrap">
-                                                {book.fields.readDate
-                                                    ? new Date(book.fields.readDate).toLocaleDateString()
-                                                    : ""}
+                                                {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
                                             </td>
                                             <td className="px-4 py-2">{book.fields.pickedBy}</td>
                                             <td className="px-4 py-2 min-w-2xs">{book.fields.bookTitle}</td>
