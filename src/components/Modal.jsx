@@ -4,7 +4,7 @@ import { getBookByIsbn } from "../api/isbnLookup";
 import { toSelectOptions, readers } from "../utils/readers";
 
 export default function Modal() {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [isbn, setIsbn] = useState("");
     const [fetchedData, setFetchedData] = useState("");
 
@@ -277,7 +277,7 @@ export default function Modal() {
                                         />
                                     </div>
 
-                                    <div className="mt-12">
+                                    <div className="mt-12 flex flex-row-reverse gap-2">
                                         <button
                                             type="button"
                                             onClick={() => setOpen(false)}
