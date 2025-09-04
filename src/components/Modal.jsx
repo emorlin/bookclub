@@ -276,7 +276,6 @@ export default function Modal() {
                                             placeholder="https://goodreads..."
                                         />
                                     </div>
-
                                     <div className="mt-12 flex flex-row-reverse gap-2">
                                         <button
                                             type="button"

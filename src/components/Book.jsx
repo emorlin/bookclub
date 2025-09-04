@@ -32,6 +32,7 @@ const Book = () => {
         goodreadGrade,
         readDate,
         bookLink,
+        authorLink,
     } = fields;
 
     // 3) State
@@ -98,10 +99,36 @@ const Book = () => {
                 <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                     <div className="lg:pr-8">
                         <div className="lg:max-w-lg">
-                            <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
-                                {bookTitle || originalTitle || "Okänd titel"}
-                            </h2>
-                            {author && <p className="mt-2 text-2xl font-semibold">{author}</p>}
+                            {bookTitle && (
+                                <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+                                    {bookLink ? (
+                                        <a
+                                            className="hover:underline"
+                                            href={bookLink}
+                                            target="_blank"
+                                            rel="noreferrer">
+                                            {bookTitle}
+                                        </a>
+                                    ) : (
+                                        bookTitle
+                                    )}
+                                </h2>
+                            )}
+                            {author && (
+                                <p className="mt-2 text-2xl font-semibold">
+                                    {authorLink ? (
+                                        <a
+                                            className="hover:underline"
+                                            href={authorLink}
+                                            target="_blank"
+                                            rel="noreferrer">
+                                            {author}
+                                        </a>
+                                    ) : (
+                                        author
+                                    )}
+                                </p>
+                            )}
 
                             {selectedBook && (
                                 <p className="mt-2 mb-4">
