@@ -36,7 +36,6 @@ export default function Modal() {
     async function handleSubmit(e) {
         e.preventDefault();
         const form = e.currentTarget;
-        // hämta formulärets fält
         const formData = new FormData(e.target);
 
         const payload = Object.fromEntries(formData.entries());
