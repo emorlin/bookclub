@@ -2,28 +2,21 @@
 import contentfulManagement from "contentful-management";
 
 export default async function handler(req, res) {
-    /*
     if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
     if (
-        !isbn ||
-        !bookTitle ||
-        !author ||
-        !pages ||
-        !pickedBy ||
-        !eriksGrade ||
-        !tomasGrade ||
-        !mathiasGrade ||
-        !goodreadGrade ||
-        !readDate ||
-        !bookLink ||
-        !authorLink ||
-        !authorsSex ||
-        !country
+        !isbn || //required
+        !bookTitle || //required
+        !author || //required
+        !pickedBy || //required
+        !eriksGrade || //required
+        !tomasGrade || //required
+        !mathiasGrade || //required
+        !goodreadGrade || //required
+        !authorsSex //required
     ) {
-        return res.status(400).json({ error: "isbn and bookTitle are required" });
+        return res.status(400).json({ error: "Alla obigatoria fält måste fyllas i" });
     }
-    
-    */
+
     const {
         isbn,
         bookTitle,
@@ -42,11 +35,11 @@ export default async function handler(req, res) {
     } = req.body || {};
 
     const locale = process.env.CONTENTFUL_LOCALE || "en-US";
-    const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID || "book"; // justera vid behov
+    const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID || "book";
 
     try {
         const mgmt = contentfulManagement.createClient({
-            accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN, // 🔐 hemlig token
+            accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN,
         });
 
         const space = await mgmt.getSpace(process.env.VITE_CONTENTFUL_SPACE_ID);
@@ -71,7 +64,7 @@ export default async function handler(req, res) {
             },
         });
 
-        const published = await entry.publish(); // direkt publicering (valfritt steg)
+        const published = await entry.publish();
         res.status(200).json({ id: published.sys.id });
     } catch (e) {
         console.error(e);

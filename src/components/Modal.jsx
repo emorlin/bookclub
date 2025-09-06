@@ -102,15 +102,17 @@ export default function Modal() {
                                     <label
                                         htmlFor="isbn"
                                         className="block text-sm/6 font-medium text-gray-900">
-                                        ISBN
+                                        ISBN (obligatorisk)
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
+                                            required
                                             id="isbn"
                                             name="isbn"
                                             type="text"
                                             autoComplete="off"
                                             value={isbn}
+                                            inputMode="numeric"
                                             onChange={(e) => setIsbn(e.target.value)}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="978…"
@@ -127,10 +129,11 @@ export default function Modal() {
                                     <label
                                         htmlFor="bookTitle"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Titel
+                                        Titel (obligatorisk)
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
+                                            required
                                             id="bookTitle"
                                             name="bookTitle"
                                             type="text"
@@ -144,10 +147,11 @@ export default function Modal() {
                                     <label
                                         htmlFor="author"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Författare
+                                        Författare (obligatorisk)
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
+                                            required
                                             id="author"
                                             name="author"
                                             type="text"
@@ -168,6 +172,7 @@ export default function Modal() {
                                             id="pages"
                                             name="pages"
                                             type="text"
+                                            inputMode="numeric"
                                             autoComplete="off"
                                             value={fetchedData.pages}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -200,7 +205,6 @@ export default function Modal() {
                                             id="location"
                                             name="pickedBy"
                                             className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                            <option value="">Välj</option>
                                             {options.map(({ value, label }) => (
                                                 <option
                                                     key={value}
@@ -239,16 +243,17 @@ export default function Modal() {
                                         Betyg från Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
-                                        <select
+                                        <input
                                             id="goodreadGrade"
                                             name="goodreadGrade"
-                                            className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
+                                            type="text"
+                                            autoComplete="off"
+                                            defaultValue=""
+                                            required
+                                            pattern="^(?:[1-4](?:[.,]\d+)?|5(?:[.,]0+)?)$"
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            placeholder="3,5"
+                                        />
                                     </div>
                                     <label
                                         htmlFor="authorsSex"
@@ -287,12 +292,13 @@ export default function Modal() {
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             id="bookLink"
                                             name="bookLink"
-                                            type="text"
-                                            autoComplete="off"
-                                            defaultValue=""
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            type="url"
+                                            inputmode="url"
+                                            autocomplete="url"
+                                            pattern="https?://.+"
                                             placeholder="https://goodreads..."
                                         />
                                     </div>
@@ -303,12 +309,13 @@ export default function Modal() {
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             id="authorLink"
                                             name="authorLink"
-                                            type="text"
-                                            autoComplete="off"
-                                            defaultValue=""
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            type="url"
+                                            inputmode="url"
+                                            autocomplete="url"
+                                            pattern="https?://.+"
                                             placeholder="https://goodreads..."
                                         />
                                     </div>
