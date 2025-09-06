@@ -4,6 +4,8 @@ import { getBookByIsbn } from "../api/isbnLookup";
 import { toSelectOptions, readers } from "../utils/readers";
 
 export default function Modal() {
+    const [formPassword, setFormPassword] = useState("");
+
     const [open, setOpen] = useState(false);
     const [isbn, setIsbn] = useState("");
     const [fetchedData, setFetchedData] = useState("");
@@ -41,10 +43,12 @@ export default function Modal() {
         const payload = Object.fromEntries(formData.entries());
 
         console.log(payload);
+        console.log("formPassword");
+        console.log(formPassword);
         try {
             const res = await fetch("/api/contentful/createBook", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "X-Form-Secret": formPassword },
                 body: JSON.stringify(payload),
             });
 
@@ -101,6 +105,23 @@ export default function Modal() {
                                 <form
                                     onSubmit={handleSubmit}
                                     className="mt-6">
+                                    <label
+                                        htmlFor="formPassword"
+                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        Lösenord
+                                    </label>
+
+                                    <input
+                                        id="formPassword"
+                                        type="password"
+                                        autoComplete="off"
+                                        value={formPassword}
+                                        onChange={(e) => setFormPassword(e.target.value)}
+                                        className="mb-8 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                        placeholder="Skriv lösenordet"
+                                        required
+                                    />
+
                                     <label
                                         htmlFor="isbn"
                                         className="block text-sm/6 font-medium text-gray-900">

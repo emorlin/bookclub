@@ -1,8 +1,44 @@
 // api/contentful/createBook.js
 import contentfulManagement from "contentful-management";
+import crypto from "node:crypto";
+
+const getEnv = (name) => {
+    const v = process.env[name];
+    if (!v) throw new Error(`Missing env var: ${name}`);
+    return v;
+};
+
+const safeParseJSON = (str) => {
+    try {
+        return JSON.parse(str);
+    } catch {
+        return {};
+    }
+};
+
+const timingSafeEq = (a, b) => {
+    try {
+        const A = Buffer.from(String(a) ?? "");
+        const B = Buffer.from(String(b) ?? "");
+        if (A.length !== B.length) return false;
+        return crypto.timingSafeEqual(A, B);
+    } catch {
+        return false;
+    }
+};
 
 export default async function handler(req, res) {
+    const expected = String(process.env.FORM_SECRET_PROD || "").trim();
+    const raw = req.body ?? {};
+
+    const body = typeof raw === "string" ? safeParseJSON(raw) : raw;
+    const provided = String(req.headers["x-form-secret"] || body?.secret || "").trim();
+    if (!expected || !provided || !timingSafeEq(provided, expected)) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
     if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
+
     const {
         isbn,
         bookTitle,
@@ -18,7 +54,7 @@ export default async function handler(req, res) {
         authorLink,
         authorsSex,
         country,
-    } = req.body || {};
+    } = body || {};
 
     if (
         !isbn ||
@@ -42,7 +78,7 @@ export default async function handler(req, res) {
             accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN,
         });
 
-        const space = await mgmt.getSpace(process.env.VITE_CONTENTFUL_SPACE_ID);
+        const space = await mgmt.getSpace(process.env.CONTENTFUL_SPACE_ID);
         const env = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT || "master");
 
         const entry = await env.createEntry(contentTypeId, {
