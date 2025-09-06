@@ -11,7 +11,7 @@ export default function Modal() {
     const canFetch = isbn.trim().length === 10 || isbn.trim().length === 13; // <-- knapp aktiv bara om något skrivits
     const options = toSelectOptions();
 
-    async function handleFetch(e) {
+    async function handleFetch() {
         const raw = isbn;
         const normalized = raw.replace(/[\s-]/g, ""); // ta bort mellanslag/bindestreck
         if (!normalized) return;
@@ -31,6 +31,40 @@ export default function Modal() {
         const mm = String(d.getMonth() + 1).padStart(2, "0");
         const dd = String(d.getDate()).padStart(2, "0");
         return `${yyyy}-${mm}-${dd}`;
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        // hämta formulärets fält
+        const formData = new FormData(e.target);
+
+        const payload = Object.fromEntries(formData.entries());
+
+        console.log(payload);
+        try {
+            const res = await fetch("/api/contentful/createBook", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await res.json();
+            console.log("RESULT →", data);
+
+            if (!res.ok) {
+                console.error("Create failed:", data);
+                alert("Misslyckades att lägga till boken: " + data.error);
+                return;
+            }
+
+            console.log("Bok skapad!", data);
+            alert("Bok skapad! ID: " + data.id);
+            setOpen(false); // stänger modalen efter lyckad post
+        } catch (err) {
+            console.error("Fetch error:", err);
+            alert("Nätverksfel, försök igen.");
+        }
     }
 
     return (
@@ -62,7 +96,9 @@ export default function Modal() {
                                     Lägg till bok
                                 </DialogTitle>
 
-                                <form className="mt-6">
+                                <form
+                                    onSubmit={handleSubmit}
+                                    className="mt-6">
                                     <label
                                         htmlFor="isbn"
                                         className="block text-sm/6 font-medium text-gray-900">
@@ -162,7 +198,7 @@ export default function Modal() {
                                     <div className="mt-2 flex gap-2">
                                         <select
                                             id="location"
-                                            name="location"
+                                            name="pickedBy"
                                             className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                             <option value="">Välj</option>
                                             {options.map(({ value, label }) => (
@@ -278,8 +314,7 @@ export default function Modal() {
                                     </div>
                                     <div className="mt-12 flex flex-row-reverse gap-2">
                                         <button
-                                            type="button"
-                                            onClick={() => setOpen(false)}
+                                            type="submit"
                                             className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto">
                                             Lägg till bok
                                         </button>

@@ -40,5 +40,5 @@ export function getGradeFieldByName(name) {
 
 // För dropdowns
 export function toSelectOptions() {
-    return readers.map((r) => ({ value: r.key, label: r.displayName }));
+    return readers.map((r) => ({ value: r.displayName, label: r.displayName }));
 }
