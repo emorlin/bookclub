@@ -35,7 +35,7 @@ export default function Modal() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        const form = e.currentTarget;
         // hämta formulärets fält
         const formData = new FormData(e.target);
 
@@ -60,6 +60,9 @@ export default function Modal() {
 
             console.log("Bok skapad!", data);
             alert("Bok skapad! ID: " + data.id);
+
+            form.reset(); // rensar alla *uncontrolled* inputs (defaultValue gäller igen)
+            setIsbn(""); // rensar controlled ISBN-fältet
             setOpen(false); // stänger modalen efter lyckad post
         } catch (err) {
             console.error("Fetch error:", err);
@@ -240,7 +243,7 @@ export default function Modal() {
                                     <label
                                         htmlFor="goodreadGrade"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Betyg från Goodreads
+                                        Betyg från Goodreads (obligatorisk)
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
@@ -296,8 +299,8 @@ export default function Modal() {
                                             id="bookLink"
                                             name="bookLink"
                                             type="url"
-                                            inputmode="url"
-                                            autocomplete="url"
+                                            inputMode="url"
+                                            autoComplete="url"
                                             pattern="https?://.+"
                                             placeholder="https://goodreads..."
                                         />
@@ -313,8 +316,8 @@ export default function Modal() {
                                             id="authorLink"
                                             name="authorLink"
                                             type="url"
-                                            inputmode="url"
-                                            autocomplete="url"
+                                            inputMode="url"
+                                            autoComplete="url"
                                             pattern="https?://.+"
                                             placeholder="https://goodreads..."
                                         />

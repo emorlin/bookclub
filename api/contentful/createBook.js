@@ -3,20 +3,6 @@ import contentfulManagement from "contentful-management";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
-    if (
-        !isbn || //required
-        !bookTitle || //required
-        !author || //required
-        !pickedBy || //required
-        !eriksGrade || //required
-        !tomasGrade || //required
-        !mathiasGrade || //required
-        !goodreadGrade || //required
-        !authorsSex //required
-    ) {
-        return res.status(400).json({ error: "Alla obigatoria fält måste fyllas i" });
-    }
-
     const {
         isbn,
         bookTitle,
@@ -33,6 +19,20 @@ export default async function handler(req, res) {
         authorsSex,
         country,
     } = req.body || {};
+
+    if (
+        !isbn ||
+        !bookTitle ||
+        !author ||
+        !pickedBy ||
+        !eriksGrade ||
+        !tomasGrade ||
+        !mathiasGrade ||
+        !goodreadGrade ||
+        !authorsSex
+    ) {
+        return res.status(400).json({ error: "Alla obigatoria fält måste fyllas i" });
+    }
 
     const locale = process.env.CONTENTFUL_LOCALE || "en-US";
     const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID || "book";
