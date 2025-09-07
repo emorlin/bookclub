@@ -1,5 +1,10 @@
 import contentfulManagement from "contentful-management";
 import crypto from "node:crypto";
+import { config as loadEnv } from "dotenv";
+
+if (!process.env.VERCEL) {
+    loadEnv({ path: ".env.local" });
+}
 
 const safeParseJSON = (str) => {
     try {
