@@ -66,9 +66,9 @@ export default async function handler(req, res) {
     ) {
         return res.status(400).json({ error: "Alla obigatoria fält måste fyllas i" });
     }
-
+    //ingen variabel läses från envoriment variabeln hos vercel.
     const locale = process.env.CONTENTFUL_LOCALE || "en-US";
-    const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID || "kossa";
+    const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID || "book";
     console.log("contentTypeId");
     console.log(contentTypeId);
 
