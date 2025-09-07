@@ -107,8 +107,8 @@ export default function Modal() {
                                     className="mt-6">
                                     <label
                                         htmlFor="formPassword"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Lösenord
+                                        className="block text-sm/6 font-medium text-gray-900 mt-4 mb-2">
+                                        Lösenord (krävs för att kunna lägga till en bok)
                                     </label>
 
                                     <input
@@ -117,14 +117,14 @@ export default function Modal() {
                                         autoComplete="off"
                                         value={formPassword}
                                         onChange={(e) => setFormPassword(e.target.value)}
-                                        className="mb-8 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         placeholder="Skriv lösenordet"
                                         required
                                     />
 
                                     <label
                                         htmlFor="isbn"
-                                        className="block text-sm/6 font-medium text-gray-900">
+                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
                                         ISBN (obligatorisk)
                                     </label>
                                     <div className="mt-2 flex gap-2">
@@ -351,7 +351,7 @@ export default function Modal() {
                                         <button
                                             type="button"
                                             onClick={() => setOpen(false)}
-                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                                            className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
                                             Avbryt
                                         </button>
                                     </div>

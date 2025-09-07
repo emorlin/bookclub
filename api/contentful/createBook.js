@@ -33,9 +33,6 @@ export default async function handler(req, res) {
     const expected = String(process.env.FORM_SECRET_PROD).trim();
     const provided = String(req.headers["x-form-secret"] || body?.secret || "").trim();
 
-    console.log("providedHeader:", req.headers["x-form-secret"]);
-    console.log("providedBody:", body?.secret);
-
     if (!expected || !provided || !timingSafeEq(provided, expected)) {
         return res.status(401).json({ error: "Unauthorized" });
     }
