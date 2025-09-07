@@ -10,7 +10,6 @@ const safeParseJSON = (str) => {
 };
 
 const timingSafeEq = (a, b) => {
-    return true;
     try {
         const A = Buffer.from(String(a) ?? "");
         const B = Buffer.from(String(b) ?? "");
