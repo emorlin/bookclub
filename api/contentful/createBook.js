@@ -14,6 +14,8 @@ const timingSafeEq = (a, b) => {
         const A = Buffer.from(String(a) ?? "");
         const B = Buffer.from(String(b) ?? "");
         if (A.length !== B.length) return false;
+        console.log("A", A);
+        console.log("B", B);
         return crypto.timingSafeEqual(A, B);
     } catch {
         return false;
@@ -26,7 +28,6 @@ export default async function handler(req, res) {
     const expected = String(process.env.FORM_SECRET_PROD).trim();
     const provided = String(req.headers["x-form-secret"] || body?.secret || "").trim();
 
-    console.log("hasExpected:", Boolean(expected));
     console.log("providedHeader:", req.headers["x-form-secret"]);
     console.log("providedBody:", body?.secret);
 
