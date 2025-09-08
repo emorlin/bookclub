@@ -20,7 +20,7 @@ function BookList() {
     useEffect(() => {
         if (status !== loadingStatus.loaded) return;
         if (allBooks.current.length === 0 && Array.isArray(books) && books.length) {
-            allBooks.current = books.slice(); // frys originalet
+            allBooks.current = books.slice(); // kopia av alla böcker
             const sorted = sortBooks({ books: allBooks.current, order: sortConfig.order, asc: sortConfig.asc });
             setBooks(sorted); // initial visning
         }
