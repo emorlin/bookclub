@@ -6,19 +6,25 @@ import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
 import { useNavigate } from "react-router-dom";
+import { useBooks } from "../context/BooksContext";
 
 const Book = () => {
+    const { books } = useBooks();
     const location = useLocation();
-    const selectedBook = location.state?.book; // <-- Här får du boken från BookList
-    // 1) Fält från Contentful om de finns
-    const fields = selectedBook?.fields ?? {};
+    let selectedBook = location.state?.book;
+
+    let fields = selectedBook?.fields ?? {};
+
     const { isbn: isbnParam } = useParams();
     const isbn = fields.isbn ?? isbnParam;
     const nav = useNavigate();
 
-    //om direktlänkad till bok peka om till start.
     if (!selectedBook) {
-        nav("/", { replace: true });
+        selectedBook = books.find((book) => book.fields.isbn === Number(isbn));
+        fields = selectedBook?.fields ?? {};
+        if (!fields) {
+            nav("/", { replace: true });
+        }
     }
 
     const {

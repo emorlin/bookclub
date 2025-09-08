@@ -4,6 +4,7 @@ import "./App.css";
 import StartpageHero from "./components/StartpageHero";
 import BookList from "./components/BookList";
 import Book from "./components/Book";
+import Bookstats from "./components/BookStats";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -31,6 +32,7 @@ function App() {
                                 element={
                                     <>
                                         <StartpageHero />
+                                        <Bookstats />
                                         <BookList />
                                     </>
                                 }

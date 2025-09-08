@@ -16,3 +16,12 @@ export function getAverageRating(book) {
     const sum = grades.reduce((acc, val) => acc + val, 0);
     return (sum / grades.length).toFixed(2);
 }
+
+export function allHighestRatedBooks(books) {
+    return books
+        .map((book) => ({
+            ...books,
+            isTopRated: (book.fields.eriksGrade + book.fields.tomasGrade + book.fields.mathiasGrade) / 3 === 5,
+        }))
+        .filter((book) => book.isTopRated);
+}
