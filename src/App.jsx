@@ -7,6 +7,7 @@ import Book from "./components/Book";
 import Bookstats from "./components/BookStats";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Navigation from "./components/Navigation";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { BrowserRouter, Route, Routes } from "react-router";
 
