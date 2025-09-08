@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useBooks } from "../context/BooksContext";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
@@ -12,21 +12,33 @@ function BookList() {
     const { books, setBooks, status } = useBooks();
     const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: true });
     const [filtered, setFiltered] = useState("all");
+    const allBooks = useRef([]);
 
     const navigate = useNavigate();
-
     const options = toSelectOptions();
 
-    const handleSort = (order) => {
-        let asc = true;
-        let filtered = sortConfig.filtered;
-
-        if (sortConfig.order === order && sortConfig.asc) {
-            asc = false; // toggle
+    useEffect(() => {
+        if (status !== loadingStatus.loaded) return;
+        if (allBooks.current.length === 0 && Array.isArray(books) && books.length) {
+            allBooks.current = books.slice(); // frys originalet
+            const sorted = sortBooks({ books: allBooks.current, order: sortConfig.order, asc: sortConfig.asc });
+            setBooks(sorted); // initial visning
         }
-        setSortConfig({ order, asc });
-        const sorted = sortBooks({ books, order, asc });
+    }, [status, books]);
+
+    useEffect(() => {
+        if (status !== loadingStatus.loaded) return;
+
+        const base =
+            filtered === "all" ? allBooks.current : allBooks.current.filter((b) => b.fields.pickedBy === filtered);
+
+        const sorted = sortBooks({ books: base, order: sortConfig.order, asc: sortConfig.asc });
         setBooks(sorted);
+    }, [filtered, sortConfig.order, sortConfig.asc, status]);
+
+    const handleSort = (order) => {
+        const asc = sortConfig.order === order && sortConfig.asc ? false : true; // toggle
+        setSortConfig({ order, asc });
     };
 
     if (status !== loadingStatus.loaded) {
@@ -56,6 +68,7 @@ function BookList() {
                             </label>
                             <div className="mt-2  gap-2">
                                 <select
+                                    value={filtered}
                                     onChange={(e) => setFiltered(e.target.value)}
                                     id="location"
                                     name="pickedBy"
