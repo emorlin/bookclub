@@ -56,37 +56,37 @@ function BookList() {
             <>
                 <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
-                        <div className="overflow-x-auto">
-                            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-2xl mb-4">
-                                Lästa böcker
-                            </h2>
+                        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-2xl mb-4">
+                            Lästa böcker
+                        </h2>
 
-                            <label
-                                htmlFor="pickedBy"
-                                className="block text-sm/6 font-medium text-white mt-4 mb-2">
-                                Visa böcker valda av
-                            </label>
-                            <div className="mt-2  gap-2">
-                                <select
-                                    value={filtered}
-                                    onChange={(e) => setFiltered(e.target.value)}
-                                    id="location"
-                                    name="pickedBy"
-                                    className="block mb-8 sm:w-70 w-full rounded-md border border-gray-300 bg-white text-black px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <label
+                            htmlFor="pickedBy"
+                            className="block text-sm/6 font-medium text-white mt-4 mb-2">
+                            Visa böcker valda av
+                        </label>
+                        <div className="mt-2  gap-2">
+                            <select
+                                value={filtered}
+                                onChange={(e) => setFiltered(e.target.value)}
+                                id="location"
+                                name="pickedBy"
+                                className="block mb-8 sm:w-70 w-full rounded-md border border-gray-300 bg-white text-black px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option
+                                    key="001"
+                                    value="all">
+                                    Alla
+                                </option>
+                                {options.map(({ value, label }) => (
                                     <option
-                                        key="001"
-                                        value="all">
-                                        Alla
+                                        key={value}
+                                        value={value}>
+                                        {label}
                                     </option>
-                                    {options.map(({ value, label }) => (
-                                        <option
-                                            key={value}
-                                            value={value}>
-                                            {label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-700">
                                 <thead>
                                     <tr>
