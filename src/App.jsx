@@ -3,6 +3,8 @@ import { useEffect, useCallback, useState } from "react";
 import "./App.css";
 import StartpageHero from "./components/StartpageHero";
 import BookList from "./components/BookList";
+import Statistics from "./components/Statistics";
+import About from "./components/About";
 import Book from "./components/Book";
 import Bookstats from "./components/BookStats";
 import Header from "./components/Header";
@@ -41,6 +43,26 @@ function App() {
                             <Route
                                 path="/book/:isbn"
                                 element={<Book />}
+                            />
+
+                            <Route
+                                path="/statistik"
+                                element={
+                                    <>
+                                        <StartpageHero />
+                                        <Statistics />
+                                    </>
+                                }
+                            />
+
+                            <Route
+                                path="/om"
+                                element={
+                                    <>
+                                        <StartpageHero />
+                                        <About />
+                                    </>
+                                }
                             />
                         </Routes>
                     </main>
