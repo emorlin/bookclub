@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function BookList() {
     const { books, setBooks, status } = useBooks();
-    const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: true });
+    const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: false });
     const [filtered, setFiltered] = useState("all");
     const allBooks = useRef([]);
 

@@ -39,6 +39,6 @@ export function getLongestBook(books) {
     return books.sort((a, b) => b.fields.pages - a.fields.pages)[0];
 }
 
-export function getshortestBook(books) {
+export function getShortestBook(books) {
     return books.sort((a, b) => a.fields.pages - b.fields.pages)[0];
 }

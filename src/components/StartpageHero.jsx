@@ -1,15 +1,24 @@
 import { useBooks } from "../context/BooksContext";
+import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 import Navigation from "./Navigation";
 
 const StartpageHero = () => {
     const { books } = useBooks();
+    const allBooks = useRef([]);
+
+    useEffect(() => {
+        if (allBooks.current.length === 0 && Array.isArray(books) && books.length) {
+            allBooks.current = books; // kopia av alla böcker
+        }
+    }, [books]);
+
     const booksStats = {
-        readBooks: books.length,
-        readPages: books.reduce((total, book) => total + (book.fields.pages || 0), 0),
-        readAuthors: new Set(books.map((book) => book.fields.author)).size,
-        countries: new Set(books.map((book) => book.fields.country)).size,
-        booksPerYear: Math.round(books.length / (new Date().getFullYear() - 2020 || 1)),
+        readBooks: allBooks.current.length,
+        readPages: allBooks.current.reduce((total, book) => total + (book.fields.pages || 0), 0),
+        readAuthors: new Set(allBooks.current.map((book) => book.fields.author)).size,
+        countries: new Set(allBooks.current.map((book) => book.fields.country)).size,
+        booksPerYear: Math.round(allBooks.current.length / (new Date().getFullYear() - 2020 || 1)),
     };
 
     const stats = [
