@@ -42,10 +42,10 @@ function Statistics() {
                                 <li
                                     className="text-xl/5"
                                     key={book.sys.id}>
-                                    <h3 className="mb-0">
+                                    <h3 className="mb-1">
                                         <NavLink
                                             to={`/book/${book.fields.isbn}`}
-                                            className="hover:underline">
+                                            className="underline underline-offset-2 decoration-1">
                                             <span className="font-bold">{book.fields.bookTitle}, </span>
                                             {book.fields.author}
                                         </NavLink>
@@ -79,7 +79,7 @@ function Statistics() {
                                     <h3 className="mb-1">
                                         <NavLink
                                             to={`/book/${book.fields.isbn}`}
-                                            className="hover:underline">
+                                            className="underline underline-offset-2 decoration-1">
                                             <span className="font-bold">{book.fields.bookTitle}, </span>
                                             {book.fields.author}
                                         </NavLink>
@@ -119,7 +119,7 @@ function Statistics() {
                                     <h3 className="mb-1">
                                         <NavLink
                                             to={`/book/${longestBook.fields.isbn}`}
-                                            className="hover:underline">
+                                            className="underline underline-offset-2 decoration-1">
                                             <span className="font-bold">{longestBook.fields.bookTitle}, </span>
                                             {longestBook.fields.author}
                                         </NavLink>
@@ -153,7 +153,7 @@ function Statistics() {
                                     <h3 className="mb-1">
                                         <NavLink
                                             to={`/book/${shortestBook.fields.isbn}`}
-                                            className="hover:underline">
+                                            className="underline underline-offset-2 decoration-1">
                                             <span className="font-bold">{shortestBook.fields.bookTitle}, </span>
                                             {shortestBook.fields.author}
                                         </NavLink>

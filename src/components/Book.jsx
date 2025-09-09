@@ -109,7 +109,7 @@ const Book = () => {
                                 <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
                                     {bookLink ? (
                                         <a
-                                            className="hover:underline"
+                                            className="underline underline-offset-2 decoration-2"
                                             href={bookLink}
                                             target="_blank"
                                             rel="noreferrer">
@@ -124,7 +124,7 @@ const Book = () => {
                                 <p className="mt-2 text-2xl font-semibold">
                                     {authorLink ? (
                                         <a
-                                            className="hover:underline"
+                                            className="underline underline-offset-2 decoration-1"
                                             href={authorLink}
                                             target="_blank"
                                             rel="noreferrer">
