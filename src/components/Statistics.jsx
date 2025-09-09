@@ -1,24 +1,48 @@
 import { useEffect, useRef, useState } from "react";
 import { useBooks } from "../context/BooksContext";
-import { getAverageRating } from "../utils/bookstats/ratings";
-import loadingStatus from "../utils/loadingStatus";
-import LoadingIndicator from "./LoadingIndicator";
-import sortBooks from "../utils/booksSorter";
+import { allHighestRatedBooks } from "../utils/bookstats/ratings";
+import { NavLink } from "react-router-dom";
+
 import { Rating } from "react-simple-star-rating";
-import { toSelectOptions } from "../utils/readers";
-import { useNavigate } from "react-router-dom";
-
 function Statistics() {
-    const { books, setBooks, status } = useBooks();
-    const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: true });
-    const [filtered, setFiltered] = useState("all");
-    const allBooks = useRef([]);
+    const { books } = useBooks();
+    const topRatedBooks = allHighestRatedBooks(books);
 
-    const navigate = useNavigate();
-    const options = toSelectOptions();
-
+    console.log(topRatedBooks);
     return (
         <>
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                        <h2 className="text-3xl font-semibold">De bästa böckerna</h2>
+                        <p className="mt-1 text-m text-gray-200">Betyg fem från alla</p>
+                        <Rating
+                            readonly
+                            allowFraction
+                            initialValue={5}
+                            size={20}
+                            SVGstyle={{ display: "inline-block" }} // för säkerhets skull
+                        />
+                        <ul className="mt-4 space-y-2 flex flex-col ">
+                            {topRatedBooks.map((book) => (
+                                <li
+                                    className="text-xl/5"
+                                    key={book.sys.id}>
+                                    <NavLink
+                                        to={`/book/${book.fields.isbn}`}
+                                        className="hover:underline">
+                                        <h3 className="mb-0">
+                                            <span className="font-bold">{book.fields.bookTitle}, </span>
+                                            {book.fields.author}
+                                        </h3>
+                                        <span className="text-sm"> Vald av: {book.fields.pickedBy} </span>
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
                 <h2>Statistik att visa</h2>
                 <h3>Om böcker</h3>
@@ -53,31 +77,6 @@ function Statistics() {
                     <li>Mest eniga medlemmarna</li>
                     <li>Könskampen</li>
                     <li>Böcker per land</li>
-                </ul>
-            </div>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
-                <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                    <li className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow hover:bg-gray-700 focus-within:ring-2 focus-within:ring-indigo-500">
-                        <h3 className="mt-3 text-sm font-semibold text-white line-clamp-2">
-                            <a
-                                href="#"
-                                className="focus:outline-none">
-                                <span
-                                    className=""
-                                    aria-hidden="true"></span>
-                                Boktitel som kan vara ganska lång
-                            </a>
-                        </h3>
-
-                        <p className="mt-1 text-xs text-gray-300">Författare • 320 sidor</p>
-
-                        <div className="mt-3 flex items-center justify-between text-xs text-gray-300">
-                            <span className="inline-flex items-center gap-1">★ 4.2</span>
-                            <button className="rounded-md border border-gray-600 px-2 py-1 hover:bg-gray-700">
-                                Öppna
-                            </button>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </>

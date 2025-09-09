@@ -20,7 +20,7 @@ export function getAverageRating(book) {
 export function allHighestRatedBooks(books) {
     return books
         .map((book) => ({
-            ...books,
+            ...book,
             isTopRated: (book.fields.eriksGrade + book.fields.tomasGrade + book.fields.mathiasGrade) / 3 === 5,
         }))
         .filter((book) => book.isTopRated);
