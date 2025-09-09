@@ -17,11 +17,28 @@ export function getAverageRating(book) {
     return (sum / grades.length).toFixed(2);
 }
 
-export function allHighestRatedBooks(books) {
+export function getAllHighestRatedBooks(books) {
     return books
         .map((book) => ({
             ...book,
             isTopRated: (book.fields.eriksGrade + book.fields.tomasGrade + book.fields.mathiasGrade) / 3 === 5,
         }))
         .filter((book) => book.isTopRated);
+}
+
+export function getAllLowestRatedBooks(books) {
+    return books
+        .map((book) => ({
+            ...book,
+            isTopRated: (book.fields.eriksGrade + book.fields.tomasGrade + book.fields.mathiasGrade) / 3 <= 2,
+        }))
+        .filter((book) => book.isTopRated);
+}
+
+export function getLongestBook(books) {
+    return books.sort((a, b) => b.fields.pages - a.fields.pages)[0];
+}
+
+export function getshortestBook(books) {
+    return books.sort((a, b) => a.fields.pages - b.fields.pages)[0];
 }

@@ -1,14 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { useBooks } from "../context/BooksContext";
-import { allHighestRatedBooks } from "../utils/bookstats/ratings";
+import { useMemo } from "react";
+import {
+    getAllHighestRatedBooks,
+    getAllLowestRatedBooks,
+    getLongestBook,
+    getShortestBook,
+    getAverageRating,
+} from "../utils/bookstats/ratings";
 import { NavLink } from "react-router-dom";
+import {} from "../utils/bookstats/ratings";
 
 import { Rating } from "react-simple-star-rating";
 function Statistics() {
     const { books } = useBooks();
-    const topRatedBooks = allHighestRatedBooks(books);
+    const topRatedBooks = useMemo(() => getAllHighestRatedBooks(books), [books]); // getAllHighestRatedBooks(books);
+    const lowestRatedBooks = useMemo(() => getAllLowestRatedBooks(books), [books]); // getAllLowestRatedBooks(books);
+    const longestBook = useMemo(() => getLongestBook(books), [books]); // getLongestBook(books);
+    const shortestBook = useMemo(() => getShortestBook(books), [books]); // getShortestBook(books);
 
-    console.log(topRatedBooks);
     return (
         <>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
@@ -16,30 +26,143 @@ function Statistics() {
                     <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
                         <h2 className="text-3xl font-semibold">De bästa böckerna</h2>
                         <p className="mt-1 text-m text-gray-200">Betyg fem från alla</p>
-                        <Rating
-                            readonly
-                            allowFraction
-                            initialValue={5}
-                            size={20}
-                            SVGstyle={{ display: "inline-block" }} // för säkerhets skull
-                        />
                         <ul className="mt-4 space-y-2 flex flex-col ">
                             {topRatedBooks.map((book) => (
                                 <li
                                     className="text-xl/5"
                                     key={book.sys.id}>
-                                    <NavLink
-                                        to={`/book/${book.fields.isbn}`}
-                                        className="hover:underline">
-                                        <h3 className="mb-0">
+                                    <h3 className="mb-0">
+                                        <NavLink
+                                            to={`/book/${book.fields.isbn}`}
+                                            className="hover:underline">
                                             <span className="font-bold">{book.fields.bookTitle}, </span>
                                             {book.fields.author}
-                                        </h3>
-                                        <span className="text-sm"> Vald av: {book.fields.pickedBy} </span>
-                                    </NavLink>
+                                        </NavLink>
+                                    </h3>
+                                    <span className="text-sm"> Vald av: {book.fields.pickedBy} </span>
+                                    <span className="text-sm block">
+                                        {" "}
+                                        Betyg:
+                                        <Rating
+                                            className="-mt-1 ml-2"
+                                            readonly
+                                            allowFraction
+                                            initialValue={parseFloat(getAverageRating(book)) || 0}
+                                            size={16}
+                                            SVGstyle={{ display: "inline-block" }}
+                                        />
+                                    </span>
                                 </li>
                             ))}
                         </ul>
+                    </div>
+                    <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                        <h2 className="text-3xl font-semibold">De sämsta böckerna</h2>
+                        <p className="mt-1 text-m text-gray-200">Bottennappen</p>
+
+                        <ul className="mt-4 space-y-2 flex flex-col gap-1 ">
+                            {lowestRatedBooks.map((book) => (
+                                <li
+                                    className="text-xl/5"
+                                    key={book.sys.id}>
+                                    <h3 className="mb-1">
+                                        <NavLink
+                                            to={`/book/${book.fields.isbn}`}
+                                            className="hover:underline">
+                                            <span className="font-bold">{book.fields.bookTitle}, </span>
+                                            {book.fields.author}
+                                        </NavLink>
+                                    </h3>
+
+                                    <span className="text-sm block"> Vald av: {book.fields.pickedBy} </span>
+                                    <span className="text-sm block">
+                                        {" "}
+                                        Betyg:
+                                        <Rating
+                                            className="-mt-1 ml-2"
+                                            readonly
+                                            allowFraction
+                                            initialValue={parseFloat(getAverageRating(book)) || 0}
+                                            size={16}
+                                            SVGstyle={{ display: "inline-block" }}
+                                        />
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                        <h2 className="text-3xl font-semibold">Längst och kortast</h2>
+
+                        {longestBook && (
+                            <>
+                                <p className="mt-1 text-m text-gray-200">Längsta boken</p>
+
+                                <div
+                                    className="text-xl/5 mt-2"
+                                    key={longestBook.sys.id}>
+                                    <span className="text-4xl block bold mt-0 mb-2">
+                                        {longestBook.fields.pages} sidor
+                                    </span>
+
+                                    <h3 className="mb-1">
+                                        <NavLink
+                                            to={`/book/${longestBook.fields.isbn}`}
+                                            className="hover:underline">
+                                            <span className="font-bold">{longestBook.fields.bookTitle}, </span>
+                                            {longestBook.fields.author}
+                                        </NavLink>
+                                    </h3>
+
+                                    <span className="text-sm block"> Vald av: {longestBook.fields.pickedBy} </span>
+                                    <span className="text-sm block">
+                                        {" "}
+                                        Betyg:
+                                        <Rating
+                                            className="-mt-1 ml-2"
+                                            readonly
+                                            allowFraction
+                                            initialValue={parseFloat(getAverageRating(longestBook)) || 0}
+                                            size={16}
+                                            SVGstyle={{ display: "inline-block" }}
+                                        />
+                                    </span>
+                                </div>
+                            </>
+                        )}
+                        {shortestBook && (
+                            <>
+                                <p className="mt-8 text-m text-gray-200">Kortaste boken</p>
+                                <div
+                                    className="text-xl/5 mt-2"
+                                    key={shortestBook.sys.id}>
+                                    <span className="text-4xl block bold mt-0 mb-2">
+                                        {shortestBook.fields.pages} sidor
+                                    </span>
+                                    <h3 className="mb-1">
+                                        <NavLink
+                                            to={`/book/${shortestBook.fields.isbn}`}
+                                            className="hover:underline">
+                                            <span className="font-bold">{shortestBook.fields.bookTitle}, </span>
+                                            {shortestBook.fields.author}
+                                        </NavLink>
+                                    </h3>
+                                    <span className="text-sm block"> Vald av: {shortestBook.fields.pickedBy} </span>
+                                    <span className="text-sm block">
+                                        {" "}
+                                        Betyg:
+                                        <Rating
+                                            className="-mt-1 ml-2"
+                                            readonly
+                                            allowFraction
+                                            initialValue={parseFloat(getAverageRating(shortestBook)) || 0}
+                                            size={16}
+                                            SVGstyle={{ display: "inline-block" }}
+                                        />
+                                    </span>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
