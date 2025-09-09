@@ -8,6 +8,7 @@ import {
     getShortestBook,
     getAverageRating,
 } from "../utils/bookstats/ratings";
+import { getPerUserAverages } from "../utils/bookstats/readers";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
 
@@ -19,12 +20,23 @@ function Statistics() {
     const longestBook = useMemo(() => getLongestBook(books), [books]); // getLongestBook(books);
     const shortestBook = useMemo(() => getShortestBook(books), [books]); // getShortestBook(books);
 
+    const averageRatingPerReader = useMemo(() => getPerUserAverages(books), [books]);
+    console.log(averageRatingPerReader);
+
+    const sortByValue = (key) =>
+        Object.entries(averageRatingPerReader).sort(([, a], [, b]) => {
+            const valA = a[key] ?? -Infinity; // Hantera null
+            const valB = b[key] ?? -Infinity;
+            return valB - valA; // Högst först
+        });
+
     return (
         <>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
+                <h2 className="text-4xl font-semibold mb-8">Böckerna</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                     <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                        <h2 className="text-3xl font-semibold">De bästa böckerna</h2>
+                        <h2 className="text-3xl font-semibold">De bästa</h2>
                         <p className="mt-1 text-m text-gray-200">Betyg fem från alla</p>
                         <ul className="mt-4 space-y-2 flex flex-col ">
                             {topRatedBooks.map((book) => (
@@ -57,7 +69,7 @@ function Statistics() {
                         </ul>
                     </div>
                     <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                        <h2 className="text-3xl font-semibold">De sämsta böckerna</h2>
+                        <h2 className="text-3xl font-semibold">De sämsta</h2>
                         <p className="mt-1 text-m text-gray-200">Bottennappen</p>
 
                         <ul className="mt-4 space-y-2 flex flex-col gap-1 ">
@@ -165,6 +177,63 @@ function Statistics() {
                         )}
                     </div>
                 </div>
+                <h2 className="text-4xl font-semibold mb-2 mt-8">Medlemmarna</h2>
+                <h3 className="text-xl font-bold mb-8">Utdelade betyg</h3>
+                {averageRatingPerReader && (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <h4 className="text-xl ">Genomsnittligt betyg alla böcker</h4>
+
+                                <div className=" mt-2">
+                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                        {sortByValue("overall").map(([userName, stats]) => (
+                                            <li
+                                                key={userName}
+                                                className="flex justify-between">
+                                                <span>{userName}:</span>
+                                                <span className="font-bold">{stats.overall ?? "—"}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <h4 className="text-xl ">Genomsnittligt betyg egna böcker</h4>
+
+                                <div className=" mt-2">
+                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                        {sortByValue("ownPicks").map(([userName, stats]) => (
+                                            <li
+                                                key={userName}
+                                                className="flex justify-between">
+                                                <span>{userName}:</span>
+                                                <span className="font-bold">{stats.ownPicks ?? "—"}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <h4 className="text-xl ">Genomsnittligt betyg andras böcker</h4>
+
+                                <div className=" mt-2">
+                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                        {sortByValue("othersPicks").map(([userName, stats]) => (
+                                            <li
+                                                key={userName}
+                                                className="flex justify-between">
+                                                <span>{userName}:</span>
+                                                <span className="font-bold">{stats.othersPicks ?? "—"}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
                 <h2>Statistik att visa</h2>

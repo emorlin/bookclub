@@ -17,7 +17,6 @@ const StartpageHero = () => {
         readBooks: allBooks.current.length,
         readPages: allBooks.current.reduce((total, book) => total + (book.fields.pages || 0), 0),
         readAuthors: new Set(allBooks.current.map((book) => book.fields.author)).size,
-        countries: new Set(allBooks.current.map((book) => book.fields.country)).size,
         booksPerYear: Math.round(allBooks.current.length / (new Date().getFullYear() - 2020 || 1)),
     };
 
