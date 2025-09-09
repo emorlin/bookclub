@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function BookList() {
     const { books, setBooks, status } = useBooks();
+    const { filterBooks, setFilterBooks } = useBooks();
     const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: false });
     const [filtered, setFiltered] = useState("all");
     const allBooks = useRef([]);
@@ -22,7 +23,8 @@ function BookList() {
         if (allBooks.current.length === 0 && Array.isArray(books) && books.length) {
             allBooks.current = books.slice(); // kopia av alla böcker
             const sorted = sortBooks({ books: allBooks.current, order: sortConfig.order, asc: sortConfig.asc });
-            setBooks(sorted); // initial visning
+            setFilterBooks(sorted); // initial visning
+            setBooks(sorted);
         }
     }, [status, books]);
 
@@ -33,7 +35,7 @@ function BookList() {
             filtered === "all" ? allBooks.current : allBooks.current.filter((b) => b.fields.pickedBy === filtered);
 
         const sorted = sortBooks({ books: base, order: sortConfig.order, asc: sortConfig.asc });
-        setBooks(sorted);
+        setFilterBooks(sorted);
     }, [filtered, sortConfig.order, sortConfig.asc, status]);
 
     const handleSort = (order) => {
@@ -153,7 +155,7 @@ function BookList() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {books.map((book) => (
+                                    {filterBooks.map((book) => (
                                         <tr
                                             onClick={() => navigate(`/book/${book.fields.isbn}`, { state: { book } })}
                                             key={book.sys.id}
