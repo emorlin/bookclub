@@ -7,7 +7,7 @@ import {
     getShortestBook,
     getAverageRating,
 } from "../utils/bookstats/ratings";
-import { getPerUserAverages } from "../utils/bookstats/readers";
+import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser } from "../utils/bookstats/readers";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
 
@@ -20,9 +20,13 @@ function Statistics() {
     const shortestBook = useMemo(() => getShortestBook(books), [books]); // getShortestBook(books);
 
     const averageRatingPerReader = useMemo(() => getPerUserAverages(books), [books]);
-    console.log(averageRatingPerReader);
 
-    const sortByValue = (key) =>
+    const perUserAveragesRecieved = useMemo(() => getPerUserAveragesRecieved(books ?? []), [books]);
+
+    const pagesPerUser = useMemo(() => getPagesPerUser(books ?? []), [books]);
+    console.log(pagesPerUser);
+
+    const averageRatingPerReaderSorted = (key) =>
         Object.entries(averageRatingPerReader).sort(([, a], [, b]) => {
             const valA = a[key] ?? -Infinity; // Hantera null
             const valB = b[key] ?? -Infinity;
@@ -177,16 +181,16 @@ function Statistics() {
                     </div>
                 </div>
                 <h2 className="text-4xl font-semibold mb-2 mt-8">Medlemmarna</h2>
-                <h3 className="text-xl font-bold mb-8">Utdelade betyg</h3>
+                <h3 className="text-xl font-bold mb-8">Utdelat snittbetyg</h3>
                 {averageRatingPerReader && (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                             <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <h4 className="text-xl ">Genomsnittligt betyg alla böcker</h4>
+                                <h4 className="text-xl ">Alla böcker</h4>
 
                                 <div className=" mt-2">
                                     <ul className="mt-4 space-y-2 flex flex-col ">
-                                        {sortByValue("overall").map(([userName, stats]) => (
+                                        {averageRatingPerReaderSorted("overall").map(([userName, stats]) => (
                                             <li
                                                 key={userName}
                                                 className="flex justify-between">
@@ -198,11 +202,11 @@ function Statistics() {
                                 </div>
                             </div>
                             <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <h4 className="text-xl ">Genomsnittligt betyg egna böcker</h4>
+                                <h4 className="text-xl ">Valda böcker</h4>
 
                                 <div className=" mt-2">
                                     <ul className="mt-4 space-y-2 flex flex-col ">
-                                        {sortByValue("ownPicks").map(([userName, stats]) => (
+                                        {averageRatingPerReaderSorted("ownPicks").map(([userName, stats]) => (
                                             <li
                                                 key={userName}
                                                 className="flex justify-between">
@@ -215,16 +219,63 @@ function Statistics() {
                             </div>
 
                             <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <h4 className="text-xl ">Genomsnittligt betyg andras böcker</h4>
+                                <h4 className="text-xl ">Andras böcker</h4>
 
                                 <div className=" mt-2">
                                     <ul className="mt-4 space-y-2 flex flex-col ">
-                                        {sortByValue("othersPicks").map(([userName, stats]) => (
+                                        {averageRatingPerReaderSorted("othersPicks").map(([userName, stats]) => (
                                             <li
                                                 key={userName}
                                                 className="flex justify-between">
                                                 <span>{userName}:</span>
                                                 <span className="font-bold">{stats.othersPicks ?? "—"}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+                <h3 className="text-xl font-bold mb-8 mt-12">Mottaget snittbetyg</h3>
+                {averageRatingPerReader && (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <h4 className="text-xl ">Högst</h4>
+
+                                <div className=" mt-2">
+                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                        {perUserAveragesRecieved.map(({ name, averageScore }) => (
+                                            <li
+                                                key={name}
+                                                className="flex justify-between">
+                                                <span>{name}</span>
+                                                <span className="font-bold">{averageScore ?? "—"}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+                <h3 className="text-xl font-bold mb-8 mt-12">Antal sidor på valda böcker</h3>
+                {averageRatingPerReader && (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <h4 className="text-xl ">Högst</h4>
+
+                                <div className=" mt-2">
+                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                        {pagesPerUser.map(({ name, sum }) => (
+                                            <li
+                                                key={name}
+                                                className="flex justify-between">
+                                                <span>{name}</span>
+                                                <span className="font-bold">{sum ?? "—"}</span>
                                             </li>
                                         ))}
                                     </ul>

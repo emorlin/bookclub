@@ -64,8 +64,71 @@ export function getPerUserAverages(books = []) {
     return res;
 }
 
+// utils/bookstats/perUserAverages.js
+export function getPerUserAveragesRecieved(books = []) {
+    if (!Array.isArray(books) || books.length === 0) return [];
+    console.log(books);
+    const readers = [
+        { name: "Erik", field: "eriksGrade" },
+        { name: "Tomas", field: "tomasGrade" },
+        { name: "Mathias", field: "mathiasGrade" },
+    ];
+
+    const rows = readers.map(({ name }) => {
+        let sum = 0,
+            count = 0;
+
+        for (const b of books) {
+            // Bara böcker som den här personen har valt
+            const pickedBy = String(b?.fields?.pickedBy ?? "").trim();
+            if (pickedBy !== name) continue;
+
+            // Summera alla betyg (mottagna) på dessa böcker
+            for (const { field } of readers) {
+                const g = Number(b?.fields?.[field]);
+                if (Number.isFinite(g)) {
+                    sum += g;
+                    count++;
+                }
+            }
+        }
+
+        return { name, sum, count, averageScore: avg(sum, count) };
+    });
+
+    // Sortera på sum, högst först
+    rows.sort((a, b) => b.sum - a.sum);
+    return rows;
+}
+
+export function getPagesPerUser(books = []) {
+    if (!Array.isArray(books) || books.length === 0) return [];
+
+    const readers = [{ name: "Erik" }, { name: "Tomas" }, { name: "Mathias" }];
+
+    const rows = readers.map(({ name }) => {
+        let sum = 0;
+
+        for (const b of books) {
+            const pickedBy = String(b?.fields?.pickedBy ?? "").trim();
+            if (pickedBy !== name) continue;
+
+            const g = Number(b?.fields?.pages);
+            if (Number.isFinite(g)) {
+                sum += g;
+            }
+        }
+
+        return { name, sum };
+    });
+
+    // Sortera på sum, högst först
+    rows.sort((a, b) => b.sum - a.sum);
+    return rows;
+}
+
 function avg(sum, count) {
-    return count > 0 ? +(sum / count).toFixed(2) : null; // null om ingen data
+    return count > 0 ? +(sum / count).toFixed(2) : null;
 }
 
 function emptyEntry() {
