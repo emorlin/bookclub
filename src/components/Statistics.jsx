@@ -243,10 +243,8 @@ function Statistics() {
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                             <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <h4 className="text-xl ">Högst</h4>
-
-                                <div className=" mt-2">
-                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                <div className="">
+                                    <ul className="space-y-2 flex flex-col ">
                                         {perUserAveragesRecieved.map(({ name, averageScore }) => (
                                             <li
                                                 key={name}
@@ -266,10 +264,8 @@ function Statistics() {
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                             <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <h4 className="text-xl ">Högst</h4>
-
-                                <div className=" mt-2">
-                                    <ul className="mt-4 space-y-2 flex flex-col ">
+                                <div className="">
+                                    <ul className=" space-y-2 flex flex-col ">
                                         {pagesPerUser.map(({ name, sum }) => (
                                             <li
                                                 key={name}
