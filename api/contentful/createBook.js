@@ -19,8 +19,6 @@ const timingSafeEq = (a, b) => {
         const A = Buffer.from(String(a) ?? "");
         const B = Buffer.from(String(b) ?? "");
         if (A.length !== B.length) return false;
-        console.log("A", A);
-        console.log("B", B);
         return crypto.timingSafeEqual(A, B);
     } catch {
         return false;

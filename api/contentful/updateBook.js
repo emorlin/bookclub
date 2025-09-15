@@ -19,8 +19,6 @@ const timingSafeEq = (a, b) => {
         const A = Buffer.from(String(a) ?? "");
         const B = Buffer.from(String(b) ?? "");
         if (A.length !== B.length) return false;
-        console.log("A", A);
-        console.log("B", B);
         return crypto.timingSafeEqual(A, B);
     } catch {
         return false;
@@ -30,6 +28,7 @@ const timingSafeEq = (a, b) => {
 export default async function handler(req, res) {
     const raw = req.body ?? {};
     const body = typeof raw === "string" ? safeParseJSON(raw) : raw;
+
     const expected = String(process.env.FORM_SECRET_PROD).trim();
     const provided = String(req.headers["x-form-secret"] || body?.secret || "").trim();
 
@@ -37,10 +36,11 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: "Unauthorized" });
     }
 
-    if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method Not Allowed" });
+    }
 
     const {
-        bookId, // Nytt obligatoriskt fält för att identifiera vilken bok som ska uppdateras
         isbn,
         bookTitle,
         author,
@@ -57,23 +57,12 @@ export default async function handler(req, res) {
         country,
     } = body || {};
 
-    if (
-        !bookId || // bookId är nu obligatoriskt
-        !isbn ||
-        !bookTitle ||
-        !author ||
-        !pickedBy ||
-        !eriksGrade ||
-        !tomasGrade ||
-        !mathiasGrade ||
-        !goodreadGrade ||
-        !authorsSex
-    ) {
-        return res.status(400).json({ error: "Alla obligatoriska fält inklusive bookId måste fyllas i" });
+    if (!isbn) {
+        return res.status(400).json({ error: "ISBN är obligatoriskt för update" });
     }
 
     const locale = process.env.CONTENTFUL_LOCALE;
-    console.log("Uppdaterar bok med ID:", bookId);
+    const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID;
 
     try {
         const mgmt = contentfulManagement.createClient({
@@ -83,52 +72,40 @@ export default async function handler(req, res) {
         const space = await mgmt.getSpace(process.env.CONTENTFUL_SPACE_ID);
         const env = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT || "master");
 
-        // Hämta befintlig entry istället för att skapa ny
-        const entry = await env.getEntry(bookId);
-
-        // Uppdatera fälten
-        const fieldsToUpdate = {
-            isbn: isbn ? { [locale]: Number(isbn) } : undefined,
-            bookTitle: bookTitle ? { [locale]: bookTitle } : undefined,
-            author: author ? { [locale]: author } : undefined,
-            pages: pages != null ? { [locale]: Number(pages) } : undefined,
-            pickedBy: pickedBy ? { [locale]: pickedBy } : undefined,
-            eriksGrade: eriksGrade != null ? { [locale]: Number(eriksGrade) } : undefined,
-            tomasGrade: tomasGrade != null ? { [locale]: Number(tomasGrade) } : undefined,
-            mathiasGrade: mathiasGrade != null ? { [locale]: Number(mathiasGrade) } : undefined,
-            goodreadGrade: goodreadGrade != null ? { [locale]: Number(goodreadGrade) } : undefined,
-            readDate: readDate ? { [locale]: readDate } : undefined, // "YYYY-MM-DD"
-            bookLink: bookLink ? { [locale]: bookLink } : undefined,
-            authorLink: authorLink ? { [locale]: authorLink } : undefined,
-            authorsSex: authorsSex ? { [locale]: authorsSex } : undefined,
-            country: country ? { [locale]: country } : undefined,
-        };
-
-        // Uppdatera endast fält som har värden
-        Object.keys(fieldsToUpdate).forEach((key) => {
-            if (fieldsToUpdate[key] !== undefined) {
-                entry.fields[key] = fieldsToUpdate[key];
-            }
+        // Hitta boken med ISBN
+        const existing = await env.getEntries({
+            content_type: contentTypeId,
+            "fields.isbn": Number(isbn),
+            limit: 1,
         });
 
-        // Spara och publicera uppdateringen
-        const updatedEntry = await entry.update();
-        const published = await updatedEntry.publish();
+        if (existing.items.length === 0) {
+            return res.status(404).json({ error: `Ingen bok hittades med ISBN ${isbn}` });
+        }
 
-        res.status(200).json({
-            id: published.sys.id,
-            message: "Boken uppdaterades framgångsrikt",
-        });
+        const entry = existing.items[0];
+
+        // Uppdatera enbart fält som skickats
+        if (bookTitle) entry.fields.bookTitle = { [locale]: bookTitle };
+        if (author) entry.fields.author = { [locale]: author };
+        if (pages != null) entry.fields.pages = { [locale]: Number(pages) };
+        if (pickedBy) entry.fields.pickedBy = { [locale]: pickedBy };
+        if (eriksGrade != null) entry.fields.eriksGrade = { [locale]: Number(eriksGrade) };
+        if (tomasGrade != null) entry.fields.tomasGrade = { [locale]: Number(tomasGrade) };
+        if (mathiasGrade != null) entry.fields.mathiasGrade = { [locale]: Number(mathiasGrade) };
+        if (goodreadGrade != null) entry.fields.goodreadGrade = { [locale]: Number(goodreadGrade) };
+        if (readDate) entry.fields.readDate = { [locale]: readDate };
+        if (bookLink) entry.fields.bookLink = { [locale]: bookLink };
+        if (authorLink) entry.fields.authorLink = { [locale]: authorLink };
+        if (authorsSex) entry.fields.authorsSex = { [locale]: authorsSex };
+        if (country) entry.fields.country = { [locale]: country };
+
+        const updated = await entry.update();
+        const published = await updated.publish();
+
+        res.status(200).json({ id: published.sys.id, action: "updated" });
     } catch (e) {
         console.error(e);
-
-        // Ge mer specifika felmeddelanden
-        if (e.name === "NotFound") {
-            res.status(404).json({ error: "Bok med angivet ID hittades inte", detail: String(e) });
-        } else if (e.name === "ValidationFailed") {
-            res.status(400).json({ error: "Valideringsfel vid uppdatering", detail: String(e) });
-        } else {
-            res.status(500).json({ error: "Contentful uppdatering misslyckades", detail: String(e) });
-        }
+        res.status(500).json({ error: "Contentful update failed", detail: String(e) });
     }
 }

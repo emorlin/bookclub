@@ -107,42 +107,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         }
     }
 
-    /*
-    async function handleFetch() {
-  const normalized = (fields.isbn || "").replace(/[\s-]/g, "");
-  if (!normalized) return;
-
-  try {
-    const bookData = await getBookByIsbn(normalized);
-
-    const title = bookData?.title ?? "";
-    // authors kan vara sträng eller array – normalisera:
-    const author =
-      Array.isArray(bookData?.authors)
-        ? bookData.authors.filter(Boolean).join(", ")
-        : (bookData?.authors ?? "");
-
-    const pages = bookData?.pages ?? "";
-
-    setFields((prev) => ({
-      ...prev,                 // behåll allt som redan skrivits in
-      isbn: prev.isbn || normalized, // fyll om tomt
-      bookTitle: prev.bookTitle || title,
-      author: prev.author || author,
-      pages: prev.pages || String(pages || ""),
-      // lägg gärna fler mappningar här om API:t returnerar mer som du vill spara
-      // country: prev.country || bookData.country ?? "",
-      // bookLink: prev.bookLink || bookData.bookUrl ?? "",
-      // authorLink: prev.authorLink || bookData.authorUrl ?? "",
-    }));
-  } catch (err) {
-    console.error("getBookByIsbn ERROR:", err);
-    alert("Kunde inte hämta info för ISBN.");
-  }
-}
-s
-    */
-
     function todayYYYYMMDD() {
         const d = new Date();
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(
@@ -165,8 +129,10 @@ s
         const formData = new FormData(e.target);
         const payload = Object.fromEntries(formData.entries());
 
+        const path = isUpdate ? `/api/contentful/updateBook` : `/api/contentful/createBook`;
+
         try {
-            const res = await fetch("/api/contentful/createBook", {
+            const res = await fetch(path, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "X-Form-Secret": formPassword },
                 body: JSON.stringify(payload),
@@ -181,7 +147,6 @@ s
 
             alert("Bok skapad! ID: " + data.id);
             form.reset();
-            setIsbn("");
             setOpen(false); // ✅ stäng via prop-funktionen
         } catch (err) {
             console.error("Fetch error:", err);
