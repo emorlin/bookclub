@@ -1,59 +1,176 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
 import { getBookByIsbn } from "../api/isbnLookup";
 import { toSelectOptions, readers } from "../utils/readers";
+import { useBooks } from "../context/BooksContext";
 
-export default function Modal() {
+export default function Modal({ open = false, setOpen = () => {}, data }) {
     const [formPassword, setFormPassword] = useState("");
-
-    const [open, setOpen] = useState(false);
-    const [isbn, setIsbn] = useState("");
-    const [fetchedData, setFetchedData] = useState("");
-
-    const canFetch = isbn.trim().length === 10 || isbn.trim().length === 13; // <-- knapp aktiv bara om något skrivits
+    const [fetchedData, setFetchedData] = useState({ title: "", authors: "", pages: "" });
+    const { books } = useBooks();
     const options = toSelectOptions();
 
-    async function handleFetch() {
-        const raw = isbn;
-        const normalized = raw.replace(/[\s-]/g, ""); // ta bort mellanslag/bindestreck
-        if (!normalized) return;
+    const [fields, setFields] = useState({
+        isbn: "",
+        pickedBy: "",
+        readDate: "",
+        bookTitle: "",
+        bookLink: "",
+        author: "",
+        authorLink: "",
+        goodreadGrade: "",
+        eriksGrade: "",
+        tomasGrade: "",
+        mathiasGrade: "",
+        authorsSex: "",
+        pages: "",
+        country: "",
+    });
 
+    const canFetch =
+        (fields.isbn || "").replace(/[\s-]/g, "").length === 10 ||
+        (fields.isbn || "").replace(/[\s-]/g, "").length === 13;
+
+    // om man kommer från boksidan (det finns en vald bok)
+    const selectedBook = books.find((book) => book.fields.isbn === Number(data?.isbn)) || {};
+
+    const isUpdate = !!data?.isbn;
+    const modalHeading = isUpdate ? "Uppdatera bok" : "Lägg till bok";
+
+    useEffect(() => {
+        if (open) {
+            if (isUpdate && selectedBook) {
+                // Fyll i formuläret med existerande bokdata
+                setFields({
+                    isbn: String(selectedBook.fields.isbn ?? ""),
+                    pickedBy: selectedBook.fields.pickedBy ?? "",
+                    readDate: selectedBook.fields.readDate ?? "",
+                    bookTitle: selectedBook.fields.bookTitle ?? "",
+                    bookLink: selectedBook.fields.bookLink ?? "",
+                    author: selectedBook.fields.author ?? "",
+                    authorLink: selectedBook.fields.authorLink ?? "",
+                    goodreadGrade: selectedBook.fields.goodreadGrade ?? "",
+                    eriksGrade: selectedBook.fields.eriksGrade ?? "",
+                    tomasGrade: selectedBook.fields.tomasGrade ?? "",
+                    mathiasGrade: selectedBook.fields.mathiasGrade ?? "",
+                    authorsSex: selectedBook.fields.authorsSex ?? "",
+                    pages: selectedBook.fields.pages ?? "",
+                    country: selectedBook.fields.country ?? "",
+                });
+            } else {
+                // Rensa formuläret för ny bok
+                setFields({
+                    isbn: "",
+                    pickedBy: "",
+                    readDate: todayYYYYMMDD(),
+                    bookTitle: "",
+                    bookLink: "",
+                    author: "",
+                    authorLink: "",
+                    goodreadGrade: "",
+                    eriksGrade: "",
+                    tomasGrade: "",
+                    mathiasGrade: "",
+                    authorsSex: "",
+                    pages: "",
+                    country: "",
+                });
+            }
+        }
+    }, [open, isUpdate, data]);
+
+    //kan jag använda min fetchdata?
+    useEffect(() => {
+        if (open && isUpdate && fields) {
+            if (!open) {
+                setFields((p) => ({ ...p, isbn: "" }));
+            }
+            console.log("fields", fields);
+        }
+    }, [open, data, fields, isUpdate]);
+
+    //denna ska uppdaterasd nu
+    async function handleFetch() {
+        const normalized = fields.isbn.replace(/[\s-]/g, "");
+        if (!normalized) return;
         try {
             const bookData = await getBookByIsbn(normalized);
-            setFetchedData(bookData);
-            console.log("RESULT ←", bookData);
+            setFields((prev) => ({
+                ...prev, // behåll alla gamla värden
+                bookTitle: bookData?.title ?? "",
+                author: bookData?.authors ?? "",
+                pages: bookData?.pages ?? "",
+            }));
         } catch (err) {
             console.error("getBookByIsbn ERROR:", err);
         }
     }
 
+    /*
+    async function handleFetch() {
+  const normalized = (fields.isbn || "").replace(/[\s-]/g, "");
+  if (!normalized) return;
+
+  try {
+    const bookData = await getBookByIsbn(normalized);
+
+    const title = bookData?.title ?? "";
+    // authors kan vara sträng eller array – normalisera:
+    const author =
+      Array.isArray(bookData?.authors)
+        ? bookData.authors.filter(Boolean).join(", ")
+        : (bookData?.authors ?? "");
+
+    const pages = bookData?.pages ?? "";
+
+    setFields((prev) => ({
+      ...prev,                 // behåll allt som redan skrivits in
+      isbn: prev.isbn || normalized, // fyll om tomt
+      bookTitle: prev.bookTitle || title,
+      author: prev.author || author,
+      pages: prev.pages || String(pages || ""),
+      // lägg gärna fler mappningar här om API:t returnerar mer som du vill spara
+      // country: prev.country || bookData.country ?? "",
+      // bookLink: prev.bookLink || bookData.bookUrl ?? "",
+      // authorLink: prev.authorLink || bookData.authorUrl ?? "",
+    }));
+  } catch (err) {
+    console.error("getBookByIsbn ERROR:", err);
+    alert("Kunde inte hämta info för ISBN.");
+  }
+}
+s
+    */
+
     function todayYYYYMMDD() {
         const d = new Date();
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, "0");
-        const dd = String(d.getDate()).padStart(2, "0");
-        return `${yyyy}-${mm}-${dd}`;
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(
+            2,
+            "0"
+        )}`;
     }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFields((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
 
     async function handleSubmit(e) {
         e.preventDefault();
         const form = e.currentTarget;
         const formData = new FormData(e.target);
-
         const payload = Object.fromEntries(formData.entries());
 
-        console.log(payload);
-        console.log("formPassword");
-        console.log(formPassword);
         try {
             const res = await fetch("/api/contentful/createBook", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "X-Form-Secret": formPassword },
                 body: JSON.stringify(payload),
             });
-
             const data = await res.json();
-            console.log("RESULT →", data);
 
             if (!res.ok) {
                 console.error("Create failed:", data);
@@ -61,29 +178,20 @@ export default function Modal() {
                 return;
             }
 
-            console.log("Bok skapad!", data);
             alert("Bok skapad! ID: " + data.id);
-
-            form.reset(); // rensar alla *uncontrolled* inputs (defaultValue gäller igen)
-            setIsbn(""); // rensar controlled ISBN-fältet
-            setOpen(false); // stänger modalen efter lyckad post
+            form.reset();
+            setIsbn("");
+            setOpen(false); // ✅ stäng via prop-funktionen
         } catch (err) {
             console.error("Fetch error:", err);
             alert("Nätverksfel, försök igen.");
         }
     }
-
     return (
         <div>
-            <button
-                onClick={() => setOpen(true)}
-                className="px-4 py-2 rounded-xl border border-white text-white cursor-pointer">
-                Lägg till bok
-            </button>
-
             <Dialog
-                open={open}
-                onClose={setOpen}
+                open={Boolean(open)} // ✅ Headless UI kräver ren boolean
+                onClose={() => setOpen(false)} // ✅ stäng även via backdrop/ESCz
                 className="relative z-100">
                 <DialogBackdrop
                     transition
@@ -99,7 +207,7 @@ export default function Modal() {
                                 <DialogTitle
                                     as="h3"
                                     className="text-lg font-semibold text-gray-900">
-                                    Lägg till bok
+                                    {modalHeading}
                                 </DialogTitle>
 
                                 <form
@@ -110,18 +218,16 @@ export default function Modal() {
                                         className="block text-sm/6 font-medium text-gray-900 mt-4 mb-2">
                                         Lösenord (krävs för att kunna lägga till en bok)
                                     </label>
-
                                     <input
                                         id="formPassword"
                                         type="password"
                                         autoComplete="off"
-                                        value={formPassword}
+                                        defaultValue={formPassword}
                                         onChange={(e) => setFormPassword(e.target.value)}
                                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         placeholder="Skriv lösenordet"
                                         required
                                     />
-
                                     <label
                                         htmlFor="isbn"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
@@ -134,21 +240,23 @@ export default function Modal() {
                                             name="isbn"
                                             type="text"
                                             autoComplete="off"
-                                            value={isbn}
+                                            defaultValue={fields.isbn}
                                             inputMode="numeric"
-                                            onChange={(e) => setIsbn(e.target.value)}
+                                            readOnly={isUpdate}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="978…"
                                         />
-                                        <button
-                                            type="button"
-                                            disabled={!canFetch}
-                                            onClick={() => handleFetch()}
-                                            className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
-                                            Hämta
-                                        </button>
-                                    </div>
 
+                                        {!isUpdate && (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleFetch()}
+                                                className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                                                Hämta
+                                            </button>
+                                        )}
+                                    </div>
                                     <label
                                         htmlFor="bookTitle"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
@@ -161,12 +269,12 @@ export default function Modal() {
                                             name="bookTitle"
                                             type="text"
                                             autoComplete="off"
-                                            value={fetchedData.title}
+                                            defaultValue={fields.bookTitle}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="Vredens druvor"
                                         />
                                     </div>
-
                                     <label
                                         htmlFor="author"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
@@ -179,17 +287,18 @@ export default function Modal() {
                                             name="author"
                                             type="text"
                                             autoComplete="off"
-                                            value={fetchedData.authors}
+                                            defaultValue={fields.author}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="John Steinbeck"
                                         />
                                     </div>
-
                                     <label
                                         htmlFor="pages"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
                                         Sidantal
                                     </label>
+
                                     <div className="mt-2 flex gap-2">
                                         <input
                                             id="pages"
@@ -197,12 +306,12 @@ export default function Modal() {
                                             type="text"
                                             inputMode="numeric"
                                             autoComplete="off"
-                                            value={fetchedData.pages}
+                                            defaultValue={fields.pages}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="436"
                                         />
                                     </div>
-
                                     <label
                                         htmlFor="readDate"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
@@ -213,11 +322,11 @@ export default function Modal() {
                                             id="readDate"
                                             name="readDate"
                                             type="date"
-                                            defaultValue={todayYYYYMMDD()}
+                                            defaultValue={fields.readDate}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         />
                                     </div>
-
                                     <label
                                         htmlFor="pickedBy"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
@@ -225,19 +334,16 @@ export default function Modal() {
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <select
+                                            onChange={handleChange}
                                             id="location"
                                             name="pickedBy"
+                                            defaultValue={fields.pickedBy}
                                             className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                             {options.map(({ value, label }) => (
-                                                <option
-                                                    key={value}
-                                                    value={value}>
-                                                    {label}
-                                                </option>
+                                                <option key={value}>{label}</option>
                                             ))}
                                         </select>
                                     </div>
-
                                     {readers.map(({ displayName, gradeField }) => (
                                         <div key={displayName}>
                                             <label
@@ -249,6 +355,8 @@ export default function Modal() {
                                                 <select
                                                     id={displayName}
                                                     name={gradeField}
+                                                    onChange={handleChange}
+                                                    defaultValue={fields[gradeField]}
                                                     className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
@@ -259,7 +367,6 @@ export default function Modal() {
                                             </div>
                                         </div>
                                     ))}
-
                                     <label
                                         htmlFor="goodreadGrade"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
@@ -271,7 +378,8 @@ export default function Modal() {
                                             name="goodreadGrade"
                                             type="text"
                                             autoComplete="off"
-                                            defaultValue=""
+                                            defaultValue={fields.goodreadGrade}
+                                            onChange={handleChange}
                                             required
                                             pattern="^(?:[1-4](?:[.,]\d+)?|5(?:[.,]0+)?)$"
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -287,6 +395,8 @@ export default function Modal() {
                                         <select
                                             id="authorsSex"
                                             name="authorsSex"
+                                            defaultValue={fields.authorsSex}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                             <option value="Male">Man</option>
                                             <option value="Female">Kvinna</option>
@@ -303,7 +413,8 @@ export default function Modal() {
                                             name="country"
                                             type="text"
                                             autoComplete="off"
-                                            defaultValue=""
+                                            defaultValue={fields.country}
+                                            onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="Germany"
                                         />
@@ -321,6 +432,8 @@ export default function Modal() {
                                             type="url"
                                             inputMode="url"
                                             autoComplete="url"
+                                            onChange={handleChange}
+                                            defaultValue={fields.bookLink}
                                             pattern="https?://.+"
                                             placeholder="https://goodreads..."
                                         />
@@ -338,6 +451,8 @@ export default function Modal() {
                                             type="url"
                                             inputMode="url"
                                             autoComplete="url"
+                                            onChange={handleChange}
+                                            defaultValue={fields.authorLink}
                                             pattern="https?://.+"
                                             placeholder="https://goodreads..."
                                         />

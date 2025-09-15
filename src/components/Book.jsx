@@ -7,12 +7,13 @@ import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
 import { useNavigate } from "react-router-dom";
 import { useBooks } from "../context/BooksContext";
+import { useModal } from "../context/ModalContext";
 
 const Book = () => {
     const { books } = useBooks();
     const location = useLocation();
     let selectedBook = location.state?.book;
-
+    const { openModal } = useModal();
     let fields = selectedBook?.fields ?? {};
 
     const { isbn: isbnParam } = useParams();
@@ -171,7 +172,11 @@ const Book = () => {
                                     </div>
                                 </dl>
                             )}
-
+                            <button
+                                onClick={() => openModal({ isbn })}
+                                className="mt-8 px-2 py-1 rounded border border-black text-black text-sm cursor-pointer">
+                                Uppdatera bokdata
+                            </button>
                             <div className="mt-8">
                                 <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
                                 <div className="mt-2 border-t border-gray-100">
