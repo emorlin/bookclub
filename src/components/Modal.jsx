@@ -35,7 +35,8 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
     const selectedBook = books.find((book) => book.fields.isbn === Number(data?.isbn)) || {};
 
     const isUpdate = !!data?.isbn;
-    const modalHeading = isUpdate ? "Uppdatera bok" : "Lägg till bok";
+    const modalHeading = isUpdate ? "Uppdatera bok" : "Lägg till ny bok";
+    const modalSubmitText = isUpdate ? "Uppdatera" : "Lägg till";
 
     useEffect(() => {
         if (open) {
@@ -248,14 +249,12 @@ s
                                             placeholder="978…"
                                         />
 
-                                        {!isUpdate && (
-                                            <button
-                                                type="button"
-                                                onClick={() => handleFetch()}
-                                                className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
-                                                Hämta
-                                            </button>
-                                        )}
+                                        <button
+                                            type="button"
+                                            onClick={() => handleFetch()}
+                                            className="inline-flex whitespace-nowrap w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                                            Hämta bokdata
+                                        </button>
                                     </div>
                                     <label
                                         htmlFor="bookTitle"
@@ -461,7 +460,7 @@ s
                                         <button
                                             type="submit"
                                             className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto">
-                                            Lägg till bok
+                                            {modalSubmitText}
                                         </button>
                                         <button
                                             type="button"
