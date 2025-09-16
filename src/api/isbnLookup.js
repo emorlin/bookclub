@@ -35,6 +35,7 @@ export const getBookByIsbn = async (rawIsbn) => {
             title
             rating
             contributions { author { name } }
+            cached_tags
           }
         }
       }
@@ -76,15 +77,20 @@ function normalizeEdition(e) {
         isbn13: e.isbn_13 ?? null,
         isbn10: e.isbn_10 ?? null,
         pages: e.pages ?? null,
-        releaseDate: e.release_date ?? null,
+        releaseYear: releaseDateToYear(e.release_date) ?? null,
         physicalFormat: e.physical_format ?? e.reading_format?.format ?? null,
         publisher: e.publisher?.name ?? null,
         language: e.language?.language ?? null,
         rating: typeof e.book?.rating === "number" ? e.book.rating : null,
-        // Behåll rådata om du vill:
-        // raw: e,
+        raw: e,
     };
 }
+
+function releaseDateToYear(fullDate) {
+    if (!fullDate) return null;
+    return new Date(fullDate).getFullYear();
+}
+
 export default {
     getBookByIsbn,
 };

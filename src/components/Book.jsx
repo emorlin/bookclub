@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getBookByIsbn } from "../api/isbnLookup";
 import { getCover } from "../api/getCover";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
@@ -27,7 +26,7 @@ const Book = () => {
             nav("/", { replace: true });
         }
     }
-
+    console.log(fields);
     const {
         bookTitle = "",
         author = "",
@@ -40,16 +39,16 @@ const Book = () => {
         readDate,
         bookLink,
         authorLink,
+        publisherName,
+        langName,
+        releaseYear,
+        originalTitle,
     } = fields;
 
     // 3) State
     const [bookCover, setBookCover] = useState(null);
     const [loadingCover, setLoadingCover] = useState(true);
     const [coverError, setCoverError] = useState(false);
-    const [bookData, setBookdata] = useState(null);
-
-    // 4) Säker destructuring från Hardcover-normaliserad data
-    const { publisher: publisherName, language: langName, releaseDate, title: originalTitle } = bookData || {};
 
     // 5) Mappning av språk till svenska
     const languageLabel = useMemo(() => {
@@ -76,22 +75,6 @@ const Book = () => {
             })
             .finally(() => {
                 if (alive) setLoadingCover(false);
-            });
-        return () => {
-            alive = false;
-        };
-    }, [isbn]);
-
-    // 7) Hämta Hardcover-data
-    useEffect(() => {
-        if (!isbn) return;
-        let alive = true;
-        getBookByIsbn(isbn)
-            .then((data) => {
-                if (alive) setBookdata(data);
-            })
-            .catch(() => {
-                if (alive) setBookdata(null);
             });
         return () => {
             alive = false;
@@ -227,11 +210,11 @@ const Book = () => {
                                             </div>
                                         )}
 
-                                        {releaseDate && (
+                                        {releaseYear && (
                                             <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">Utgivningsdag</dt>
+                                                <dt className="text-sm/6 font-medium text-gray-900">Utgivninsår</dt>
                                                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {releaseDate}
+                                                    {releaseYear}
                                                 </dd>
                                             </div>
                                         )}

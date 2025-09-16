@@ -55,6 +55,7 @@ export default async function handler(req, res) {
         authorLink,
         authorsSex,
         country,
+        releaseYear,
     } = body || {};
 
     if (!isbn) {
@@ -99,6 +100,7 @@ export default async function handler(req, res) {
         if (authorLink) entry.fields.authorLink = { [locale]: authorLink };
         if (authorsSex) entry.fields.authorsSex = { [locale]: authorsSex };
         if (country) entry.fields.country = { [locale]: country };
+        if (releaseYear) entry.fields.releaseYear = { [locale]: releaseYear };
 
         const updated = await entry.update();
         const published = await updated.publish();

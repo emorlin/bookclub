@@ -52,6 +52,7 @@ export default async function handler(req, res) {
         authorLink,
         authorsSex,
         country,
+        releaseYear,
     } = body || {};
 
     if (
@@ -97,6 +98,7 @@ export default async function handler(req, res) {
                 authorLink: authorLink ? { [locale]: authorLink } : undefined,
                 authorsSex: authorsSex ? { [locale]: authorsSex } : undefined,
                 country: country ? { [locale]: country } : undefined,
+                releaseYear: releaseYear ? { [locale]: releaseYear } : undefined,
             },
         });
 

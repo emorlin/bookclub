@@ -20,7 +20,7 @@ const BooksContext = createContext();
 export function BooksProvider({ children }) {
     // Initialize state variables for books data and loading status
     const [books, setBooks] = useState([]); // array of books data
-    const [filterBooks, setFilterBooks] = useState([]); // array of books data
+
     const [status, setStatus] = useState("loadingStatus.isLoading"); // loading status
 
     // Use the useEffect hook to fetch books data when the component mounts
@@ -39,7 +39,6 @@ export function BooksProvider({ children }) {
                 // If the component is still mounted, update the books state
                 if (!alive) return;
                 setBooks(data || []); // update books state with fetched data
-                setFilterBooks(data || []); // update books state with fetched data
 
                 // Set the loading status to "loaded"
                 setStatus(loadingStatus.loaded);
@@ -58,11 +57,7 @@ export function BooksProvider({ children }) {
     }, []); // empty dependency array means the effect runs only once on mount
 
     // Return the BooksContext.Provider component with the books data and loading status
-    return (
-        <BooksContext.Provider value={{ books, setBooks, filterBooks, setFilterBooks, status }}>
-            {children}
-        </BooksContext.Provider>
-    );
+    return <BooksContext.Provider value={{ books, setBooks, status }}>{children}</BooksContext.Provider>;
 }
 
 /**

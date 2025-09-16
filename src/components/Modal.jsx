@@ -25,6 +25,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         authorsSex: "",
         pages: "",
         country: "",
+        releaseYear: "",
     });
 
     const canFetch =
@@ -57,6 +58,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                     authorsSex: selectedBook.fields.authorsSex ?? "",
                     pages: selectedBook.fields.pages ?? "",
                     country: selectedBook.fields.country ?? "",
+                    releaseYear: selectedBook.fields.releaseYear ?? "",
                 });
             } else {
                 // Rensa formuläret för ny bok
@@ -75,6 +77,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                     authorsSex: "",
                     pages: "",
                     country: "",
+                    releaseYear: "",
                 });
             }
         }
@@ -101,6 +104,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                 bookTitle: bookData?.title ?? "",
                 author: bookData?.authors ?? "",
                 pages: bookData?.pages ?? "",
+                releaseYear: bookData?.releaseYear ?? "",
             }));
         } catch (err) {
             console.error("getBookByIsbn ERROR:", err);
@@ -274,6 +278,26 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             onChange={handleChange}
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="436"
+                                        />
+                                    </div>
+                                    <label
+                                        htmlFor="pages"
+                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        Utgivningsår
+                                    </label>
+
+                                    <div className="mt-2 flex gap-2">
+                                        <input
+                                            id="releaseYear"
+                                            name="releaseYear"
+                                            type="text"
+                                            inputMode="numeric"
+                                            autoComplete="off"
+                                            length="4"
+                                            defaultValue={fields.releaseYear}
+                                            onChange={handleChange}
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            placeholder="1984"
                                         />
                                     </div>
                                     <label
