@@ -358,7 +358,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     <label
                                         htmlFor="goodreadGrade"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Betyg från Goodreads (obligatorisk)
+                                        Betyg från Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
@@ -368,7 +368,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             autoComplete="off"
                                             defaultValue={fields.goodreadGrade}
                                             onChange={handleChange}
-                                            required
                                             pattern="^(?:[1-4](?:[.,]\d+)?|5(?:[.,]0+)?)$"
                                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="3,5"

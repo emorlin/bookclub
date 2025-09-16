@@ -149,10 +149,12 @@ const Book = () => {
                                         <dt className="inline">Mathias betyg:</dt>
                                         <dd className="inline">{mathiasGrade}</dd>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <dt className="inline">Betyg från Goodreads:</dt>
-                                        <dd className="inline">{goodreadGrade}</dd>
-                                    </div>
+                                    {goodreadGrade && (
+                                        <div className="flex gap-2">
+                                            <dt className="inline">Betyg från Goodreads:</dt>
+                                            <dd className="inline">{goodreadGrade}</dd>
+                                        </div>
+                                    )}
                                 </dl>
                             )}
                             <button

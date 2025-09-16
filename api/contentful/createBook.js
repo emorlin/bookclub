@@ -55,17 +55,7 @@ export default async function handler(req, res) {
         releaseYear,
     } = body || {};
 
-    if (
-        !isbn ||
-        !bookTitle ||
-        !author ||
-        !pickedBy ||
-        !eriksGrade ||
-        !tomasGrade ||
-        !mathiasGrade ||
-        !goodreadGrade ||
-        !authorsSex
-    ) {
+    if (!isbn || !bookTitle || !author || !pickedBy || !eriksGrade || !tomasGrade || !mathiasGrade || !authorsSex) {
         return res.status(400).json({ error: "Alla obigatoria fält måste fyllas i" });
     }
 
