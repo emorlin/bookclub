@@ -10,3 +10,17 @@ export function getAuhorSexCount(books) {
     const female = books.filter((b) => b.fields.authorsSex === "Female").length;
     return { male, female };
 }
+
+export function getAuthorsCountriesCount(books) {
+    const countries = {};
+    for (const book of books) {
+        const country = book.fields.country;
+        if (countries[country]) {
+            countries[country] += 1;
+        } else {
+            countries[country] = 1;
+        }
+    }
+
+    return countries;
+}
