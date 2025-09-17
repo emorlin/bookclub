@@ -110,9 +110,12 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
 
     //denna ska uppdaterasd nu
     async function handleFetch() {
-        setLoading(true);
         const normalized = fields.isbn.replace(/[\s-]/g, "");
         if (!normalized) return;
+
+        if (normalized.length !== 10 && normalized.length !== 13) return;
+
+        setLoading(true);
         try {
             const fetchedBookData = await getBookByIsbn(normalized);
             setBookData(fetchedBookData || false); // false betyder "inget hittat"
@@ -233,7 +236,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             <label
                                                 htmlFor="isbn"
                                                 className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                                ISBN (obligatorisk)
+                                                ISBN 10 eller 13 siffror (obligatorisk)
                                             </label>
                                             <div className="mt-2 flex gap-2">
                                                 <input
@@ -252,6 +255,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
 
                                                 <button
                                                     type="button"
+                                                    disabled={!canFetch}
                                                     onClick={() => handleFetch()}
                                                     className="inline-flex min-w-40 whitespace-nowrap w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
                                                     {loading ? (

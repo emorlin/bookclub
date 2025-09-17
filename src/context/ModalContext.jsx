@@ -4,7 +4,7 @@ const ModalContext = createContext(null);
 
 export function ModalProvider({ children }) {
     const [isOpen, setIsOpen] = useState(false);
-    // valfritt: skicka med data till modalen (t.ex. prefill)
+
     const [modalData, setModalData] = useState(null);
 
     const openModal = useCallback((data = null) => {

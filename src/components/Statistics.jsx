@@ -7,6 +7,7 @@ import {
     getShortestBook,
     getAverageRating,
 } from "../utils/bookstats/ratings";
+import { getAuhorSexCount } from "../utils/bookstats/authors";
 import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser } from "../utils/bookstats/readers";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
@@ -18,13 +19,10 @@ function Statistics() {
     const lowestRatedBooks = useMemo(() => getAllLowestRatedBooks(books), [books]); // getAllLowestRatedBooks(books);
     const longestBook = useMemo(() => getLongestBook(books), [books]); // getLongestBook(books);
     const shortestBook = useMemo(() => getShortestBook(books), [books]); // getShortestBook(books);
-
     const averageRatingPerReader = useMemo(() => getPerUserAverages(books), [books]);
-
     const perUserAveragesRecieved = useMemo(() => getPerUserAveragesRecieved(books ?? []), [books]);
-
     const perUserAveragesRecievedExcludeSelf = useMemo(() => getPerUserAveragesRecieved(books ?? [], true), [books]);
-
+    const battleOfTheSexes = useMemo(() => getAuhorSexCount(books ?? []), [books]);
     const pagesPerUser = useMemo(() => getPagesPerUser(books ?? []), [books]);
     console.log(pagesPerUser);
 
@@ -239,7 +237,6 @@ function Statistics() {
                         </div>
                     </>
                 )}
-
                 <>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                         {averageRatingPerReader && (
@@ -303,6 +300,10 @@ function Statistics() {
                         )}
                     </div>
                 </>
+                <h2 className="text-4xl font-semibold mb-2 mt-8">Författarna</h2>
+
+                {battleOfTheSexes.male}
+                {battleOfTheSexes.female}
             </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
                 <h2>Statistik att visa</h2>
