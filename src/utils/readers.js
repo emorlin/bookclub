@@ -12,9 +12,27 @@ export function getAllReaderNames() {
     return readers.map((r) => r.name);
 }
 
-// ——— Hjälpare (om du behöver) ———
+/**
+ * Return an array of all reader keys.
+ *
+ * @returns {string[]} An array of all reader keys.
+ */
 export function getAllReaderKeys() {
+    // Return an array of all reader keys
     return readers.map((r) => r.key);
+}
+
+/**
+ * Return an object with all reader keys as properties and their corresponding names as values.
+ *
+ * @returns {{ [key: string]: string }} An object with all reader keys as properties and their names as values.
+ */
+export function getAllReaderKeysToObject() {
+    // Return an object with all reader keys as properties and their names as values
+    return readers.reduce((obj, r) => {
+        obj[r.key] = r.name;
+        return obj;
+    }, {});
 }
 
 export function getReaderByKey(key) {
