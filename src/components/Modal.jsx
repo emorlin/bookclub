@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
 import { getBookByIsbn } from "../api/isbnLookup";
 import { toSelectOptions, readers } from "../utils/readers";
@@ -6,9 +6,11 @@ import { useBooks } from "../context/BooksContext";
 
 export default function Modal({ open = false, setOpen = () => {}, data }) {
     const [formPassword, setFormPassword] = useState("");
-    const [fetchedData, setFetchedData] = useState({ title: "", authors: "", pages: "" });
+    const isFirstRender = useRef(true);
     const { books } = useBooks();
     const options = toSelectOptions();
+    const [loading, setLoading] = useState(false);
+    const [bookData, setBookData] = useState("idle");
 
     const [fields, setFields] = useState({
         isbn: "",
@@ -83,6 +85,19 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         }
     }, [open, isUpdate, data]);
 
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        if (bookData === false) {
+            alert("Ingen bokdata hittad");
+        } else if (bookData && bookData !== "idle") {
+            console.log("bookData", bookData);
+        }
+    }, [bookData]);
+
     //kan jag använda min fetchdata?
     useEffect(() => {
         if (open && isUpdate && fields) {
@@ -95,19 +110,24 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
 
     //denna ska uppdaterasd nu
     async function handleFetch() {
+        setLoading(true);
         const normalized = fields.isbn.replace(/[\s-]/g, "");
         if (!normalized) return;
         try {
-            const bookData = await getBookByIsbn(normalized);
+            const fetchedBookData = await getBookByIsbn(normalized);
+            setBookData(fetchedBookData || false); // false betyder "inget hittat"
+
             setFields((prev) => ({
                 ...prev, // behåll alla gamla värden
-                bookTitle: bookData?.title ?? "",
-                author: bookData?.authors ?? "",
-                pages: bookData?.pages ?? "",
-                releaseYear: bookData?.releaseYear ?? "",
+                bookTitle: fetchedBookData?.title ?? "",
+                author: fetchedBookData?.authors ?? "",
+                pages: fetchedBookData?.pages ?? "",
+                releaseYear: fetchedBookData?.releaseYear ?? "",
             }));
         } catch (err) {
             console.error("getBookByIsbn ERROR:", err);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -186,7 +206,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     <label
                                         htmlFor="formPassword"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4 mb-2">
-                                        Lösenord (krävs för att kunna lägga till en bok)
+                                        Lösenord
                                     </label>
                                     <input
                                         id="formPassword"
@@ -198,108 +218,126 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         placeholder="Skriv lösenordet"
                                         required
                                     />
-                                    <label
-                                        htmlFor="isbn"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        ISBN (obligatorisk)
-                                    </label>
-                                    <div className="mt-2 flex gap-2">
-                                        <input
-                                            required
-                                            id="isbn"
-                                            name="isbn"
-                                            type="text"
-                                            autoComplete="off"
-                                            defaultValue={fields.isbn}
-                                            inputMode="numeric"
-                                            readOnly={isUpdate}
-                                            onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            placeholder="978…"
-                                        />
 
-                                        <button
-                                            type="button"
-                                            onClick={() => handleFetch()}
-                                            className="inline-flex whitespace-nowrap w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
-                                            Hämta bokdata
-                                        </button>
-                                    </div>
-                                    <label
-                                        htmlFor="bookTitle"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Titel (obligatorisk)
-                                    </label>
-                                    <div className="mt-2 flex gap-2">
-                                        <input
-                                            required
-                                            id="bookTitle"
-                                            name="bookTitle"
-                                            type="text"
-                                            autoComplete="off"
-                                            defaultValue={fields.bookTitle}
-                                            onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            placeholder="Vredens druvor"
-                                        />
-                                    </div>
-                                    <label
-                                        htmlFor="author"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Författare (obligatorisk)
-                                    </label>
-                                    <div className="mt-2 flex gap-2">
-                                        <input
-                                            required
-                                            id="author"
-                                            name="author"
-                                            type="text"
-                                            autoComplete="off"
-                                            defaultValue={fields.author}
-                                            onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            placeholder="John Steinbeck"
-                                        />
-                                    </div>
-                                    <label
-                                        htmlFor="pages"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Sidantal
-                                    </label>
+                                    <fieldset className="border border-gray-300 rounded-md p-4 mt-8">
+                                        <legend className="text-m font-medium text-gray-700 px-1">
+                                            Information om boken
+                                        </legend>
+                                        <p className="text-sm text-gray-700">
+                                            <i>
+                                                För att uppdatera detta med information från internet, fyll i ISBN och
+                                                klicka på "Hämta bokdata", eller skriv in manuellt.
+                                            </i>
+                                        </p>
+                                        <div className="mt-2 ">
+                                            <label
+                                                htmlFor="isbn"
+                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                ISBN (obligatorisk)
+                                            </label>
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    required
+                                                    id="isbn"
+                                                    name="isbn"
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    defaultValue={fields.isbn}
+                                                    inputMode="numeric"
+                                                    readOnly={isUpdate}
+                                                    onChange={handleChange}
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="978…"
+                                                />
 
-                                    <div className="mt-2 flex gap-2">
-                                        <input
-                                            id="pages"
-                                            name="pages"
-                                            type="text"
-                                            inputMode="numeric"
-                                            autoComplete="off"
-                                            defaultValue={fields.pages}
-                                            onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            placeholder="436"
-                                        />
-                                    </div>
-                                    <label
-                                        htmlFor="pages"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                        Utgivningsår
-                                    </label>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleFetch()}
+                                                    className="inline-flex min-w-40 whitespace-nowrap w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                                                    {loading ? (
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-gray-500" />
+                                                    ) : (
+                                                        "Hämta bokdata"
+                                                    )}
+                                                </button>
+                                            </div>
+                                            <label
+                                                htmlFor="bookTitle"
+                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                Titel (obligatorisk)
+                                            </label>
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    required
+                                                    id="bookTitle"
+                                                    name="bookTitle"
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    defaultValue={fields.bookTitle}
+                                                    onChange={handleChange}
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="Vredens druvor"
+                                                />
+                                            </div>
+                                            <label
+                                                htmlFor="author"
+                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                Författare (obligatorisk)
+                                            </label>
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    required
+                                                    id="author"
+                                                    name="author"
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    defaultValue={fields.author}
+                                                    onChange={handleChange}
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="John Steinbeck"
+                                                />
+                                            </div>
+                                            <label
+                                                htmlFor="pages"
+                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                Sidantal
+                                            </label>
 
-                                    <div className="mt-2 flex gap-2">
-                                        <input
-                                            id="releaseYear"
-                                            name="releaseYear"
-                                            type="text"
-                                            inputMode="numeric"
-                                            autoComplete="off"
-                                            length="4"
-                                            defaultValue={fields.releaseYear}
-                                            onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            placeholder="1984"
-                                        />
-                                    </div>
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    id="pages"
+                                                    name="pages"
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    autoComplete="off"
+                                                    defaultValue={fields.pages}
+                                                    onChange={handleChange}
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="436"
+                                                />
+                                            </div>
+                                            <label
+                                                htmlFor="pages"
+                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                Utgivningsår
+                                            </label>
+
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    id="releaseYear"
+                                                    name="releaseYear"
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    autoComplete="off"
+                                                    length="4"
+                                                    defaultValue={fields.releaseYear}
+                                                    onChange={handleChange}
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="1984"
+                                                />
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                     <label
                                         htmlFor="readDate"
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
