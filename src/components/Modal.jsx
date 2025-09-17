@@ -370,19 +370,19 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             ))}
                                         </select>
                                     </div>
-                                    {readers.map(({ displayName, gradeField }) => (
-                                        <div key={displayName}>
+                                    {readers.map(({ name, field }) => (
+                                        <div key={name}>
                                             <label
-                                                htmlFor={displayName}
+                                                htmlFor={name}
                                                 className="block text-sm/6 font-medium text-gray-900 mt-4">
-                                                {displayName} betyg
+                                                {name} betyg
                                             </label>
                                             <div className="mt-2 flex gap-2">
                                                 <select
-                                                    id={displayName}
-                                                    name={gradeField}
+                                                    id={name}
+                                                    name={field}
                                                     onChange={handleChange}
-                                                    defaultValue={fields[gradeField]}
+                                                    defaultValue={fields[field]}
                                                     className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>

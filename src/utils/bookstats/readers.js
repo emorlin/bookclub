@@ -1,3 +1,4 @@
+import { readers } from "../readers";
 // utils/bookstats/perUserAverages.js
 
 /**
@@ -13,6 +14,9 @@
  *   Mathias: { ... }
  * }
  */
+
+console.log(readers);
+
 export function getPerUserAverages(books = []) {
     if (!Array.isArray(books) || books.length === 0) {
         return {
@@ -22,14 +26,8 @@ export function getPerUserAverages(books = []) {
         };
     }
 
-    const graders = [
-        { name: "Erik", field: "eriksGrade" },
-        { name: "Tomas", field: "tomasGrade" },
-        { name: "Mathias", field: "mathiasGrade" },
-    ];
-
     const res = {};
-    for (const { name, field } of graders) {
+    for (const { name, field } of readers) {
         let sumAll = 0,
             cntAll = 0;
         let sumOwn = 0,
@@ -57,7 +55,6 @@ export function getPerUserAverages(books = []) {
             overall: avg(sumAll, cntAll),
             ownPicks: avg(sumOwn, cntOwn),
             othersPicks: avg(sumOth, cntOth),
-            counts: { overall: cntAll, ownPicks: cntOwn, othersPicks: cntOth },
         };
     }
 
@@ -65,14 +62,10 @@ export function getPerUserAverages(books = []) {
 }
 
 // utils/bookstats/perUserAverages.js
-export function getPerUserAveragesRecieved(books = []) {
+export function getPerUserAveragesRecieved(books = [], exludeSelfIn) {
     if (!Array.isArray(books) || books.length === 0) return [];
-    console.log(books);
-    const readers = [
-        { name: "Erik", field: "eriksGrade" },
-        { name: "Tomas", field: "tomasGrade" },
-        { name: "Mathias", field: "mathiasGrade" },
-    ];
+
+    let exludeSelf = exludeSelfIn;
 
     const rows = readers.map(({ name }) => {
         let sum = 0,
@@ -86,7 +79,10 @@ export function getPerUserAveragesRecieved(books = []) {
             // Summera alla betyg (mottagna) på dessa böcker
             for (const { field } of readers) {
                 const g = Number(b?.fields?.[field]);
-                if (Number.isFinite(g)) {
+
+                if (exludeSelf && pickedBy === readers.find((r) => r.field === field).name) {
+                    continue;
+                } else if (Number.isFinite(g)) {
                     sum += g;
                     count++;
                 }
@@ -103,8 +99,6 @@ export function getPerUserAveragesRecieved(books = []) {
 
 export function getPagesPerUser(books = []) {
     if (!Array.isArray(books) || books.length === 0) return [];
-
-    const readers = [{ name: "Erik" }, { name: "Tomas" }, { name: "Mathias" }];
 
     const rows = readers.map(({ name }) => {
         let sum = 0;

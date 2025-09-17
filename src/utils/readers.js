@@ -2,14 +2,14 @@
 
 // Håll ordning/namn/nycklar på ett ställe
 export const readers = Object.freeze([
-    { key: "erik", displayName: "Erik", gradeField: "eriksGrade" },
-    { key: "tomas", displayName: "Tomas", gradeField: "tomasGrade" },
-    { key: "mathias", displayName: "Mathias", gradeField: "mathiasGrade" },
+    { key: "erik", name: "Erik", field: "eriksGrade" },
+    { key: "tomas", name: "Tomas", field: "tomasGrade" },
+    { key: "mathias", name: "Mathias", field: "mathiasGrade" },
 ]);
 
 // ——— Hämta namn ———
 export function getAllReaderNames() {
-    return readers.map((r) => r.displayName);
+    return readers.map((r) => r.name);
 }
 
 // ——— Hjälpare (om du behöver) ———
@@ -24,21 +24,21 @@ export function getReaderByKey(key) {
 }
 
 export function getDisplayNameByKey(key) {
-    return getReaderByKey(key)?.displayName ?? null;
+    return getReaderByKey(key)?.name ?? null;
 }
 
 export function getGradeFieldByKey(key) {
-    return getReaderByKey(key)?.gradeField ?? null;
+    return getReaderByKey(key)?.field ?? null;
 }
 
 export function getGradeFieldByName(name) {
     if (!name) return null;
     const n = String(name).toLowerCase();
-    const hit = readers.find((r) => r.displayName.toLowerCase() === n);
-    return hit?.gradeField ?? null;
+    const hit = readers.find((r) => r.name.toLowerCase() === n);
+    return hit?.field ?? null;
 }
 
 // För dropdowns
 export function toSelectOptions() {
-    return readers.map((r) => ({ value: r.displayName, label: r.displayName }));
+    return readers.map((r) => ({ value: r.name, label: r.name }));
 }

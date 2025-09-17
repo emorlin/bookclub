@@ -23,6 +23,8 @@ function Statistics() {
 
     const perUserAveragesRecieved = useMemo(() => getPerUserAveragesRecieved(books ?? []), [books]);
 
+    const perUserAveragesRecievedExcludeSelf = useMemo(() => getPerUserAveragesRecieved(books ?? [], true), [books]);
+
     const pagesPerUser = useMemo(() => getPagesPerUser(books ?? []), [books]);
     console.log(pagesPerUser);
 
@@ -238,48 +240,69 @@ function Statistics() {
                     </>
                 )}
 
-                <h3 className="text-xl font-bold mb-8 mt-12">Mottaget snittbetyg</h3>
-                {averageRatingPerReader && (
-                    <>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <div className="">
-                                    <ul className="space-y-2 flex flex-col ">
-                                        {perUserAveragesRecieved.map(({ name, averageScore }) => (
-                                            <li
-                                                key={name}
-                                                className="flex justify-between">
-                                                <span>{name}</span>
-                                                <span className="font-bold">{averageScore ?? "—"}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                        {averageRatingPerReader && (
+                            <div>
+                                <h3 className="text-xl font-bold mb-8 mt-12">Mottaget snittbetyg</h3>
+                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                    <div className="">
+                                        <ul className="space-y-2 flex flex-col ">
+                                            {perUserAveragesRecieved.map(({ name, averageScore }) => (
+                                                <li
+                                                    key={name}
+                                                    className="flex justify-between">
+                                                    <span>{name}</span>
+                                                    <span className="font-bold">{averageScore ?? "—"}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </>
-                )}
-                <h3 className="text-xl font-bold mb-8 mt-12">Antal sidor på valda böcker</h3>
-                {averageRatingPerReader && (
-                    <>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                <div className="">
-                                    <ul className=" space-y-2 flex flex-col ">
-                                        {pagesPerUser.map(({ name, sum }) => (
-                                            <li
-                                                key={name}
-                                                className="flex justify-between">
-                                                <span>{name}</span>
-                                                <span className="font-bold">{sum ?? "—"}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
+                        )}
+                        {averageRatingPerReader && (
+                            <div>
+                                <h3 className="text-xl font-bold mb-8 mt-12">
+                                    Mottaget snittbetyg (egna betyg borträknat)
+                                </h3>
+                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                    <div className="">
+                                        <ul className="space-y-2 flex flex-col ">
+                                            {perUserAveragesRecievedExcludeSelf.map(({ name, averageScore }) => (
+                                                <li
+                                                    key={name}
+                                                    className="flex justify-between">
+                                                    <span>{name}</span>
+                                                    <span className="font-bold">{averageScore ?? "—"}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </>
-                )}
+                        )}
+                        {averageRatingPerReader && (
+                            <div>
+                                <h3 className="text-xl font-bold mb-8 mt-12">Antal sidor på valda böcker</h3>
+                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                    <div className="">
+                                        <ul className=" space-y-2 flex flex-col ">
+                                            {pagesPerUser.map(({ name, sum }) => (
+                                                <li
+                                                    key={name}
+                                                    className="flex justify-between">
+                                                    <span>{name}</span>
+                                                    <span className="font-bold">{sum ?? "—"}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </>
             </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
                 <h2>Statistik att visa</h2>
