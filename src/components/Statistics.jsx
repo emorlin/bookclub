@@ -367,42 +367,6 @@ function Statistics() {
                     </div>
                 </>
             </div>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
-                <h2>Statistik att visa</h2>
-                <h3>Om böcker</h3>
-                <ul>
-                    <li>Böcker med högsta betyg</li>
-                    <li>Sämsta böckerna</li>
-                    <li>Störst spridning</li>
-                    <li>Kortaste och längsta</li>
-                </ul>
-                <h3>Statestik om bokklubbsmeddlemmarna</h3>
-                <ul>
-                    <li>Genomsnittligt poäng</li>
-                    <li>Mottagna poäng</li>
-                    <li>Vem har fått högst snittbetyg</li>
-                    <li>Vem har fått lägst snittbetyg</li>
-                    <li>Vem ger sig själv högst betyg</li>
-                    <li>Totalt antal sidor</li>
-                    <li>Mest avvikande smak</li>
-                    <li>Mest mainstream</li>
-                    <li>Skillnad mot goodreads</li>
-                </ul>
-                <h3>Statestik över tid</h3>
-                <ul>
-                    <li>Antal böcker lästa per månad/år</li>
-                    <li>Snittbetyg över tid</li>
-                    <li>Mest aktiva månad på året</li>
-                    <li>Boklängd över tid</li>
-                </ul>
-                <h3>Övrigt</h3>
-                <ul>
-                    <li>Mest oeniga medlemmarna</li>
-                    <li>Mest eniga medlemmarna</li>
-                    <li>Könskampen</li>
-                    <li>Böcker per land</li>
-                </ul>
-            </div>
         </>
     );
 }
