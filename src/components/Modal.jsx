@@ -362,17 +362,29 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
                                         Vald av
                                     </label>
-                                    <div className="mt-2 flex gap-2">
+                                    <div className="mt-2 grid grid-cols-1">
                                         <select
                                             onChange={handleChange}
                                             id="location"
                                             name="pickedBy"
                                             defaultValue={fields.pickedBy}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             {options.map(({ value, label }) => (
                                                 <option key={value}>{label}</option>
                                             ))}
                                         </select>
+                                        <svg
+                                            viewBox="0 0 16 16"
+                                            fill="currentColor"
+                                            data-slot="icon"
+                                            aria-hidden="true"
+                                            class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                            <path
+                                                d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+                                                clip-rule="evenodd"
+                                                fill-rule="evenodd"
+                                            />
+                                        </svg>
                                     </div>
                                     {readers.map(({ name, field }) => (
                                         <div key={name}>
@@ -381,19 +393,31 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                 className="block text-sm/6 font-medium text-gray-900 mt-4">
                                                 {name} betyg
                                             </label>
-                                            <div className="mt-2 flex gap-2">
+                                            <div className="mt-2 grid grid-cols-1">
                                                 <select
                                                     id={name}
                                                     name={field}
                                                     onChange={handleChange}
                                                     defaultValue={fields[field]}
-                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
                                                     <option value="4">4</option>
                                                     <option value="5">5</option>
                                                 </select>
+                                                <svg
+                                                    viewBox="0 0 16 16"
+                                                    fill="currentColor"
+                                                    data-slot="icon"
+                                                    aria-hidden="true"
+                                                    class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                                    <path
+                                                        d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+                                                        clip-rule="evenodd"
+                                                        fill-rule="evenodd"
+                                                    />
+                                                </svg>
                                             </div>
                                         </div>
                                     ))}
@@ -420,16 +444,28 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         className="block text-sm/6 font-medium text-gray-900 mt-4">
                                         Författarens kön
                                     </label>
-                                    <div className="mt-2 flex gap-2">
+                                    <div className="mt-2 grid grid-cols-1">
                                         <select
                                             id="authorsSex"
                                             name="authorsSex"
                                             defaultValue={fields.authorsSex}
                                             onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="Male">Man</option>
                                             <option value="Female">Kvinna</option>
                                         </select>
+                                        <svg
+                                            viewBox="0 0 16 16"
+                                            fill="currentColor"
+                                            data-slot="icon"
+                                            aria-hidden="true"
+                                            class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                            <path
+                                                d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+                                                clip-rule="evenodd"
+                                                fill-rule="evenodd"
+                                            />
+                                        </svg>
                                     </div>
                                     <label
                                         htmlFor="country"
