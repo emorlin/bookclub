@@ -368,7 +368,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             id="location"
                                             name="pickedBy"
                                             defaultValue={fields.pickedBy}
-                                            className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             {options.map(({ value, label }) => (
                                                 <option key={value}>{label}</option>
                                             ))}
@@ -387,7 +387,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     name={field}
                                                     onChange={handleChange}
                                                     defaultValue={fields[field]}
-                                                    className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -426,7 +426,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             name="authorsSex"
                                             defaultValue={fields.authorsSex}
                                             onChange={handleChange}
-                                            className="block w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="Male">Man</option>
                                             <option value="Female">Kvinna</option>
                                         </select>
