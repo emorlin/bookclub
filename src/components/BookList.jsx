@@ -56,7 +56,7 @@ function BookList() {
                     className="block text-sm/6 font-medium text-white mt-4 mb-2">
                     Visa böcker valda av
                 </label>
-                <div className="mt-2 mb-4 grid grid-cols-1 gap-2">
+                <div className="mt-2 mb-6 grid grid-cols-1 gap-2  w-full sm:w-70 ">
                     <select
                         value={filtered}
                         onChange={(e) => setFiltered(e.target.value)}
