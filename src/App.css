@@ -25,3 +25,24 @@
     opacity: 0.8;
     transition: opacity 0.2s ease-in-out;
 }
+
+h1 {
+    background-image: url(/logo.svg);
+    background-repeat: no-repeat;
+    background-size: 32px;
+    background-position: 0px 3px;
+    padding-left: 34px;
+
+
+    @media (width >=48rem) {
+        background-size: 38px;
+        padding-left: 44px;
+    }
+
+    @media (width >=64rem) {
+        padding-left: 50px;
+        background-size: 46px;
+    }
+
+
+}

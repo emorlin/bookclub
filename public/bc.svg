@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Bokens framsida -->
+  <rect x="0" y="0" width="128" height="128" fill="#2563eb"></rect>
+  <!-- Bokryggen -->
+  <rect x="0" y="0" width="20" height="128" fill="#1e3a8a"></rect>
+  <!-- Lite ljusare kant för framsidan -->
+  <rect x="20" y="0" width="108" height="128" fill="#3b82f6"></rect>
+  <!-- Stort B -->
+  <text x="64" y="90" text-anchor="middle" font-family="serif" font-size="80" fill="white" font-weight="bold">B</text>
+</svg>
