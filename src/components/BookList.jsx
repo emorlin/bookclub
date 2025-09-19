@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useBooks } from "../context/BooksContext";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
@@ -12,6 +12,7 @@ function BookList() {
     const { books, status } = useBooks();
     const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: false });
     const [filtered, setFiltered] = useState("all");
+    const [shownInTable, setShownInTable] = useState();
 
     const navigate = useNavigate();
     const options = toSelectOptions();
@@ -28,6 +29,11 @@ function BookList() {
             asc: sortConfig.asc,
         });
     }, [books, filtered, sortConfig, status]);
+
+    useEffect(() => {
+        const message = `Visar ${visibleBooks.length} böcker valda av ${filtered === "all" ? "alla" : filtered}`;
+        setShownInTable(message);
+    }, [visibleBooks]);
 
     const handleSort = (order) => {
         const asc = sortConfig.order === order && sortConfig.asc ? false : true; // toggle
@@ -56,8 +62,16 @@ function BookList() {
                     className="block text-sm/6 font-medium text-white mt-4 mb-2">
                     Visa böcker valda av
                 </label>
+                <div
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="sr-only"
+                    id="tableUpdateMessage">
+                    {shownInTable}
+                </div>
                 <div className="mt-2 mb-6 grid grid-cols-1 gap-2  w-full sm:w-70 ">
                     <select
+                        aria-controls="booksTable"
                         value={filtered}
                         onChange={(e) => setFiltered(e.target.value)}
                         id="pickedBy"
@@ -91,48 +105,85 @@ function BookList() {
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-700">
+                    <table
+                        id="booksTable"
+                        className="min-w-full divide-y divide-gray-700">
                         <thead>
                             <tr>
-                                <th
-                                    data-sorted={
-                                        sortConfig.order === "readDate" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"
-                                    }
-                                    className="pr-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer"
-                                    onClick={() => handleSort("readDate")}>
-                                    Läst
+                                <th className="pr-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer">
+                                    <button
+                                        aria-label="Sortera efter datum"
+                                        onClick={() => handleSort("readDate")}
+                                        data-sorted={
+                                            sortConfig.order === "readDate"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        type="button">
+                                        Läst
+                                    </button>
                                 </th>
-                                <th
-                                    data-sorted={
-                                        sortConfig.order === "pickedBy" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
-                                    onClick={() => handleSort("pickedBy")}>
-                                    Vald av
+                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                    <button
+                                        aria-label="Sortera efter vem som valt boken"
+                                        data-sorted={
+                                            sortConfig.order === "pickedBy"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        type="button"
+                                        onClick={() => handleSort("pickedBy")}>
+                                        Vald av
+                                    </button>
                                 </th>
-                                <th
-                                    data-sorted={
-                                        sortConfig.order === "title" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
-                                    onClick={() => handleSort("title")}>
-                                    Titel
+                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                    <button
+                                        aria-label="Sortera efter titel"
+                                        type="button"
+                                        onClick={() => handleSort("title")}
+                                        data-sorted={
+                                            sortConfig.order === "title"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }>
+                                        Titel
+                                    </button>
                                 </th>
-                                <th
-                                    data-sorted={
-                                        sortConfig.order === "author" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
-                                    onClick={() => handleSort("author")}>
-                                    Författare
+                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                    <button
+                                        aria-label="Sortera efter författare"
+                                        type="button"
+                                        data-sorted={
+                                            sortConfig.order === "author"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }
+                                        onClick={() => handleSort("author")}>
+                                        Författare
+                                    </button>
                                 </th>
-                                <th
-                                    data-sorted={
-                                        sortConfig.order === "rating" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap"
-                                    onClick={() => handleSort("rating")}>
-                                    Bokklubbens betyg
+                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                    <button
+                                        aria-label="Sortera efter bokklubbens betyg"
+                                        type="button"
+                                        onClick={() => handleSort("rating")}
+                                        data-sorted={
+                                            sortConfig.order === "rating"
+                                                ? sortConfig.asc
+                                                    ? "asc"
+                                                    : "desc"
+                                                : "unsorted"
+                                        }>
+                                        Bokklubbens betyg
+                                    </button>
                                 </th>
                             </tr>
                         </thead>

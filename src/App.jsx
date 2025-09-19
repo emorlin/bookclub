@@ -36,45 +36,53 @@ function App() {
                 <ErrorBoundary fallback="Något har gått fruktansvärt fel.">
                     <ModalProvider>
                         <Header></Header>
-                        <main>
-                            <Routes>
-                                <Route
-                                    index
-                                    element={
-                                        <>
-                                            <StartpageHero />
+
+                        <Routes>
+                            <Route
+                                index
+                                element={
+                                    <>
+                                        <StartpageHero />
+                                        <main id="mainCointent">
                                             <Bookstats />
                                             <BookList />
-                                        </>
-                                    }
-                                />
-                                <Route
-                                    path="/book/:isbn"
-                                    element={<Book />}
-                                />
+                                        </main>
+                                    </>
+                                }
+                            />
+                            <Route
+                                path="/book/:isbn"
+                                element={
+                                    <main id="mainCointent">
+                                        <Book />
+                                    </main>
+                                }
+                            />
 
-                                <Route
-                                    path="/statistik"
-                                    element={
-                                        <>
-                                            <StartpageHero />
+                            <Route
+                                path="/statistik"
+                                element={
+                                    <>
+                                        <StartpageHero />
+                                        <main id="mainCointent">
                                             <Statistics />
-                                        </>
-                                    }
-                                />
+                                        </main>
+                                    </>
+                                }
+                            />
 
-                                <Route
-                                    path="/om"
-                                    element={
-                                        <>
-                                            <StartpageHero />
-                                            <About />
-                                        </>
-                                    }
-                                />
-                            </Routes>
-                            <GlobalModal /> {/* ← exakt EN modal i hela appen */}
-                        </main>
+                            <Route
+                                path="/om"
+                                element={
+                                    <>
+                                        <StartpageHero />
+                                        <About />
+                                    </>
+                                }
+                            />
+                        </Routes>
+                        <GlobalModal />
+
                         <Footer></Footer>
                     </ModalProvider>
                 </ErrorBoundary>
