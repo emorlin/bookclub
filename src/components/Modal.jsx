@@ -185,7 +185,8 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
             <Dialog
                 open={Boolean(open)} // ✅ Headless UI kräver ren boolean
                 onClose={() => setOpen(false)} // ✅ stäng även via backdrop/ESCz
-                className="relative z-100">
+                className="relative z-100"
+                id="modal">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"

@@ -1,8 +1,11 @@
 import CountUp from "react-countup";
 import { useModal } from "../context/ModalContext";
+import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { useState } from "react";
 
 const Header = () => {
-    const { openModal } = useModal();
+    const { openModal, isOpen } = useModal();
+
     return (
         <header className="fixed top-0 left-0 w-full bg-gray-900 text-white py-4 z-50 border-b border-gray-800">
             <div
@@ -13,6 +16,8 @@ const Header = () => {
                 </h1>
 
                 <button
+                    aria-controls="book-modal"
+                    aria-expanded={isOpen}
                     onClick={() => openModal({})}
                     className="px-4 py-2 rounded-xl border border-white text-white cursor-pointer">
                     Lägg till bok

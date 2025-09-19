@@ -19,11 +19,6 @@ function App() {
         document.body.classList.add("bg-gray-900");
     }, []);
 
-    const [selectedBook, setSelectedBook] = useState(null);
-    const handleSelectedBook = useCallback((book) => {
-        setSelectedBook(book);
-    }, []);
-
     function GlobalModal() {
         const { isOpen, closeModal, modalData } = useModal();
         return (

@@ -12,7 +12,7 @@ const Book = () => {
     const { books } = useBooks();
     const location = useLocation();
     let selectedBook = location.state?.book;
-    const { openModal } = useModal();
+    const { openModal, isOpen } = useModal();
     let fields = selectedBook?.fields ?? {};
 
     const { isbn: isbnParam } = useParams();
@@ -159,6 +159,8 @@ const Book = () => {
                             )}
                             <button
                                 onClick={() => openModal({ isbn })}
+                                aria-controls="book-modal"
+                                aria-expanded={isOpen}
                                 className="mt-8 px-2 py-1 rounded border border-black text-black text-sm cursor-pointer">
                                 Uppdatera bokdata
                             </button>
