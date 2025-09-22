@@ -337,7 +337,14 @@ function Statistics() {
                         {genderData && (
                             <div>
                                 <h3 className="text-xl font-bold mb-8">Könsfördelning </h3>
-                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <div
+                                    aria-label={
+                                        parseFloat(battleOfTheSexes.malePercentage).toFixed(2) +
+                                        "% män, " +
+                                        parseFloat(battleOfTheSexes.femalePercentage).toFixed(2) +
+                                        "% kvinnor"
+                                    }
+                                    className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
                                     <Pie
                                         data={genderData}
                                         options={options}
@@ -349,7 +356,7 @@ function Statistics() {
                             <div>
                                 <h3 className="text-xl font-bold mb-8">Var ifrån?</h3>
                                 <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                    <ul>
+                                    <ul lang="en">
                                         {Object.entries(countries)
                                             .sort((a, b) => b[1] - a[1]) // sortera störst först
                                             .map(([country, count]) => (

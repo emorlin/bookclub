@@ -7,6 +7,7 @@ import sortBooks from "../utils/booksSorter";
 import { Rating } from "react-simple-star-rating";
 import { toSelectOptions } from "../utils/readers";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function BookList() {
     const { books, status } = useBooks();
@@ -110,7 +111,15 @@ function BookList() {
                         className="min-w-full divide-y divide-gray-700">
                         <thead>
                             <tr>
-                                <th className="pr-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer">
+                                <th
+                                    aria-sort={
+                                        sortConfig.order === "readDate"
+                                            ? sortConfig.asc
+                                                ? "ascending"
+                                                : "descending"
+                                            : ""
+                                    }
+                                    className="pr-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer">
                                     <button
                                         aria-label="Sortera efter datum"
                                         onClick={() => handleSort("readDate")}
@@ -125,7 +134,15 @@ function BookList() {
                                         Läst
                                     </button>
                                 </th>
-                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                <th
+                                    aria-sort={
+                                        sortConfig.order === "pickedBy"
+                                            ? sortConfig.asc
+                                                ? "ascending"
+                                                : "descending"
+                                            : ""
+                                    }
+                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
                                     <button
                                         aria-label="Sortera efter vem som valt boken"
                                         data-sorted={
@@ -140,7 +157,15 @@ function BookList() {
                                         Vald av
                                     </button>
                                 </th>
-                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                <th
+                                    aria-sort={
+                                        sortConfig.order === "title"
+                                            ? sortConfig.asc
+                                                ? "ascending"
+                                                : "descending"
+                                            : ""
+                                    }
+                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
                                     <button
                                         aria-label="Sortera efter titel"
                                         type="button"
@@ -155,7 +180,15 @@ function BookList() {
                                         Titel
                                     </button>
                                 </th>
-                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                <th
+                                    aria-sort={
+                                        sortConfig.order === "author"
+                                            ? sortConfig.asc
+                                                ? "ascending"
+                                                : "descending"
+                                            : ""
+                                    }
+                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
                                     <button
                                         aria-label="Sortera efter författare"
                                         type="button"
@@ -170,7 +203,15 @@ function BookList() {
                                         Författare
                                     </button>
                                 </th>
-                                <th className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                <th
+                                    aria-sort={
+                                        sortConfig.order === "rating"
+                                            ? sortConfig.asc
+                                                ? "ascending"
+                                                : "descending"
+                                            : ""
+                                    }
+                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
                                     <button
                                         aria-label="Sortera efter bokklubbens betyg"
                                         type="button"
@@ -197,9 +238,17 @@ function BookList() {
                                         {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
                                     </td>
                                     <td className="px-4 py-2">{book.fields.pickedBy}</td>
-                                    <td className="px-4 py-2 min-w-2xs underline">{book.fields.bookTitle}</td>
+                                    <td className="px-4 py-2 min-w-2xs underline">
+                                        <NavLink
+                                            to={`/book/${book.fields.isbn}`}
+                                            state={{ book }}
+                                            className="underline">
+                                            {book.fields.bookTitle}
+                                        </NavLink>
+                                    </td>
                                     <td className="px-4 py-2 whitespace-nowrap">{book.fields.author}</td>
                                     <td className="px-4 py-2 text-1xl">
+                                        <span className="sr-only">{parseFloat(getAverageRating(book))} av 5</span>
                                         <Rating
                                             readonly
                                             allowFraction

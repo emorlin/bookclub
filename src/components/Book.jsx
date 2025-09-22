@@ -28,8 +28,8 @@ const Book = () => {
     }
     console.log(fields);
     const {
-        bookTitle = "",
-        author = "",
+        bookTitle,
+        author,
         pages,
         pickedBy,
         eriksGrade,

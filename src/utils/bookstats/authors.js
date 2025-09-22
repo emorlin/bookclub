@@ -8,7 +8,9 @@
 export function getAuhorSexCount(books) {
     const male = books.filter((b) => b.fields.authorsSex === "Male").length;
     const female = books.filter((b) => b.fields.authorsSex === "Female").length;
-    return { male, female };
+    const malePercentage = (male / (male + female)) * 100;
+    const femalePercentage = (female / (male + female)) * 100;
+    return { male, female, malePercentage, femalePercentage };
 }
 
 export function getAuthorsCountriesCount(books) {
