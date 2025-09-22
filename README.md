@@ -1,7 +1,6 @@
 # Book Club App
-[![Vercel Status](https://img.shields.io/github/deployments/emorlin/book-club/production?label=vercel&logo=vercel)](https://bookclub-five-red.vercel.app)
-![React](https://img.shields.io/badge/react-18.2.0-61dafb?logo=react)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-3.4.0-38bdf8?logo=tailwindcss)
+[![Vercel Status](https://img.shields.io/github/deployments/emorlin/bookclub/production?label=vercel&logo=vercel)](https://bookclub-five-red.vercel.app)
+
 
 
 A web application built to manage and track the books read in our private book club.  
