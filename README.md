@@ -1,12 +1,20 @@
-# React + Vite
+# Book Club App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application built to manage and track the books read in our private book club.  
+The app lets users browse our reading history, see who picked each book, track ratings from different members, and view statistics like highest-rated books, longest reads, and more.
 
-Currently, two official plugins are available:
+## Features
+- Browse all books read by the club with details like author, pages, and ratings.  
+- Filter and sort the library.  
+- View statistics such as most active reader, top-rated books, and total pages read.  
+- Password-protected form to add and update book information.  
+- Dynamic book cover fetching via ISBN.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **Frontend:** React, Tailwind CSS, React Router  
+- **Backend / API:** Contentful (headless CMS) + custom API routes  
+- **Build Tools:** Vite  
+- **Hosting:** Vercel
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Live Demo
+[https://bookclub-five-red.vercel.app](https://bookclub-five-red.vercel.app)
