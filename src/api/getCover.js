@@ -4,8 +4,8 @@ export const getCover = (isbn) => {
 
     return new Promise((resolve) => {
         const img = new Image();
-        img.onload = () => resolve(coverUrl); // ✅ returnera url
-        img.onerror = () => resolve(null); // ✅ null om den inte finns
+        img.onload = () => resolve(coverUrl);
+        img.onerror = () => resolve(null);
         img.src = coverUrl;
     });
 };

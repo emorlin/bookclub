@@ -174,7 +174,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
 
             alert("Bok skapad! ID: " + data.id);
             form.reset();
-            setOpen(false); // ✅ stäng via prop-funktionen
+            setOpen(false);
         } catch (err) {
             console.error("Fetch error:", err);
             alert("Nätverksfel, försök igen.");
@@ -183,8 +183,8 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
     return (
         <div>
             <Dialog
-                open={Boolean(open)} // ✅ Headless UI kräver ren boolean
-                onClose={() => setOpen(false)} // ✅ stäng även via backdrop/ESCz
+                open={Boolean(open)}
+                onClose={() => setOpen(false)}
                 className="relative z-100"
                 id="modal">
                 <DialogBackdrop
