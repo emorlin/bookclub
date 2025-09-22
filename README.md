@@ -1,4 +1,8 @@
 # Book Club App
+[![Vercel Status](https://img.shields.io/github/deployments/emorlin/book-club/production?label=vercel&logo=vercel)](https://bookclub-five-red.vercel.app)
+![React](https://img.shields.io/badge/react-18.2.0-61dafb?logo=react)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-3.4.0-38bdf8?logo=tailwindcss)
+
 
 A web application built to manage and track the books read in our private book club.  
 The app lets users browse our reading history, see who picked each book, track ratings from different members, and view statistics like highest-rated books, longest reads, and more.
