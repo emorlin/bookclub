@@ -13,6 +13,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ModalProvider, useModal } from "./context/ModalContext";
 import Modal from "./components/Modal";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
     useEffect(() => {
@@ -36,7 +37,7 @@ function App() {
                 <ErrorBoundary fallback="Något har gått fruktansvärt fel.">
                     <ModalProvider>
                         <Header></Header>
-
+                        <ScrollToTop />
                         <Routes>
                             <Route
                                 index
