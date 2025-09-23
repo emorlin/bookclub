@@ -49,11 +49,16 @@ function Abaout() {
                     <p className="mt-6">
                         Appen är byggd i <b>React</b> med <b>Tailwind CSS</b>, och använder <b>Contentful</b> som
                         innehållshanterare. För att göra det smidigare att lägga till böcker hämtas information
-                        automatiskt från externa källor som Hardcover och Open Library. Funktioner Lägg till och
-                        uppdatera böcker Filtrera och sortera biblioteket Se statistik över läsning, betyg och sidantal
-                        Hämta automatiskt bokinformation via ISBN.
+                        automatiskt från externa källor som Hardcover och Open Library.
                     </p>
-                    <p className="mt-6">
+                    <h3 className="text-2xl mb-4 font-bold mt-12">Funktioner </h3>
+                    <ul className="list-disc list-inside">
+                        <li> Läggtill och uppdatera böcker</li>
+                        <li>Filtrera och sortera biblioteket</li>
+                        <li>Se statistik över läsning, betyg och sidantal</li>
+                        <li>Hämta automatiskt bokinformation via ISBN</li>
+                    </ul>
+                    <p className="mt-6 text-xl">
                         Den som vill kan kika närmare på koden här:{" "}
                         <a
                             className="underline"

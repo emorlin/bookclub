@@ -30,6 +30,7 @@ export const getBookByIsbn = async (rawIsbn) => {
           language { language }
           reading_format { format }
           publisher { name }
+          image { url }
           book {
             id
             title

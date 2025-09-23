@@ -7,6 +7,7 @@ import { Rating } from "react-simple-star-rating";
 import { useNavigate } from "react-router-dom";
 import { useBooks } from "../context/BooksContext";
 import { useModal } from "../context/ModalContext";
+import { HashLink } from "react-router-hash-link";
 
 const Book = () => {
     const { books } = useBooks();
@@ -84,9 +85,15 @@ const Book = () => {
     // Om både selectedBook saknas och getBookByIsbn returnerar null → visa felmeddelande
 
     return (
-        <div className="overflow-hidden bg-white py-24 sm:py-32">
+        <div className="overflow-hidden bg-white py-18 sm:py-26">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+                <HashLink
+                    smooth
+                    to="/#bookstable"
+                    className="relative -top-6 inline-block text-md font-semibold leading-6 text-pretty">
+                    ← <span className="underline">Alla lästa böcker</span>
+                </HashLink>
+                <article className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                     <div className="lg:pr-8">
                         <div className="lg:max-w-lg">
                             {bookTitle && (
@@ -255,7 +262,7 @@ const Book = () => {
                             />
                         ) : null}
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     );
