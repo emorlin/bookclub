@@ -25,7 +25,8 @@ const Header = () => {
                         aria-controls="book-modal"
                         aria-expanded={isOpen}
                         onClick={() => openModal({})}
-                        className="px-2 py-1 sm:px-4 sm:py-2 text-sm sm:text-lg rounded-lg sm:rounded-xl border border-white text-white cursor-pointer">
+                        className="px-2 py-1 sm:px-4 sm:py-2 text-sm sm:text-lg rounded-lg sm:rounded-xl border focus:text-black focus:bg-white border-w
+                        hite text-white cursor-pointer">
                         Lägg till bok
                     </button>
                 </div>

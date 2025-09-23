@@ -160,7 +160,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         const form = e.currentTarget;
         const formData = new FormData(e.target);
         const payload = Object.fromEntries(formData.entries());
-
+        setLoading(true);
         const path = isUpdate ? `/api/contentful/updateBook` : `/api/contentful/createBook`;
 
         try {
@@ -174,13 +174,16 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
             if (!res.ok) {
                 console.error("Create failed:", data);
                 alert("Misslyckades att lägga till boken: " + data.error);
+                setLoading(false);
                 return;
             }
 
             alert("Bok skapad! ID: " + data.id);
             form.reset();
             setOpen(false);
+            setLoading(false);
         } catch (err) {
+            setLoading(false);
             console.error("Fetch error:", err);
             alert("Nätverksfel, försök igen.");
         }
@@ -556,14 +559,22 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     <div className="mt-12 flex flex-row-reverse gap-2">
                                         <button
                                             type="submit"
-                                            className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto">
-                                            {modalSubmitText}
+                                            className="inline-flex min-w-30 w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto">
+                                            {loading ? (
+                                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-gray-500" />
+                                            ) : (
+                                                modalSubmitText
+                                            )}
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setOpen(false)}
-                                            className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                                            Avbryt
+                                            className="inline-flex min-w-30 w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                                            {loading ? (
+                                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-gray-500" />
+                                            ) : (
+                                                <>Avbryt</>
+                                            )}
                                         </button>
                                     </div>
                                 </form>
