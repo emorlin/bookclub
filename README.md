@@ -12,10 +12,12 @@ The app lets users browse our reading history, see who picked each book, track r
 - View statistics such as most active reader, top-rated books, and total pages read.  
 - Password-protected form to add and update book information.  
 - Dynamic book cover fetching via ISBN.
+- Integration with [Hardcover](https://hardcover.app/) to automatically fetch detailed book information and metadata via GraphQL.
+
 
 ## Tech Stack
 - **Frontend:** React, Tailwind CSS, React Router  
-- **Backend / API:** Contentful (headless CMS) + custom API routes  
+- **Backend / API:** Contentful (headless CMS) + custom API routes for Hardcover integration 
 - **Build Tools:** Vite  
 - **Hosting:** Vercel
 
