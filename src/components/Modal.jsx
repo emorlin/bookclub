@@ -28,6 +28,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         pages: "",
         country: "",
         releaseYear: "",
+        coverImage: "",
     });
 
     const canFetch =
@@ -61,6 +62,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                     pages: selectedBook.fields.pages ?? "",
                     country: selectedBook.fields.country ?? "",
                     releaseYear: selectedBook.fields.releaseYear ?? "",
+                    coverImage: selectedBook.fields.coverImage ?? "",
                 });
             } else {
                 // Rensa formuläret för ny bok
@@ -80,6 +82,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                     pages: "",
                     country: "",
                     releaseYear: "",
+                    coverImage: "",
                 });
             }
         }
@@ -119,13 +122,15 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         try {
             const fetchedBookData = await getBookByIsbn(normalized);
             setBookData(fetchedBookData || false); // false betyder "inget hittat"
-
+            console.log("fetchedBookData.coverImage");
+            console.log(fetchedBookData.coverImage);
             setFields((prev) => ({
                 ...prev, // behåll alla gamla värden
                 bookTitle: fetchedBookData?.title ?? "",
                 author: fetchedBookData?.authors ?? "",
                 pages: fetchedBookData?.pages ?? "",
                 releaseYear: fetchedBookData?.releaseYear ?? "",
+                coverImage: fetchedBookData?.coverImage ?? "",
             }));
         } catch (err) {
             console.error("getBookByIsbn ERROR:", err);
@@ -314,7 +319,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                 className="block text-sm/6 font-medium text-gray-900 mt-4">
                                                 Sidantal
                                             </label>
-
                                             <div className="mt-2 flex gap-2">
                                                 <input
                                                     id="pages"
@@ -333,7 +337,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                 className="block text-sm/6 font-medium text-gray-900 mt-4">
                                                 Utgivningsår
                                             </label>
-
                                             <div className="mt-2 flex gap-2">
                                                 <input
                                                     id="releaseYear"
@@ -346,6 +349,26 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     onChange={handleChange}
                                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="1984"
+                                                />
+                                            </div>
+                                            <label
+                                                htmlFor="pages"
+                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                Omslagsbild (ej editerbar)
+                                            </label>
+
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    id="coverImage"
+                                                    name="coverImage"
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    length="4"
+                                                    defaultValue={fields.coverImage}
+                                                    onChange={handleChange}
+                                                    readOnly
+                                                    className="block w-full max-w-100% rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="https://assets.hardcover.app/..."
                                                 />
                                             </div>
                                         </div>

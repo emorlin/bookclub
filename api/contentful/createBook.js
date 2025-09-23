@@ -53,6 +53,7 @@ export default async function handler(req, res) {
         authorsSex,
         country,
         releaseYear,
+        coverImage,
     } = body || {};
 
     if (!isbn || !bookTitle || !author || !pickedBy || !eriksGrade || !tomasGrade || !mathiasGrade || !authorsSex) {
@@ -61,8 +62,6 @@ export default async function handler(req, res) {
 
     const locale = process.env.CONTENTFUL_LOCALE;
     const contentTypeId = process.env.CONTENTFUL_CONTENT_TYPE_ID;
-    console.log("contentTypeId");
-    console.log(contentTypeId);
 
     try {
         const mgmt = contentfulManagement.createClient({
@@ -89,6 +88,7 @@ export default async function handler(req, res) {
                 authorsSex: authorsSex ? { [locale]: authorsSex } : undefined,
                 country: country ? { [locale]: country } : undefined,
                 releaseYear: releaseYear ? { [locale]: releaseYear } : undefined,
+                coverImage: coverImage ? { [locale]: coverImage } : undefined,
             },
         });
 

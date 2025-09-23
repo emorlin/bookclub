@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getCover } from "../api/getCover";
+
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
@@ -20,9 +20,12 @@ const Book = () => {
     const isbn = fields.isbn ?? isbnParam;
     const nav = useNavigate();
 
+    console.log("flelds2");
+    console.log("flelds", fields);
     if (!selectedBook) {
         selectedBook = books.find((book) => book.fields.isbn === Number(isbn));
         fields = selectedBook?.fields ?? {};
+
         if (!fields) {
             nav("/", { replace: true });
         }
@@ -44,45 +47,15 @@ const Book = () => {
         langName,
         releaseYear,
         originalTitle,
+        coverImage,
     } = fields;
 
-    // 3) State
-    const [bookCover, setBookCover] = useState(null);
-    const [loadingCover, setLoadingCover] = useState(true);
-    const [coverError, setCoverError] = useState(false);
-
-    // 5) Mappning av språk till svenska
     const languageLabel = useMemo(() => {
         if (!langName) return null;
         if (langName === "English") return "Engelska";
         if (langName === "Swedish") return "Svenska";
         return langName;
     }, [langName]);
-
-    // 6) Hämta omslag
-    useEffect(() => {
-        if (!isbn) return;
-        let alive = true;
-        setLoadingCover(true);
-        setCoverError(false);
-        getCover(isbn)
-            .then((url) => {
-                if (!alive) return;
-                if (url) setBookCover(url);
-                else setCoverError(true);
-            })
-            .catch(() => {
-                if (alive) setCoverError(true);
-            })
-            .finally(() => {
-                if (alive) setLoadingCover(false);
-            });
-        return () => {
-            alive = false;
-        };
-    }, [isbn]);
-
-    // Om både selectedBook saknas och getBookByIsbn returnerar null → visa felmeddelande
 
     return (
         <div className="overflow-hidden bg-white py-18 sm:py-26">
@@ -244,23 +217,20 @@ const Book = () => {
                         </div>
                     </div>
 
-                    {/* Omslag */}
-                    <div className="max-w-sm relative background-gray bg-gray-100">
-                        {loadingCover ? (
-                            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-                        ) : bookCover ? (
+                    <div className="max-w-xs mx-auto">
+                        {coverImage ? (
                             <img
-                                src={bookCover}
+                                src={coverImage}
                                 alt={bookTitle || originalTitle || "Omslag"}
                                 className="w-auto"
                             />
-                        ) : coverError ? (
+                        ) : (
                             <img
                                 src="/missingCover.png"
                                 alt="Omslag saknas"
                                 className="w-auto"
                             />
-                        ) : null}
+                        )}
                     </div>
                 </article>
             </div>

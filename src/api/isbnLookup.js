@@ -49,6 +49,8 @@ export const getBookByIsbn = async (rawIsbn) => {
 
         // välj första eller förbättra matchning vid behov
         const e = editions[0];
+        console.log("e");
+        console.log(normalizeEdition(e));
         return normalizeEdition(e);
     } catch (error) {
         console.error(error);
@@ -83,6 +85,7 @@ function normalizeEdition(e) {
         publisher: e.publisher?.name ?? null,
         language: e.language?.language ?? null,
         rating: typeof e.book?.rating === "number" ? e.book.rating : null,
+        coverImage: e.image?.url ?? null,
         raw: e,
     };
 }
