@@ -292,9 +292,11 @@ function Statistics() {
                         )}
                         {averageRatingPerReader && (
                             <div>
-                                <h3 className="text-xl font-bold mb-8 mt-12">
-                                    Mottaget snittbetyg (egna betyg borträknat)
+                                <h3 className="text-xl font-bold mb-2 mt-12">
+                                    Mottaget snittbetyg
+                                    <span className="text-sm block mb-3">(egna betyg borträknat)</span>
                                 </h3>
+
                                 <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
                                     <div className="">
                                         <ul className="space-y-2 flex flex-col ">
