@@ -49,8 +49,6 @@ export const getBookByIsbn = async (rawIsbn) => {
 
         // välj första eller förbättra matchning vid behov
         const e = editions[0];
-        console.log("e");
-        console.log(normalizeEdition(e));
         return normalizeEdition(e);
     } catch (error) {
         console.error(error);
@@ -69,6 +67,14 @@ function normalizeIsbn(v) {
     return (body + last).replace(/\D/g, "");
 }
 
+/**
+ * Tar emot en edition (från Hardcovers GraphQL API) och returnerar
+ * en normaliserad bok som JSON.
+ * Fältande värden returneras som `null`.
+ *
+ * @param {Object} e - En edition från Hardcovers GraphQL API.
+ * @returns {Object|null} - En normaliserad bok som JSON, eller `null` om ingen träff.
+ */
 function normalizeEdition(e) {
     const authors = (e.book?.contributions || []).map((c) => c?.author?.name).filter(Boolean);
 

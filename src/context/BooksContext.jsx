@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 // Import the getAllBooks function from the books API
-import { getAllBooks } from "../api/books";
+import { getAllBooks } from "../api/contentful/booksRead";
 
 // Import the loading status constants
 import loadingStatus from "../utils/loadingStatus";

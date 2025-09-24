@@ -217,10 +217,12 @@ const Book = () => {
                         </div>
                     </div>
 
-                    <div className="max-w-xs mx-auto">
+                    <div className="max-w-xs">
                         {coverImage ? (
                             <img
                                 src={coverImage}
+                                decoding="async"
+                                loading="lazy"
                                 alt={bookTitle || originalTitle || "Omslag"}
                                 className="w-auto"
                             />

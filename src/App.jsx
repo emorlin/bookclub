@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect } from "react";
 
 import "./App.css";
 import StartpageHero from "./components/StartpageHero";

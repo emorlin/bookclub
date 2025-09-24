@@ -13,6 +13,7 @@ import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import BooksPerMonthChart from "./reading";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 import { Rating } from "react-simple-star-rating";
@@ -373,6 +374,11 @@ function Statistics() {
                         )}
                     </div>
                 </>
+                <h2 className="text-4xl font-semibold mb-8 mt-8">Läsgnista - när på året</h2>
+
+                <div className="border-gray-700 bg-gray-800 border p-4 shadow  rounded-xl">
+                    <BooksPerMonthChart books={books} />
+                </div>
             </div>
         </>
     );

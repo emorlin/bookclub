@@ -97,6 +97,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         if (bookData === false) {
             alert("Ingen bokdata hittad");
         } else if (bookData && bookData !== "idle") {
+            alert("Eventuell information om boken är nu uppdaterad");
             console.log("bookData", bookData);
         }
     }, [bookData]);

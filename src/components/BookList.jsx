@@ -14,7 +14,6 @@ function BookList() {
     const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: false });
     const [filtered, setFiltered] = useState("all");
     const [shownInTable, setShownInTable] = useState();
-
     const navigate = useNavigate();
     const options = toSelectOptions();
 
