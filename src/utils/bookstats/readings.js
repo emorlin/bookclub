@@ -1,16 +1,16 @@
 // Utility-funktion för att räkna böcker per månad
 export function getBooksPerMonth(books) {
     const months = [
-        "January",
-        "February",
-        "March",
+        "Januari",
+        "Februari",
+        "Mars",
         "April",
-        "May",
-        "June",
-        "July",
-        "August",
+        "Maj",
+        "Juni",
+        "Julyí",
+        "Augusti",
         "September",
-        "October",
+        "Oktober",
         "November",
         "December",
     ];
