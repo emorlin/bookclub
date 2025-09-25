@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
 
 import AuthorGender from "./AuthorGender";
-import BooksPerMonthChart from "./Reading";
+import BooksPerMonthChart from "./BooksPerMonthChart";
 
 import { Rating } from "react-simple-star-rating";
 function Statistics() {
