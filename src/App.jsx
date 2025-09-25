@@ -6,7 +6,7 @@ import BookList from "./components/BookList";
 import Statistics from "./components/Statistics";
 import About from "./components/About";
 import Book from "./components/Book";
-import Bookstats from "./components/BookStats";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -45,7 +45,6 @@ function App() {
                                     <>
                                         <StartpageHero />
                                         <main id="mainCointent">
-                                            <Bookstats />
                                             <BookList />
                                         </main>
                                     </>
