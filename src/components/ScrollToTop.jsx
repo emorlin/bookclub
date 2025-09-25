@@ -5,8 +5,8 @@ export default function ScrollToTop() {
     const { pathname, hash } = useLocation();
 
     useEffect(() => {
-        // Endast scrolla till toppen om det INTE finns en hash
-        if (!hash) {
+        // Bara scrolla om vi är på en "book/"-sida och det INTE finns en hash
+        if (pathname.startsWith("/book/") && !hash) {
             window.scrollTo(0, 0);
         }
     }, [pathname, hash]);
