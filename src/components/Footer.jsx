@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <header className=" top-0 left-0 w-full bg-gray-900 text-white py-8 z-50 border-t border-gray-600">
+        <footer className=" mt-2 sm:mt-4 left-0 w-full bg-gray-900 text-white py-8 z-50 border-t border-t-2 border-gray-600">
             <div className="max-w-7xl mx-auto px-6 lg:px-8 ">
                 <blockquote
                     lang="en"
@@ -10,8 +10,15 @@ const Footer = () => {
                     <footer className="block text-sm">Ralph Waldo Emerson</footer>
                 </blockquote>
                 <p className="mt-8">&copy; 2025 Bokklubben</p>
+                <p className="mt-6 text-m">
+                    <a
+                        className="underline"
+                        href="https://github.com/emorlin/bookclub">
+                        Källkoden till bokklubben på GitHub
+                    </a>
+                </p>
             </div>
-        </header>
+        </footer>
     );
 };
 
