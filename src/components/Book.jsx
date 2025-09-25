@@ -58,7 +58,7 @@ const Book = () => {
     }, [langName]);
 
     return (
-        <div className="overflow-hidden bg-white py-18 sm:py-26">
+        <div className="overflow-hidden bg-white py-22 sm:py-26">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <HashLink
                     smooth
