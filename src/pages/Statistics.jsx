@@ -1,4 +1,4 @@
-import { useBooks } from "../context/BooksContext";
+import { useBooks } from "../hooks/useBooks";
 import { useMemo } from "react";
 import {
     getAllHighestRatedBooks,

@@ -8,7 +8,7 @@ import { getAllBooks } from "../api/contentful/booksRead";
 import loadingStatus from "../utils/loadingStatus";
 
 // Create a new React context for managing books data
-const BooksContext = createContext();
+export const BooksContext = createContext();
 
 /**
  * BooksProvider component: wraps the BooksContext.Provider component
@@ -58,14 +58,4 @@ export function BooksProvider({ children }) {
 
     // Return the BooksContext.Provider component with the books data and loading status
     return <BooksContext.Provider value={{ books, setBooks, status }}>{children}</BooksContext.Provider>;
-}
-
-/**
- * useBooks hook: returns the books data from the BooksContext.
- *
- * @returns {object} books data
- */
-export function useBooks() {
-    // Use the useContext hook to access the BooksContext
-    return useContext(BooksContext);
 }

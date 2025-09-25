@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
 import { getBookByIsbn } from "../api/isbnLookup";
 import { toSelectOptions, readers } from "../utils/readers";
-import { useBooks } from "../context/BooksContext";
+import { useBooks } from "../hooks/useBooks";
 
 export default function Modal({ open = false, setOpen = () => {}, data }) {
     const [formPassword, setFormPassword] = useState("");

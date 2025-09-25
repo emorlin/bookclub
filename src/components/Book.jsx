@@ -5,7 +5,7 @@ import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
 import { useNavigate } from "react-router-dom";
-import { useBooks } from "../context/BooksContext";
+import { useBooks } from "../hooks/useBooks";
 import { useModal } from "../hooks/useModal";
 import { HashLink } from "react-router-hash-link";
 

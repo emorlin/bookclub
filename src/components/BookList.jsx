@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { useBooks } from "../context/BooksContext";
+import { useBooks } from "../hooks/useBooks";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import loadingStatus from "../utils/loadingStatus";
 import LoadingIndicator from "./LoadingIndicator";
