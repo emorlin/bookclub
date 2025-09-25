@@ -1,34 +1,15 @@
 import contentfulManagement from "contentful-management";
-import crypto from "node:crypto";
 import { config as loadEnv } from "dotenv";
+import timingSafeEq from "./../utils/timingSafeEq.js";
+import safeParseJSON from "./../utils/safeParseJSON.js";
 
 if (!process.env.VERCEL) {
     loadEnv({ path: ".env.local" });
 }
 
-const safeParseJSON = (str) => {
-    try {
-        return JSON.parse(str);
-    } catch {
-        return {};
-    }
-};
-
-const timingSafeEq = (a, b) => {
-    try {
-        const A = Buffer.from(String(a) ?? "");
-        const B = Buffer.from(String(b) ?? "");
-        if (A.length !== B.length) return false;
-        return crypto.timingSafeEqual(A, B);
-    } catch {
-        return false;
-    }
-};
-
 export default async function handler(req, res) {
     const raw = req.body ?? {};
     const body = typeof raw === "string" ? safeParseJSON(raw) : raw;
-
     const expected = String(process.env.FORM_SECRET_PROD).trim();
     const provided = String(req.headers["x-form-secret"] || body?.secret || "").trim();
 

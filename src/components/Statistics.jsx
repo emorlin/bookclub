@@ -7,15 +7,14 @@ import {
     getShortestBook,
     getAverageRating,
 } from "../utils/bookstats/ratings";
-import { getAuhorSexCount, getAuthorsCountriesCount } from "../utils/bookstats/authors";
+import { getAuthorsCountriesCount } from "../utils/bookstats/authors";
 import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser } from "../utils/bookstats/readers";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
-import BooksPerMonthChart from "./reading";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+import AuthorGender from "./AuthorGender";
+import BooksPerMonthChart from "./Reading";
+
 import { Rating } from "react-simple-star-rating";
 function Statistics() {
     const { books } = useBooks();
@@ -27,36 +26,8 @@ function Statistics() {
     const perUserAveragesRecieved = useMemo(() => getPerUserAveragesRecieved(books ?? []), [books]);
     const perUserAveragesRecievedExcludeSelf = useMemo(() => getPerUserAveragesRecieved(books ?? [], true), [books]);
     const countries = useMemo(() => getAuthorsCountriesCount(books ?? []), [books]);
-    const battleOfTheSexes = useMemo(() => getAuhorSexCount(books ?? []), [books]);
+
     const pagesPerUser = useMemo(() => getPagesPerUser(books ?? []), [books]);
-
-    console.log(countries);
-    const genderData = {
-        labels: ["Män", "Kvinnor"],
-        datasets: [
-            {
-                label: "Antal lästa böcker",
-                data: [battleOfTheSexes.male, battleOfTheSexes.female],
-                backgroundColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235,1)"],
-                borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
-                borderWidth: 1,
-            },
-        ],
-    };
-
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                labels: {
-                    color: "#fff",
-                    font: {
-                        size: 16,
-                    },
-                },
-            },
-        },
-    };
 
     const averageRatingPerReaderSorted = (key) =>
         Object.entries(averageRatingPerReader).sort(([, a], [, b]) => {
@@ -337,22 +308,10 @@ function Statistics() {
                 <h2 className="text-4xl font-semibold mb-2 mt-8">Författarna</h2>
                 <>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                        {genderData && (
+                        {books && (
                             <div>
                                 <h3 className="text-xl font-bold mb-8">Könsfördelning </h3>
-                                <div
-                                    aria-label={
-                                        parseFloat(battleOfTheSexes.malePercentage).toFixed(2) +
-                                        "% män, " +
-                                        parseFloat(battleOfTheSexes.femalePercentage).toFixed(2) +
-                                        "% kvinnor"
-                                    }
-                                    className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
-                                    <Pie
-                                        data={genderData}
-                                        options={options}
-                                    />
-                                </div>
+                                <AuthorGender books={books} />
                             </div>
                         )}
                         {countries && (
