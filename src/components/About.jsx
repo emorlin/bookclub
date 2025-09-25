@@ -53,7 +53,7 @@ function Abaout() {
                     </p>
                     <h3 className="text-2xl mb-4 font-bold mt-12">Funktioner </h3>
                     <ul className="list-disc list-inside">
-                        <li> Läggtill och uppdatera böcker</li>
+                        <li>Lägg till och uppdatera böcker</li>
                         <li>Filtrera och sortera biblioteket</li>
                         <li>Se statistik över läsning, betyg och sidantal</li>
                         <li>Hämta automatiskt bokinformation via ISBN</li>
