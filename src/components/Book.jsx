@@ -6,7 +6,7 @@ import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
 import { useNavigate } from "react-router-dom";
 import { useBooks } from "../context/BooksContext";
-import { useModal } from "../context/ModalContext";
+import { useModal } from "../hooks/useModal";
 import { HashLink } from "react-router-hash-link";
 
 const Book = () => {

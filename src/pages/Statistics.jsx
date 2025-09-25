@@ -11,9 +11,8 @@ import { getAuthorsCountriesCount } from "../utils/bookstats/authors";
 import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser } from "../utils/bookstats/readers";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
-
-import AuthorGender from "./AuthorGender";
-import BooksPerMonthChart from "./BooksPerMonthChart";
+import AuthorGender from "../components/AuthorGender";
+import BooksPerMonthChart from "../components/BooksPerMonthChart";
 
 import { Rating } from "react-simple-star-rating";
 function Statistics() {

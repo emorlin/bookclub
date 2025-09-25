@@ -1,5 +1,5 @@
 import CountUp from "react-countup";
-import { useModal } from "../context/ModalContext";
+import { useModal } from "../hooks/useModal";
 import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 

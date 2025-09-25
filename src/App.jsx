@@ -3,15 +3,16 @@ import { useEffect } from "react";
 import "./App.css";
 import StartpageHero from "./components/StartpageHero";
 import BookList from "./components/BookList";
-import Statistics from "./components/Statistics";
-import About from "./components/About";
+import Statistics from "./pages/Statistics";
+import About from "./pages/About";
 import Book from "./components/Book";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ModalProvider, useModal } from "./context/ModalContext";
+import { ModalProvider } from "./context/ModalContext";
+import { useModal } from "./hooks/useModal";
 import Modal from "./components/Modal";
 import ScrollToTop from "./components/ScrollToTop";
 

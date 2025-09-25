@@ -1,10 +1,11 @@
-import { createContext, useContext, useState, useCallback } from "react";
+/* eslint-disable react-refresh/only-export-components */
 
-const ModalContext = createContext(null);
+import { createContext, useState, useCallback } from "react";
+
+export const ModalContext = createContext(null);
 
 export function ModalProvider({ children }) {
     const [isOpen, setIsOpen] = useState(false);
-
     const [modalData, setModalData] = useState(null);
 
     const openModal = useCallback((data = null) => {
@@ -22,10 +23,4 @@ export function ModalProvider({ children }) {
             {children}
         </ModalContext.Provider>
     );
-}
-
-export function useModal() {
-    const ctx = useContext(ModalContext);
-    if (!ctx) throw new Error("useModal must be used within a ModalProvider");
-    return ctx;
 }
