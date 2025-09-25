@@ -98,7 +98,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
             alert("Ingen bokdata hittad");
         } else if (bookData && bookData !== "idle") {
             alert("Eventuell information om boken är nu uppdaterad");
-            console.log("bookData", bookData);
         }
     }, [bookData]);
 
@@ -108,7 +107,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
             if (!open) {
                 setFields((p) => ({ ...p, isbn: "" }));
             }
-            console.log("fields", fields);
         }
     }, [open, data, fields, isUpdate]);
 
@@ -123,8 +121,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         try {
             const fetchedBookData = await getBookByIsbn(normalized);
             setBookData(fetchedBookData || false); // false betyder "inget hittat"
-            console.log("fetchedBookData.coverImage");
-            console.log(fetchedBookData.coverImage);
             setFields((prev) => ({
                 ...prev, // behåll alla gamla värden
                 bookTitle: fetchedBookData?.title ?? "",
