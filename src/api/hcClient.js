@@ -1,6 +1,6 @@
 // src/api/hcClient.js
 
-const endpoint = "/api/hardcover"; // Din proxy-endpoint
+const endpoint = "/api/hardcover/hardcover"; // Din proxy-endpoint
 
 /**
  * Minimal GraphQL-klient, via din proxy.
