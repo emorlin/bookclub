@@ -19,6 +19,7 @@ function BookList() {
 
     // Beräkna filtrerad + sorterad lista direkt från `books`
     const visibleBooks = useMemo(() => {
+        // Om data inte laddat in eller inte är en array, returnera tom array
         if (status !== loadingStatus.loaded || !Array.isArray(books)) return [];
 
         const base = filtered === "all" ? books : books.filter((b) => b.fields.pickedBy === filtered);

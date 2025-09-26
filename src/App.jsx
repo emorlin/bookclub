@@ -83,9 +83,8 @@ function App() {
                             />
                         </Routes>
                         <GlobalModal />
-
-                        <Footer></Footer>
                     </ModalProvider>
+                    <Footer></Footer>
                 </ErrorBoundary>
             </BrowserRouter>
         </>

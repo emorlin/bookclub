@@ -3,7 +3,7 @@
 const endpoint = "/api/hardcover/hardcover"; // Din proxy-endpoint
 
 /**
- * Minimal GraphQL-klient, via din proxy.
+ * Minimal GraphQL-klient, via proxy.
  */
 export const hcClient = {
     query: async (query, variables = {}) => {
