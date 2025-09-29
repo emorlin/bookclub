@@ -1,39 +1,26 @@
 import { useBooks } from "../hooks/useBooks";
-import { useMemo } from "react";
-import {
-    getAllHighestRatedBooks,
-    getAllLowestRatedBooks,
-    getLongestBook,
-    getShortestBook,
-    getAverageRating,
-} from "../utils/bookstats/ratings";
-import { getAuthorsCountriesCount } from "../utils/bookstats/authors";
-import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser } from "../utils/bookstats/readers";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
+import { Rating } from "react-simple-star-rating";
+import { useBookStats } from "../hooks/useBookStats";
 import AuthorGender from "../components/AuthorGender";
 import BooksPerMonthChart from "../components/BooksPerMonthChart";
 
-import { Rating } from "react-simple-star-rating";
 function Statistics() {
-    const { books } = useBooks();
-    const topRatedBooks = useMemo(() => getAllHighestRatedBooks(books), [books]); // getAllHighestRatedBooks(books);
-    const lowestRatedBooks = useMemo(() => getAllLowestRatedBooks(books), [books]); // getAllLowestRatedBooks(books);
-    const longestBook = useMemo(() => getLongestBook(books), [books]); // getLongestBook(books);
-    const shortestBook = useMemo(() => getShortestBook(books), [books]); // getShortestBook(books);
-    const averageRatingPerReader = useMemo(() => getPerUserAverages(books), [books]);
-    const perUserAveragesRecieved = useMemo(() => getPerUserAveragesRecieved(books ?? []), [books]);
-    const perUserAveragesRecievedExcludeSelf = useMemo(() => getPerUserAveragesRecieved(books ?? [], true), [books]);
-    const countries = useMemo(() => getAuthorsCountriesCount(books ?? []), [books]);
-
-    const pagesPerUser = useMemo(() => getPagesPerUser(books ?? []), [books]);
-
-    const averageRatingPerReaderSorted = (key) =>
-        Object.entries(averageRatingPerReader).sort(([, a], [, b]) => {
-            const valA = a[key] ?? -Infinity; // Hantera null
-            const valB = b[key] ?? -Infinity;
-            return valB - valA; // Högst först
-        });
+    const {
+        books,
+        topRatedBooks,
+        lowestRatedBooks,
+        longestBook,
+        shortestBook,
+        averageRatingPerReader,
+        perUserAveragesRecieved,
+        perUserAveragesRecievedExcludeSelf,
+        countries,
+        pagesPerUser,
+        averageRatingPerReaderSorted,
+        getAverageRating,
+    } = useBookStats();
 
     return (
         <>
