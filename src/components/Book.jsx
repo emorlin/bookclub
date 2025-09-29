@@ -1,13 +1,12 @@
 import { useMemo } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
-import { useNavigate } from "react-router-dom";
-import { useBooks } from "../hooks/useBooks";
+import BookRatings from "../components/BookRatings";
 import { useModal } from "../hooks/useModal";
 import { HashLink } from "react-router-hash-link";
-
+import { translateLanguage } from "../utils/languageLookup";
 import { useSelectedBook } from "../hooks/useSelectedBook";
 
 const Book = () => {
@@ -36,12 +35,7 @@ const Book = () => {
         coverImage,
     } = fields;
 
-    const languageLabel = useMemo(() => {
-        if (!langName) return null;
-        if (langName === "English") return "Engelska";
-        if (langName === "Swedish") return "Svenska";
-        return langName;
-    }, [langName]);
+    const languageLabel = useMemo(() => translateLanguage(langName), [langName]);
 
     return (
         <div className="overflow-hidden bg-white py-22 sm:py-26">
@@ -102,27 +96,14 @@ const Book = () => {
                             {readDate && <p>Läst i {formatDate(readDate)}</p>}
 
                             {selectedBook && (
-                                <dl className="mt-6">
-                                    <div className="flex gap-2">
-                                        <dt className="inline">Eriks betyg:</dt>
-                                        <dd className="inline">{eriksGrade}</dd>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <dt className="inline">Tomas betyg:</dt>
-                                        <dd className="inline">{tomasGrade}</dd>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <dt className="inline">Mathias betyg:</dt>
-                                        <dd className="inline">{mathiasGrade}</dd>
-                                    </div>
-                                    {goodreadGrade && (
-                                        <div className="flex gap-2">
-                                            <dt className="inline">Betyg från Goodreads:</dt>
-                                            <dd className="inline">{goodreadGrade}</dd>
-                                        </div>
-                                    )}
-                                </dl>
+                                <BookRatings
+                                    eriksGrade={eriksGrade}
+                                    tomasGrade={tomasGrade}
+                                    mathiasGrade={mathiasGrade}
+                                    goodreadGrade={goodreadGrade}
+                                />
                             )}
+
                             <button
                                 onClick={() => openModal({ isbn })}
                                 aria-controls="book-modal"
