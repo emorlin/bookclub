@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
 import { getAverageRating } from "../utils/bookstats/ratings";
 import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
@@ -9,28 +8,15 @@ import { useBooks } from "../hooks/useBooks";
 import { useModal } from "../hooks/useModal";
 import { HashLink } from "react-router-hash-link";
 
+import { useSelectedBook } from "../hooks/useSelectedBook";
+
 const Book = () => {
-    const { books } = useBooks();
-    const location = useLocation();
-    let selectedBook = location.state?.book;
+    const selectedBook = useSelectedBook();
     const { openModal, isOpen } = useModal();
     let fields = selectedBook?.fields ?? {};
-
     const { isbn: isbnParam } = useParams();
     const isbn = fields.isbn ?? isbnParam;
-    const nav = useNavigate();
 
-    console.log("flelds2");
-    console.log("flelds", fields);
-    if (!selectedBook) {
-        selectedBook = books.find((book) => book.fields.isbn === Number(isbn));
-        fields = selectedBook?.fields ?? {};
-
-        if (!fields) {
-            nav("/", { replace: true });
-        }
-    }
-    console.log(fields);
     const {
         bookTitle,
         author,
@@ -166,50 +152,12 @@ const Book = () => {
                                                 </dd>
                                             </div>
                                         )}
-
-                                        {pages && (
-                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">Antal sidor</dt>
-                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {pages}
-                                                </dd>
-                                            </div>
-                                        )}
-
-                                        {publisherName && (
-                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">Förlag</dt>
-                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {publisherName}
-                                                </dd>
-                                            </div>
-                                        )}
-
-                                        {languageLabel && (
-                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">Språk</dt>
-                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {languageLabel}
-                                                </dd>
-                                            </div>
-                                        )}
-
-                                        {releaseYear && (
-                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">Utgivninsår</dt>
-                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {releaseYear}
-                                                </dd>
-                                            </div>
-                                        )}
-
+                                        {pages && <InfoRow label="Antal sidor">{pages}</InfoRow>}
+                                        {publisherName && <InfoRow label="Förlag">{publisherName}</InfoRow>}
+                                        {languageLabel && <InfoRow label="Språk">{languageLabel}</InfoRow>}
+                                        {releaseYear && <InfoRow label="Utgivningsår">{releaseYear}</InfoRow>}
                                         {originalTitle && !bookTitle && (
-                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">Originaltitel</dt>
-                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {originalTitle}
-                                                </dd>
-                                            </div>
+                                            <InfoRow label="Originaltitel">{originalTitle}</InfoRow>
                                         )}
                                     </dl>
                                 </div>
@@ -240,4 +188,12 @@ const Book = () => {
     );
 };
 
+function InfoRow({ label, children }) {
+    return (
+        <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm/6 font-medium text-gray-900">{label}</dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{children}</dd>
+        </div>
+    );
+}
 export default Book;
