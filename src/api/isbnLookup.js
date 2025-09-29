@@ -42,9 +42,9 @@ export const getBookByIsbn = async (rawIsbn) => {
       }
     `;
 
-        const json = await hcClient.query(query, { isbn });
+        const data = await hcClient.query(query, { isbn });
 
-        const editions = json?.data?.editions ?? [];
+        const editions = data?.editions ?? [];
         if (editions.length === 0) return null;
 
         // välj första eller förbättra matchning vid behov
