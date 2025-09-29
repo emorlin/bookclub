@@ -12,7 +12,7 @@ import { useSelectedBook } from "../hooks/useSelectedBook";
 const Book = () => {
     const selectedBook = useSelectedBook();
     const { openModal, isOpen } = useModal();
-    let fields = selectedBook?.fields ?? {};
+    const fields = selectedBook?.fields ?? {};
     const { isbn: isbnParam } = useParams();
     const isbn = fields.isbn ?? isbnParam;
 
