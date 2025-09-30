@@ -17,6 +17,7 @@
         "chart.js": "^4.5.0",
         "contentful": "^11.7.15",
         "contentful-management": "^11.54.4",
+        "lucide-react": "^0.544.0",
         "react": "^19.1.0",
         "react-chartjs-2": "^5.3.0",
         "react-countup": "^6.5.3",

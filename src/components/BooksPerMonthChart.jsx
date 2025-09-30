@@ -3,6 +3,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from "react-chartjs-2";
 import { getBooksPerMonth } from "../utils/bookstats/readings";
 import { color } from "chart.js/helpers";
+import { useEffect, useState, useMemo } from "react";
 
 // Registrera komponenter i Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -13,6 +14,16 @@ function BooksPerMonthChart({ books }) {
 
     const labels = Object.keys(monthlyCounts);
     const values = Object.values(monthlyCounts);
+
+    const [isDark, setIsDark] = useState(document.documentElement.classList.contains("dark"));
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setIsDark(document.documentElement.classList.contains("dark"));
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+        return () => observer.disconnect();
+    }, []);
 
     const data = {
         labels,
@@ -36,7 +47,7 @@ function BooksPerMonthChart({ books }) {
             title: {
                 display: true,
                 text: "I vilken månad är böckerna lästa?",
-                color: "#fff",
+                color: isDark ? "#fff" : "#000",
                 font: {
                     size: 18,
                 },
@@ -47,12 +58,12 @@ function BooksPerMonthChart({ books }) {
                 beginAtZero: true,
                 ticks: {
                     stepSize: 1,
-                    color: "#fff",
+                    color: isDark ? "#fff" : "#000",
                 },
             },
             x: {
                 ticks: {
-                    color: "#fff",
+                    color: isDark ? "#fff" : "#000",
                 },
             },
         },

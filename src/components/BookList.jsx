@@ -43,8 +43,8 @@ function BookList() {
 
     if (status !== loadingStatus.loaded) {
         return (
-            <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
+            <div className="relative isolate overflow-hidden bg-bookclub-blue-50 py-12 sm:py-16">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
                     <div className="overflow-x-auto">
                         <LoadingIndicator status={status} />
                     </div>
@@ -56,13 +56,13 @@ function BookList() {
     return (
         <div
             id="bookstable"
-            className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
-                <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-2xl mb-4">Lästa böcker</h2>
+            className="relative isolate overflow-hidden  py-12 sm:py-16 bg-white dark:bg-gray-900">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
+                <h2 className="text-3xl font-semibold tracking-tight dark:text-white sm:text-2xl mb-4">Lästa böcker</h2>
 
                 <label
                     htmlFor="pickedBy"
-                    className="block text-sm/6 font-medium text-white mt-4 mb-2">
+                    className="block text-sm/6 font-medium dark:text-white mt-4 mb-2">
                     Visa böcker valda av
                 </label>
                 <div
@@ -79,7 +79,7 @@ function BookList() {
                         onChange={(e) => setFiltered(e.target.value)}
                         id="pickedBy"
                         name="pickedBy"
-                        className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                        className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                         <option
                             key="001"
                             value="all">
@@ -98,7 +98,7 @@ function BookList() {
                         fill="currentColor"
                         data-slot="icon"
                         aria-hidden="true"
-                        className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                        className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end dark:text-gray-500 sm:size-4">
                         <path
                             d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
                             clipRule="evenodd"
@@ -235,7 +235,7 @@ function BookList() {
                                 <tr
                                     onClick={() => navigate(`/book/${book.fields.isbn}`, { state: { book } })}
                                     key={book.sys.id}
-                                    className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer">
+                                    className="border-b dark:border-gray-700 hover:dark:bg-gray-800 cursor-pointer">
                                     <td className="pr-4 py-2 whitespace-nowrap">
                                         {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
                                     </td>

@@ -24,12 +24,12 @@ function Statistics() {
 
     return (
         <>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white  py-12 sm:py-16">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white bg-white dark:bg-gray-900  py-12 sm:py-16">
                 <h2 className="text-4xl font-semibold mb-8">Böckerna</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                    <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                    <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4  ">
                         <h2 className="text-3xl font-semibold">De bästa</h2>
-                        <p className="mt-1 text-m text-gray-200">Betyg fem från alla</p>
+                        <p className="mt-1 text-m dark:text-gray-200">Betyg fem från alla</p>
                         <ul className="mt-4 space-y-2 flex flex-col ">
                             {topRatedBooks.map((book) => (
                                 <li
@@ -60,9 +60,9 @@ function Statistics() {
                             ))}
                         </ul>
                     </div>
-                    <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                    <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                         <h2 className="text-3xl font-semibold">De sämsta</h2>
-                        <p className="mt-1 text-m text-gray-200">Bottennappen</p>
+                        <p className="mt-1 text-m dark:text-gray-200">Bottennappen</p>
 
                         <ul className="mt-4 space-y-2 flex flex-col gap-1 ">
                             {lowestRatedBooks.map((book) => (
@@ -95,12 +95,12 @@ function Statistics() {
                             ))}
                         </ul>
                     </div>
-                    <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                    <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                         <h2 className="text-3xl font-semibold">Längst och kortast</h2>
 
                         {longestBook && (
                             <>
-                                <p className="mt-1 text-m text-gray-200">Längsta boken</p>
+                                <p className="mt-1 text-m dark:text-gray-200">Längsta boken</p>
 
                                 <div
                                     className="text-xl/5 mt-2"
@@ -136,7 +136,7 @@ function Statistics() {
                         )}
                         {shortestBook && (
                             <>
-                                <p className="mt-8 text-m text-gray-200">Kortaste boken</p>
+                                <p className="mt-8 text-m dark:text-gray-200">Kortaste boken</p>
                                 <div
                                     className="text-xl/5 mt-2"
                                     key={shortestBook.sys.id}>
@@ -174,7 +174,7 @@ function Statistics() {
                 {averageRatingPerReader && (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                            <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                 <h4 className="text-xl ">Alla böcker</h4>
 
                                 <div className=" mt-2">
@@ -190,7 +190,7 @@ function Statistics() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                            <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                 <h4 className="text-xl ">Valda böcker</h4>
 
                                 <div className=" mt-2">
@@ -207,7 +207,7 @@ function Statistics() {
                                 </div>
                             </div>
 
-                            <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                            <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                 <h4 className="text-xl ">Andras böcker</h4>
 
                                 <div className=" mt-2">
@@ -231,7 +231,7 @@ function Statistics() {
                         {averageRatingPerReader && (
                             <div>
                                 <h3 className="text-xl font-bold mb-8 mt-12">Mottaget snittbetyg</h3>
-                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                     <div className="">
                                         <ul className="space-y-2 flex flex-col ">
                                             {perUserAveragesRecieved.map(({ name, averageScore }) => (
@@ -254,7 +254,7 @@ function Statistics() {
                                     <span className="text-sm block mb-3">(egna betyg borträknat)</span>
                                 </h3>
 
-                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                     <div className="">
                                         <ul className="space-y-2 flex flex-col ">
                                             {perUserAveragesRecievedExcludeSelf.map(({ name, averageScore }) => (
@@ -273,7 +273,7 @@ function Statistics() {
                         {averageRatingPerReader && (
                             <div>
                                 <h3 className="text-xl font-bold mb-8 mt-12">Antal sidor på valda böcker</h3>
-                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                     <div className="">
                                         <ul className=" space-y-2 flex flex-col ">
                                             {pagesPerUser.map(({ name, sum }) => (
@@ -303,7 +303,7 @@ function Statistics() {
                         {countries && (
                             <div>
                                 <h3 className="text-xl font-bold mb-8">Var ifrån?</h3>
-                                <div className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
                                     <ul lang="en">
                                         {Object.entries(countries)
                                             .sort((a, b) => b[1] - a[1]) // sortera störst först
@@ -323,7 +323,7 @@ function Statistics() {
                 </>
                 <h2 className="text-4xl font-semibold mb-8 mt-8">Läsgnista - när på året</h2>
 
-                <div className="border-gray-700 bg-gray-800 border p-4 shadow  rounded-xl">
+                <div className="dark:border-gray-700 dark:bg-gray-800 border p-4   rounded-xl">
                     <BooksPerMonthChart books={books} />
                 </div>
             </div>

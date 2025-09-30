@@ -50,7 +50,7 @@ const Book = () => {
                     <div className="lg:pr-8">
                         <div className="lg:max-w-lg">
                             {bookTitle && (
-                                <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+                                <h2 className="text-4xl font-semibold tracking-tight text-pretty dark:text-gray-900 sm:text-5xl">
                                     {bookLink ? (
                                         <a
                                             className="underline underline-offset-2 decoration-2"
@@ -112,13 +112,13 @@ const Book = () => {
                                 Uppdatera bokdata
                             </button>
                             <div className="mt-8">
-                                <h3 className="text-base/7 font-semibold text-gray-900">Bokinformation:</h3>
-                                <div className="mt-2 border-t border-gray-100">
+                                <h3 className="text-base/7 font-semibold dark:text-gray-900">Bokinformation:</h3>
+                                <div className="mt-2 border-t dark:border-gray-100">
                                     <dl className="divide-y divide-gray-100">
                                         {isbn && (
                                             <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium text-gray-900">ISBN</dt>
-                                                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                <dt className="text-sm/6 font-medium dark:text-gray-900">ISBN</dt>
+                                                <dd className="mt-1 text-sm/6 dark:text-gray-700 sm:col-span-2 sm:mt-0">
                                                     {bookLink ? (
                                                         <a
                                                             className="text-blue-600"
@@ -172,8 +172,8 @@ const Book = () => {
 function InfoRow({ label, children }) {
     return (
         <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">{label}</dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{children}</dd>
+            <dt className="text-sm/6 font-medium dark:text-gray-900">{label}</dt>
+            <dd className="mt-1 text-sm/6 dark:text-gray-700 sm:col-span-2 sm:mt-0">{children}</dd>
         </div>
     );
 }

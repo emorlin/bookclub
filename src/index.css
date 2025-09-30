@@ -2,3 +2,18 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --color-bookclub-blue-50: #f4f7fb;
+    --color-bookclub-blue-100: #e7eff7;
+    --color-bookclub-blue-200: #cadeed;
+    --color-bookclub-blue-300: #9cc2dd;
+    --color-bookclub-blue-400: #5f9dc7;
+    --color-bookclub-blue-500: #4386b4;
+    --color-bookclub-blue-600: #326b97;
+    --color-bookclub-blue-700: #29567b;
+    --color-bookclub-blue-800: #254a67;
+    --color-bookclub-blue-900: #243f56;
+    --color-bookclub-blue-950: #182939;
+}

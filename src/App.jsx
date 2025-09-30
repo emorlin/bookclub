@@ -18,7 +18,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
     useEffect(() => {
-        document.body.classList.add("bg-gray-900");
+        //   document.body.classList.add("bg-bookclub-blue-50");
     }, []);
 
     function GlobalModal() {
@@ -45,7 +45,9 @@ function App() {
                                 element={
                                     <>
                                         <StartpageHero />
-                                        <main id="mainCointent">
+                                        <main
+                                            className="dark:bg-gray-900"
+                                            id="mainCointent">
                                             <BookList />
                                         </main>
                                     </>
@@ -54,7 +56,9 @@ function App() {
                             <Route
                                 path="/book/:isbn"
                                 element={
-                                    <main id="mainCointent">
+                                    <main
+                                        className="dark:bg-gray-900"
+                                        id="mainCointent">
                                         <Book />
                                     </main>
                                 }
@@ -65,7 +69,9 @@ function App() {
                                 element={
                                     <>
                                         <StartpageHero />
-                                        <main id="mainCointent">
+                                        <main
+                                            className="dark:bg-gray-900"
+                                            id="mainCointent">
                                             <Statistics />
                                         </main>
                                     </>

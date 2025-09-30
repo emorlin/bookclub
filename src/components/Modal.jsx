@@ -205,7 +205,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative">
                                 <DialogTitle
                                     as="h3"
-                                    className="text-lg font-semibold text-gray-900">
+                                    className="text-lg font-semibold dark:text-gray-900">
                                     {modalHeading}
                                 </DialogTitle>
 
@@ -221,7 +221,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     className="mt-6">
                                     <label
                                         htmlFor="formPassword"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4 mb-2">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4 mb-2">
                                         Lösenord
                                     </label>
                                     <input
@@ -230,16 +230,16 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         autoComplete="off"
                                         defaultValue={formPassword}
                                         onChange={(e) => setFormPassword(e.target.value)}
-                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         placeholder="Skriv lösenordet"
                                         required
                                     />
 
-                                    <fieldset className="border border-gray-300 rounded-md p-4 mt-8">
-                                        <legend className="text-m font-medium text-gray-700 px-1">
+                                    <fieldset className="border dark:border-gray-300 rounded-md p-4 mt-8">
+                                        <legend className="text-m font-medium dark:text-gray-700 px-1">
                                             Information om boken
                                         </legend>
-                                        <p className="text-sm text-gray-700">
+                                        <p className="text-sm dark:text-gray-700">
                                             <i>
                                                 För att uppdatera detta med information från internet, fyll i ISBN och
                                                 klicka på "Hämta bokdata", eller skriv in manuellt.
@@ -248,7 +248,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         <div className="mt-2 ">
                                             <label
                                                 htmlFor="isbn"
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 ISBN 10 eller 13 siffror (obligatorisk)
                                             </label>
                                             <div className="mt-2 flex gap-2">
@@ -262,7 +262,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     inputMode="numeric"
                                                     readOnly={isUpdate}
                                                     onChange={handleChange}
-                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="978…"
                                                 />
 
@@ -272,7 +272,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     onClick={() => handleFetch()}
                                                     className="inline-flex min-w-40 whitespace-nowrap w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
                                                     {loading ? (
-                                                        <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-gray-500" />
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 dark:border-gray-500" />
                                                     ) : (
                                                         "Hämta bokdata"
                                                     )}
@@ -280,7 +280,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             </div>
                                             <label
                                                 htmlFor="bookTitle"
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 Titel (obligatorisk)
                                             </label>
                                             <div className="mt-2 flex gap-2">
@@ -292,13 +292,13 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     autoComplete="off"
                                                     defaultValue={fields.bookTitle}
                                                     onChange={handleChange}
-                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="Vredens druvor"
                                                 />
                                             </div>
                                             <label
                                                 htmlFor="author"
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 Författare (obligatorisk)
                                             </label>
                                             <div className="mt-2 flex gap-2">
@@ -310,13 +310,13 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     autoComplete="off"
                                                     defaultValue={fields.author}
                                                     onChange={handleChange}
-                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="John Steinbeck"
                                                 />
                                             </div>
                                             <label
                                                 htmlFor="pages"
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 Sidantal
                                             </label>
                                             <div className="mt-2 flex gap-2">
@@ -328,13 +328,13 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     autoComplete="off"
                                                     defaultValue={fields.pages}
                                                     onChange={handleChange}
-                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="436"
                                                 />
                                             </div>
                                             <label
                                                 htmlFor="pages"
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 Utgivningsår
                                             </label>
                                             <div className="mt-2 flex gap-2">
@@ -347,13 +347,13 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     length="4"
                                                     defaultValue={fields.releaseYear}
                                                     onChange={handleChange}
-                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="1984"
                                                 />
                                             </div>
                                             <label
                                                 htmlFor="pages"
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 Omslagsbild (ej editerbar)
                                             </label>
 
@@ -367,7 +367,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     defaultValue={fields.coverImage}
                                                     onChange={handleChange}
                                                     readOnly
-                                                    className="block w-full max-w-100% rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    className="block w-full max-w-100% rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="https://assets.hardcover.app/..."
                                                 />
                                             </div>
@@ -375,7 +375,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     </fieldset>
                                     <label
                                         htmlFor="readDate"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         När läst
                                     </label>
                                     <div className="mt-2 grid grid-cols-1">
@@ -385,12 +385,12 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             type="date"
                                             defaultValue={fields.readDate}
                                             onChange={handleChange}
-                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-3 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-3 pl-3 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         />
                                     </div>
                                     <label
                                         htmlFor="pickedBy"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         Vald av
                                     </label>
                                     <div className="mt-2 grid grid-cols-1">
@@ -399,7 +399,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             id="location"
                                             name="pickedBy"
                                             defaultValue={fields.pickedBy}
-                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             {options.map(({ value, label }) => (
                                                 <option key={value}>{label}</option>
                                             ))}
@@ -409,7 +409,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             fill="currentColor"
                                             data-slot="icon"
                                             aria-hidden="true"
-                                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end dark:text-gray-500 sm:size-4">
                                             <path
                                                 d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
                                                 clipRule="evenodd"
@@ -421,7 +421,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         <div key={name}>
                                             <label
                                                 htmlFor={name}
-                                                className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 {name} betyg
                                             </label>
                                             <div className="mt-2 grid grid-cols-1">
@@ -430,7 +430,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     name={field}
                                                     onChange={handleChange}
                                                     defaultValue={fields[field]}
-                                                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -442,7 +442,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     fill="currentColor"
                                                     data-slot="icon"
                                                     aria-hidden="true"
-                                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end dark:text-gray-500 sm:size-4">
                                                     <path
                                                         d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
                                                         clipRule="evenodd"
@@ -454,7 +454,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     ))}
                                     <label
                                         htmlFor="goodreadGrade"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         Betyg från Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
@@ -466,13 +466,13 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             defaultValue={fields.goodreadGrade}
                                             onChange={handleChange}
                                             pattern="^(?:[1-4](?:[.,]\d+)?|5(?:[.,]0+)?)$"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="3,5"
                                         />
                                     </div>
                                     <label
                                         htmlFor="authorsSex"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         Författarens kön
                                     </label>
                                     <div className="mt-2 grid grid-cols-1">
@@ -481,7 +481,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             name="authorsSex"
                                             defaultValue={fields.authorsSex}
                                             onChange={handleChange}
-                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="Male">Man</option>
                                             <option value="Female">Kvinna</option>
                                         </select>
@@ -490,7 +490,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             fill="currentColor"
                                             data-slot="icon"
                                             aria-hidden="true"
-                                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end dark:text-gray-500 sm:size-4">
                                             <path
                                                 d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
                                                 clipRule="evenodd"
@@ -500,7 +500,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     </div>
                                     <label
                                         htmlFor="country"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         Land
                                     </label>
                                     <div className="mt-2 flex gap-2">
@@ -511,18 +511,18 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             autoComplete="off"
                                             defaultValue={fields.country}
                                             onChange={handleChange}
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             placeholder="Germany"
                                         />
                                     </div>
                                     <label
                                         htmlFor="bookLink"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         Länk till författarens sida på Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             id="bookLink"
                                             name="bookLink"
                                             type="url"
@@ -536,12 +536,12 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     </div>
                                     <label
                                         htmlFor="authorLink"
-                                        className="block text-sm/6 font-medium text-gray-900 mt-4">
+                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                         Länk till bokens sida på Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                             id="authorLink"
                                             name="authorLink"
                                             type="url"
@@ -558,7 +558,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                             type="submit"
                                             className="inline-flex min-w-30 w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-auto">
                                             {loading ? (
-                                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-gray-500" />
+                                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 dark:border-gray-500" />
                                             ) : (
                                                 modalSubmitText
                                             )}
@@ -566,9 +566,9 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                         <button
                                             type="button"
                                             onClick={() => setOpen(false)}
-                                            className="inline-flex min-w-30 w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                                            className="inline-flex min-w-30 w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold dark:text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:dark:bg-gray-50 sm:mt-0 sm:w-auto">
                                             {loading ? (
-                                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-gray-500" />
+                                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 dark:border-gray-500" />
                                             ) : (
                                                 <>Avbryt</>
                                             )}

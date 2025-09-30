@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className=" mt-2 sm:mt-4 left-0 w-full bg-gray-900 text-white py-8 z-50 border-t border-t-2 border-gray-600">
+        <footer className="left-0 w-full  bg-bookclub-blue-200 dark:bg-gray-900 dark:text-white py-8 z-50 border-t-2 dark:border-gray-600">
             <div className="max-w-7xl mx-auto px-6 lg:px-8 ">
                 <blockquote
                     lang="en"

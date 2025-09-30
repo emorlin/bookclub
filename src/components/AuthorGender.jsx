@@ -1,11 +1,22 @@
 import { getAuhorSexCount } from "../utils/bookstats/authors";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import { useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function AuthorGender({ books }) {
     const battleOfTheSexes = useMemo(() => getAuhorSexCount(books ?? []), [books]);
+
+    const [isDark, setIsDark] = useState(document.documentElement.classList.contains("dark"));
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setIsDark(document.documentElement.classList.contains("dark"));
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+        return () => observer.disconnect();
+    }, []);
+
     const genderData = {
         labels: ["Män", "Kvinnor"],
         datasets: [
@@ -24,7 +35,7 @@ function AuthorGender({ books }) {
         plugins: {
             legend: {
                 labels: {
-                    color: "#fff",
+                    color: isDark ? "#fff" : "#000",
                     font: {
                         size: 16,
                     },
@@ -41,7 +52,7 @@ function AuthorGender({ books }) {
                 parseFloat(battleOfTheSexes.femalePercentage).toFixed(2) +
                 "% kvinnor"
             }
-            className="group rounded-xl border border-gray-700 bg-gray-800 p-4 shadow">
+            className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 shadow">
             <Pie
                 data={genderData}
                 options={options}

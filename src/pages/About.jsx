@@ -1,7 +1,7 @@
 function Abaout() {
     return (
-        <div className="relative isolate overflow-hidden bg-gray-900 py-12 sm:py-16">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 text-white">
+        <div className="relative isolate overflow-hidden bg-white dark:bg-gray-900 py-12 sm:py-16">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
                 <div className="overflow-x-auto max-w-4xl">
                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Om bokklubben</h2>
                     <p className="mt-8">
