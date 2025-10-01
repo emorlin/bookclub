@@ -36,7 +36,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         (fields.isbn || "").replace(/[\s-]/g, "").length === 13;
 
     // om man kommer från boksidan (det finns en vald bok)
-    const selectedBook = books.find((book) => book.fields.isbn === Number(data?.isbn)) || {};
+    const selectedBook = books.find((book) => book.fields.isbn === Number(data?.isbn)) || null;
 
     const isUpdate = !!data?.isbn;
     const modalHeading = isUpdate ? "Uppdatera bok" : "Lägg till ny bok";
@@ -86,7 +86,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                 });
             }
         }
-    }, [open, isUpdate, data]);
+    }, [open, isUpdate, selectedBook]);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -191,7 +191,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
             <Dialog
                 open={Boolean(open)}
                 onClose={() => setOpen(false)}
-                className="relative z-100"
+                className="relative z-50"
                 id="modal">
                 <DialogBackdrop
                     transition
@@ -345,7 +345,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     type="text"
                                                     inputMode="numeric"
                                                     autoComplete="off"
-                                                    length="4"
+                                                    maxLength={4}
                                                     defaultValue={fields.releaseYear}
                                                     onChange={handleChange}
                                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -519,7 +519,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     <label
                                         htmlFor="bookLink"
                                         className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
-                                        Länk till författarens sida på Goodreads
+                                        Länk till bokens sida på Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
@@ -538,7 +538,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                     <label
                                         htmlFor="authorLink"
                                         className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
-                                        Länk till bokens sida på Goodreads
+                                        Länk till författarens sida på Goodreads
                                     </label>
                                     <div className="mt-2 flex gap-2">
                                         <input
