@@ -20,10 +20,10 @@ const StartpageHero = () => {
     ];
     return (
         <div className="relative isolate overflow-hidden dark:bg-gray-900 bg-bookclub-blue-100  pt-24 sm:pt-32 border-gray-900">
-            <div className="absolute hero inset-0 -z-10 size-full object-cover object-right md:object-center border-b border-gray-700"></div>
+            <div className="absolute hero inset-0 -z-10 size-full object-cover object-right md:object-center border-b border-gray-700 "></div>
             <div className="mx-auto height-full max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:mx-0">
-                    <p className="mt-8 sm:text-2xl text-lg  dark:text-white xl:mb-16 ">
+                    <p className="mt-8 sm:text-2xl text-lg  dark:text-white xl:mb-16 font-semibold ">
                         Erik, Tomas och Mathias har sen 2016 läst böcker tillsammans.
                         <br /> Sedan dess har vi hunnit med:
                     </p>

@@ -1,5 +1,7 @@
 import { useModal } from "../hooks/useModal";
 import ThemeToggler from "../components/ThemeToggler";
+import { BookOpen, Plus } from "lucide-react";
+
 const Header = () => {
     const { openModal, isOpen } = useModal();
 
@@ -20,11 +22,22 @@ const Header = () => {
                     <ThemeToggler />
                     <button
                         aria-controls="book-modal"
+                        aria-label="Lägg till bok"
                         aria-expanded={isOpen}
                         onClick={() => openModal({})}
                         className="px-2 py-1 sm:px-4 sm:py-2 text-sm sm:text-lg rounded-lg sm:rounded-xl border focus:text-black focus:bg-white border-w
                         hite dark:text-white focus:dark:text-black cursor-pointer">
-                        Lägg till bok
+                        <span className="hidden sm:inline">Lägg till bok</span>
+                        <span className="sm:hidden">
+                            <Plus
+                                className="inline-block"
+                                size={18}
+                            />
+                            <BookOpen
+                                size={18}
+                                className="inline-block ml-1"
+                            />
+                        </span>
                     </button>
                 </div>
             </header>

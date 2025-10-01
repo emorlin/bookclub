@@ -8,6 +8,7 @@ import { useModal } from "../hooks/useModal";
 import { HashLink } from "react-router-hash-link";
 import { translateLanguage } from "../utils/languageLookup";
 import { useSelectedBook } from "../hooks/useSelectedBook";
+import { ExternalLink } from "lucide-react";
 
 const Book = () => {
     const selectedBook = useSelectedBook();
@@ -125,7 +126,12 @@ const Book = () => {
                                                             href={bookLink}
                                                             target="_blank"
                                                             rel="noreferrer">
-                                                            <span className="underline">{isbn}</span> ⧉
+                                                            <span className="underline">{isbn}</span>
+
+                                                            <ExternalLink
+                                                                size={14}
+                                                                className="inline-block ml-1"
+                                                            />
                                                         </a>
                                                     ) : (
                                                         isbn
