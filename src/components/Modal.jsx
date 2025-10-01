@@ -40,7 +40,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
 
     const isUpdate = !!data?.isbn;
     const modalHeading = isUpdate ? "Uppdatera bok" : "Lägg till ny bok";
-    const modalSubmitText = isUpdate ? "Uppdatera" : "Lägg till";
+    const modalSubmitText = isUpdate ? "Spara" : "Lägg till";
 
     useEffect(() => {
         if (open) {
@@ -113,6 +113,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
     //denna ska uppdaterasd nu
     async function handleFetch() {
         const normalized = fields.isbn.replace(/[\s-]/g, "");
+        setBookData("idle");
         if (!normalized) return;
 
         if (normalized.length !== 10 && normalized.length !== 13) return;
