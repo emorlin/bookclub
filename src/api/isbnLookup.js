@@ -1,4 +1,4 @@
-import { hcClient } from "./hcClient";
+import { hcClient } from "./hcClient.js";
 
 /**
  * Ta emot ett ISBN (10/13, med/utan bindestreck) och returnera bok som JSON (normaliserad).
@@ -78,6 +78,12 @@ function normalizeIsbn(v) {
 function normalizeEdition(e) {
     const authors = (e.book?.contributions || []).map((c) => c?.author?.name).filter(Boolean);
 
+    const genres = (e.book?.cached_tags?.Genre || [])
+        .map((g) => g?.tag)
+        .filter(Boolean)
+        .join(", ");
+
+    console.log("genres", genres);
     return {
         editionId: e.id ?? null,
         bookId: e.book?.id ?? null,
@@ -92,6 +98,7 @@ function normalizeEdition(e) {
         language: e.language?.language ?? null,
         rating: typeof e.book?.rating === "number" ? e.book.rating : null,
         coverImage: e.image?.url ?? null,
+        genres,
         raw: e,
     };
 }

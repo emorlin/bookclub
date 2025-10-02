@@ -34,6 +34,7 @@ const Book = () => {
         releaseYear,
         originalTitle,
         coverImage,
+        genres,
     } = fields;
 
     const languageLabel = useMemo(() => translateLanguage(langName), [langName]);
@@ -147,6 +148,7 @@ const Book = () => {
                                         {publisherName && <InfoRow label="Förlag">{publisherName}</InfoRow>}
                                         {languageLabel && <InfoRow label="Språk">{languageLabel}</InfoRow>}
                                         {releaseYear && <InfoRow label="Utgivningsår">{releaseYear}</InfoRow>}
+                                        {genres && <InfoRow label="Genres">{genres}</InfoRow>}
                                         {originalTitle && !bookTitle && (
                                             <InfoRow label="Originaltitel">{originalTitle}</InfoRow>
                                         )}

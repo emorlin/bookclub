@@ -29,6 +29,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         country: "",
         releaseYear: "",
         coverImage: "",
+        genres: "",
     });
 
     const canFetch =
@@ -63,6 +64,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                     country: selectedBook.fields.country ?? "",
                     releaseYear: selectedBook.fields.releaseYear ?? "",
                     coverImage: selectedBook.fields.coverImage ?? "",
+                    genres: selectedBook.fields.genres ?? "",
                 });
             } else {
                 // Rensa formuläret för ny bok
@@ -83,6 +85,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                     country: "",
                     releaseYear: "",
                     coverImage: "",
+                    genres: "",
                 });
             }
         }
@@ -129,6 +132,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                 pages: fetchedBookData?.pages ?? "",
                 releaseYear: fetchedBookData?.releaseYear ?? "",
                 coverImage: fetchedBookData?.coverImage ?? "",
+                genres: fetchedBookData?.genres ?? "",
             }));
         } catch (err) {
             console.error("getBookByIsbn ERROR:", err);
@@ -261,7 +265,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     autoComplete="off"
                                                     defaultValue={fields.isbn}
                                                     inputMode="numeric"
-                                                    readOnly={isUpdate}
                                                     onChange={handleChange}
                                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="978…"
@@ -353,7 +356,7 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                 />
                                             </div>
                                             <label
-                                                htmlFor="pages"
+                                                htmlFor="coverImage"
                                                 className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
                                                 Omslagsbild (ej editerbar)
                                             </label>
@@ -364,12 +367,30 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                                     name="coverImage"
                                                     type="text"
                                                     autoComplete="off"
-                                                    length="4"
                                                     defaultValue={fields.coverImage}
                                                     onChange={handleChange}
                                                     readOnly
                                                     className="block w-full max-w-100% rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                                     placeholder="https://assets.hardcover.app/..."
+                                                />
+                                            </div>
+                                            <label
+                                                htmlFor="genres"
+                                                className="block text-sm/6 font-medium dark:text-gray-900 mt-4">
+                                                Genres (ej editerbar)
+                                            </label>
+
+                                            <div className="mt-2 flex gap-2">
+                                                <input
+                                                    id="genres"
+                                                    name="genres"
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    defaultValue={fields.genres}
+                                                    onChange={handleChange}
+                                                    readOnly
+                                                    className="block w-full max-w-100% rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    placeholder="War, Adventure, Science Fiction"
                                                 />
                                             </div>
                                         </div>

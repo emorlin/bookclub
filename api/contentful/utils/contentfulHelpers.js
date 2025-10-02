@@ -53,5 +53,6 @@ export function buildFields(body) {
         country: body.country ? { [locale]: body.country } : undefined,
         releaseYear: body.releaseYear ? { [locale]: body.releaseYear } : undefined,
         coverImage: body.coverImage ? { [locale]: body.coverImage } : undefined,
+        genres: body.genres ? { [locale]: body.genres } : undefined,
     };
 }
