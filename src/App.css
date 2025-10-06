@@ -51,13 +51,13 @@ h1 {
 .hero {
     background-size: cover;
     background-position: center center;
-    background-image: url("/light-bg-min.png");
+    background-image: url("/light-bg-min.webp");
     opacity: 0.1;
 }
 
 
 .dark .hero {
-    background-image: url("/dark-bg-min.png");
+    background-image: url("/dark-bg-min.webp");
     opacity: 0.3;
 }
 
