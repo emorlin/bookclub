@@ -269,42 +269,54 @@ function BookList() {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {visibleBooks.map((book) => (
-                                <tr
-                                    onClick={() =>
-                                        navigate(`/book/${book.fields.isbn}`, {
-                                            state: { book },
-                                        })
-                                    }
-                                    key={book.sys.id}
-                                    className="border-b dark:border-gray-700 hover:dark:bg-gray-800 cursor-pointer">
-                                    <td className="pr-4 py-2 whitespace-nowrap">
-                                        {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
-                                    </td>
-                                    <td className="px-4 py-2">{book.fields.pickedBy}</td>
-                                    <td className="px-4 py-2 min-w-2xs underline">
-                                        <NavLink
-                                            to={`/book/${book.fields.isbn}`}
-                                            state={{ book }}
-                                            className="underline">
-                                            {book.fields.bookTitle}
-                                        </NavLink>
-                                    </td>
-                                    <td className="px-4 py-2 whitespace-nowrap">{book.fields.author}</td>
-                                    <td className="px-4 py-2 text-1xl">
-                                        <span className="sr-only">{parseFloat(getAverageRating(book))} av 5</span>
-                                        <Rating
-                                            readonly
-                                            allowFraction
-                                            initialValue={parseFloat(getAverageRating(book)) || 0}
-                                            size={20}
-                                            SVGstyle={{ display: "inline-block" }}
-                                        />
+                        {visibleBooks.length === 0 ? (
+                            <tbody>
+                                <tr>
+                                    <td
+                                        colSpan={5}
+                                        className="py-4 text-center text-gray-500">
+                                        Inga böcker att visa
                                     </td>
                                 </tr>
-                            ))}
-                        </tbody>
+                            </tbody>
+                        ) : (
+                            <tbody>
+                                {visibleBooks.map((book) => (
+                                    <tr
+                                        onClick={() =>
+                                            navigate(`/book/${book.fields.isbn}`, {
+                                                state: { book },
+                                            })
+                                        }
+                                        key={book.sys.id}
+                                        className="border-b dark:border-gray-700 hover:dark:bg-gray-800 cursor-pointer">
+                                        <td className="pr-4 py-2 whitespace-nowrap">
+                                            {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
+                                        </td>
+                                        <td className="px-4 py-2">{book.fields.pickedBy}</td>
+                                        <td className="px-4 py-2 min-w-2xs underline">
+                                            <NavLink
+                                                to={`/book/${book.fields.isbn}`}
+                                                state={{ book }}
+                                                className="underline">
+                                                {book.fields.bookTitle}
+                                            </NavLink>
+                                        </td>
+                                        <td className="px-4 py-2 whitespace-nowrap">{book.fields.author}</td>
+                                        <td className="px-4 py-2 text-1xl">
+                                            <span className="sr-only">{parseFloat(getAverageRating(book))} av 5</span>
+                                            <Rating
+                                                readonly
+                                                allowFraction
+                                                initialValue={parseFloat(getAverageRating(book)) || 0}
+                                                size={20}
+                                                SVGstyle={{ display: "inline-block" }}
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        )}
                     </table>
                 </div>
             </div>
