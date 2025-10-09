@@ -35,7 +35,7 @@ const StartpageHero = () => {
                                 key={stat.name}
                                 className="flex flex-col-reverse gap-3">
                                 <dt className=" dark:text-gray-300 text-xl">{stat.name}</dt>
-                                <dd className="text-5xl lg:text-6xl font-semibold tracking-tight dark:text-white">
+                                <dd className="text-5xl lg:text-6xl font-semibold dark:text-white">
                                     <CountUp
                                         end={stat.value}
                                         separator=" "

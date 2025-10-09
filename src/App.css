@@ -1,6 +1,3 @@
-#root {}
-
-
 [data-sorted="asc"]:after {
     content: " ▲";
     position: relative;

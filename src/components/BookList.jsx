@@ -72,7 +72,7 @@ function BookList() {
             id="bookstable"
             className="relative isolate overflow-hidden py-12 sm:py-16 bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
-                <h2 className="text-3xl font-semibold tracking-tight dark:text-white sm:text-2xl mb-4">Lästa böcker</h2>
+                <h2 className="text-3xl font-semibold  dark:text-white sm:text-2xl mb-4">Lästa böcker</h2>
 
                 <div
                     aria-live="polite"

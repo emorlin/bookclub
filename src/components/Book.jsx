@@ -45,7 +45,7 @@ const Book = () => {
                 <HashLink
                     smooth
                     to="/#bookstable"
-                    className="relative -top-6 inline-block text-md font-semibold leading-6 text-pretty dark:text-white">
+                    className="relative -top-6 inline-block text-md font-semibold leading-6 dark:text-white">
                     <ArrowLeft
                         size={18}
                         className="inline-block -mt-1 "
@@ -56,7 +56,7 @@ const Book = () => {
                     <div className="lg:pr-8">
                         <div className="lg:max-w-lg">
                             {bookTitle && (
-                                <h2 className="text-4xl font-semibold tracking-tight text-pretty dark:text-white sm:text-5xl">
+                                <h2 className="text-4xl font-semibold dark:text-white sm:text-5xl">
                                     {bookLink ? (
                                         <a
                                             className="underline underline-offset-2 decoration-2"

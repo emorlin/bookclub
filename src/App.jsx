@@ -17,10 +17,6 @@ import Modal from "./components/Modal";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-    useEffect(() => {
-        //   document.body.classList.add("bg-bookclub-blue-50");
-    }, []);
-
     function GlobalModal() {
         const { isOpen, closeModal, modalData } = useModal();
         return (
