@@ -1,21 +1,22 @@
-import { useMemo } from "react";
+import { useMemo, ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import { getAverageRating } from "../utils/bookstats/ratings";
-import { formatDate } from "../utils/formatter.ts";
+import { formatDate } from "../utils/formatter";
 import { Rating } from "react-simple-star-rating";
-import BookRatings from "../components/BookRatings";
+import BookRatings from "./BookRatings";
 import { useModal } from "../hooks/useModal";
 import { HashLink } from "react-router-hash-link";
 import { translateLanguage } from "../utils/languageLookup";
 import { useSelectedBook } from "../hooks/useSelectedBook";
 import { ExternalLink, ArrowLeft } from "lucide-react";
+import type { BookFields } from "../types/book";
 
 const Book = () => {
     const selectedBook = useSelectedBook();
     const { openModal, isOpen } = useModal();
-    const fields = selectedBook?.fields ?? {};
-    const { isbn: isbnParam } = useParams();
-    const isbn = fields.isbn ?? isbnParam;
+    const fields = (selectedBook?.fields ?? {}) as Partial<BookFields>;
+    const { isbn: isbnParam } = useParams<{ isbn?: string }>();
+    const isbn: string | number | undefined = fields.isbn ?? isbnParam;
 
     const {
         bookTitle,
@@ -122,27 +123,23 @@ const Book = () => {
                                 <div className="mt-2 border-t dark:border-gray-100">
                                     <dl className="divide-y divide-gray-100">
                                         {isbn && (
-                                            <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm/6 font-medium dark:text-white">ISBN</dt>
-                                                <dd className="mt-1 text-sm/6 dark:text-gray-700 sm:col-span-2 sm:mt-0">
-                                                    {bookLink ? (
-                                                        <a
-                                                            className="dark:text-white"
-                                                            href={bookLink}
-                                                            target="_blank"
-                                                            rel="noreferrer">
-                                                            <span className="underline ">{isbn}</span>
-
-                                                            <ExternalLink
-                                                                size={14}
-                                                                className="inline-block ml-1"
-                                                            />
-                                                        </a>
-                                                    ) : (
-                                                        isbn
-                                                    )}
-                                                </dd>
-                                            </div>
+                                            <InfoRow label="ISBN">
+                                                {bookLink ? (
+                                                    <a
+                                                        className="dark:text-white"
+                                                        href={bookLink}
+                                                        target="_blank"
+                                                        rel="noreferrer">
+                                                        <span className="underline">{isbn}</span>
+                                                        <ExternalLink
+                                                            size={14}
+                                                            className="inline-block ml-1"
+                                                        />
+                                                    </a>
+                                                ) : (
+                                                    isbn
+                                                )}
+                                            </InfoRow>
                                         )}
                                         {pages && <InfoRow label="Antal sidor">{pages}</InfoRow>}
                                         {publisherName && <InfoRow label="Förlag">{publisherName}</InfoRow>}
@@ -181,11 +178,16 @@ const Book = () => {
     );
 };
 
-function InfoRow({ label, children }) {
+interface InfoRowProps {
+    label: string;
+    children: ReactNode;
+}
+
+function InfoRow({ label, children }: InfoRowProps) {
     return (
         <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm/6 font-medium dark:text-white">{label}</dt>
-            <dd className="mt-1 text-sm/6 dark:text-gray-700 sm:col-span-2 sm:mt-0 dark:text-white">{children}</dd>
+            <dd className="mt-1 text-sm/6 sm:col-span-2 sm:mt-0 dark:text-white">{children}</dd>
         </div>
     );
 }
