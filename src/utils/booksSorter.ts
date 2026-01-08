@@ -2,7 +2,8 @@
 import { getAverageRating } from "./bookstats/ratings";
 const sortBooks = ({ books, order, asc = true }) => {
     const sorted = [...books].sort((a, b) => {
-        let aVal, bVal;
+        let aVal: Date | string | number;
+        let bVal: Date | string | number;
 
         switch (order) {
             case "readDate":

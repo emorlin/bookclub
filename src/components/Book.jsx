@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { getAverageRating } from "../utils/bookstats/ratings";
-import { formatDate } from "../utils/formatter";
+import { formatDate } from "../utils/formatter.ts";
 import { Rating } from "react-simple-star-rating";
 import BookRatings from "../components/BookRatings";
 import { useModal } from "../hooks/useModal";
