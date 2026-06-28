@@ -4,6 +4,7 @@ import { Rating } from "react-simple-star-rating";
 import { useBookStats } from "../hooks/useBookStats";
 import AuthorGender from "../components/AuthorGender";
 import BooksPerMonthChart from "../components/BooksPerMonthChart";
+import BooksPerYearChart from "../components/BooksPerYearChart";
 
 function Statistics() {
     const {
@@ -156,8 +157,13 @@ function Statistics() {
             </div>
 
             <h2 className="text-3xl font-bold mb-6 mt-12">Läsgnista — när på året</h2>
-            <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
-                <BooksPerMonthChart books={books} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
+                    <BooksPerYearChart books={books} />
+                </div>
+                <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
+                    <BooksPerMonthChart books={books} />
+                </div>
             </div>
         </div>
     );
