@@ -32,9 +32,16 @@ export async function getContentfulEnv() {
     return space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT || "master");
 }
 
+function parseDecimal(val) {
+    if (val == null || val === "") return null;
+    const n = Number(String(val).replace(",", "."));
+    return isNaN(n) ? null : n;
+}
+
 // Bygg fields-objekt dynamiskt
 export function buildFields(body) {
     const locale = process.env.CONTENTFUL_LOCALE;
+    const goodreadGrade = parseDecimal(body.goodreadGrade);
 
     return {
         isbn: body.isbn ? { [locale]: Number(body.isbn) } : undefined,
@@ -45,7 +52,7 @@ export function buildFields(body) {
         eriksGrade: body.eriksGrade != null ? { [locale]: Number(body.eriksGrade) } : undefined,
         tomasGrade: body.tomasGrade != null ? { [locale]: Number(body.tomasGrade) } : undefined,
         mathiasGrade: body.mathiasGrade != null ? { [locale]: Number(body.mathiasGrade) } : undefined,
-        goodreadGrade: body.goodreadGrade != null ? { [locale]: Number(body.goodreadGrade) } : undefined,
+        goodreadGrade: goodreadGrade != null ? { [locale]: goodreadGrade } : undefined,
         readDate: body.readDate ? { [locale]: body.readDate } : undefined,
         bookLink: body.bookLink ? { [locale]: body.bookLink } : undefined,
         authorLink: body.authorLink ? { [locale]: body.authorLink } : undefined,
