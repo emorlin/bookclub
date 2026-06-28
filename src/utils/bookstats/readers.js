@@ -97,6 +97,33 @@ export function getPerUserAveragesRecieved(books = [], exludeSelfIn) {
     return rows;
 }
 
+/**
+ * Returnerar en 3×3-matris: matrix[betygsättare][väljare] = snittbetyg
+ * dvs hur betygsättaren i genomsnitt betygsätter böcker valda av väljaren.
+ */
+export function getRatingMatrix(books = []) {
+    if (!Array.isArray(books) || books.length === 0) return null;
+
+    const matrix = {};
+    for (const rater of readers) {
+        matrix[rater.name] = {};
+        for (const picker of readers) {
+            let sum = 0,
+                count = 0;
+            for (const b of books) {
+                if (String(b?.fields?.pickedBy).trim() !== picker.name) continue;
+                const g = Number(b?.fields?.[rater.field]);
+                if (Number.isFinite(g)) {
+                    sum += g;
+                    count++;
+                }
+            }
+            matrix[rater.name][picker.name] = count > 0 ? +(sum / count).toFixed(2) : null;
+        }
+    }
+    return matrix;
+}
+
 export function getPagesPerUser(books = []) {
     if (!Array.isArray(books) || books.length === 0) return [];
 

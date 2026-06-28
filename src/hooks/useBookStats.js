@@ -9,7 +9,7 @@ import {
     getAverageRating,
 } from "../utils/bookstats/ratings";
 import { getAuthorsCountriesCount } from "../utils/bookstats/authors";
-import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser } from "../utils/bookstats/readers";
+import { getPerUserAverages, getPerUserAveragesRecieved, getPagesPerUser, getRatingMatrix } from "../utils/bookstats/readers";
 
 export function useBookStats() {
     const { books } = useBooks();
@@ -26,6 +26,7 @@ export function useBookStats() {
 
     const countries = useMemo(() => getAuthorsCountriesCount(books ?? []), [books]);
     const pagesPerUser = useMemo(() => getPagesPerUser(books ?? []), [books]);
+    const ratingMatrix = useMemo(() => getRatingMatrix(books ?? []), [books]);
 
     // Helper-funktion för sortering
     const averageRatingPerReaderSorted = (key) =>
@@ -46,7 +47,8 @@ export function useBookStats() {
         perUserAveragesRecievedExcludeSelf,
         countries,
         pagesPerUser,
+        ratingMatrix,
         averageRatingPerReaderSorted,
-        getAverageRating, // skickar med utils om UI behöver dem
+        getAverageRating,
     };
 }
