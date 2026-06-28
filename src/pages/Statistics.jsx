@@ -27,19 +27,19 @@ function Statistics() {
             <h2 className="text-3xl font-bold mb-6">Böckerna</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                 <StatCard title="De bästa" subtitle="Betyg fem från alla">
-                    <ul className="mt-4 space-y-3">
+                    <div className="mt-4 space-y-3">
                         {topRatedBooks.map((book) => (
                             <BookStatItem key={book.sys.id} book={book} getAverageRating={getAverageRating} />
                         ))}
-                    </ul>
+                    </div>
                 </StatCard>
 
                 <StatCard title="De sämsta" subtitle="Bottennappen">
-                    <ul className="mt-4 space-y-3">
+                    <div className="mt-4 space-y-3">
                         {lowestRatedBooks.map((book) => (
                             <BookStatItem key={book.sys.id} book={book} getAverageRating={getAverageRating} />
                         ))}
-                    </ul>
+                    </div>
                 </StatCard>
 
                 <StatCard title="Längst och kortast" subtitle="">
@@ -184,7 +184,7 @@ function ScoreRow({ name, value }) {
 
 function BookStatItem({ book, getAverageRating }) {
     return (
-        <li>
+        <div>
             <NavLink
                 to={`/book/${book.fields.isbn}`}
                 className="font-semibold underline underline-offset-2 decoration-1 hover:text-amber-500 dark:hover:text-amber-400 transition-colors">
@@ -201,7 +201,7 @@ function BookStatItem({ book, getAverageRating }) {
                 />
                 <span className="text-xs text-ink-700 dark:text-cream-300">Vald av {book.fields.pickedBy}</span>
             </div>
-        </li>
+        </div>
     );
 }
 
