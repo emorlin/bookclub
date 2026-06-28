@@ -1,3 +1,33 @@
+export function getAvgRatingPerYear(books) {
+    const byYear = {};
+
+    books.forEach((book) => {
+        const readDate = book.fields?.readDate;
+        if (!readDate) return;
+        const year = new Date(readDate).getFullYear();
+
+        const { eriksGrade, tomasGrade, mathiasGrade } = book.fields;
+        const grades = [eriksGrade, tomasGrade, mathiasGrade].filter((g) => typeof g === "number");
+        if (grades.length === 0) return;
+
+        const avg = grades.reduce((a, b) => a + b, 0) / grades.length;
+        if (!byYear[year]) byYear[year] = { sum: 0, count: 0 };
+        byYear[year].sum += avg;
+        byYear[year].count += 1;
+    });
+
+    if (Object.keys(byYear).length === 0) return {};
+
+    const minYear = Math.min(...Object.keys(byYear).map(Number));
+    const maxYear = Math.max(...Object.keys(byYear).map(Number));
+    const result = {};
+    for (let y = minYear; y <= maxYear; y++) {
+        const entry = byYear[y];
+        result[y] = entry ? +(entry.sum / entry.count).toFixed(2) : null;
+    }
+    return result;
+}
+
 export function getBooksPerYear(books) {
     const counts = {};
 

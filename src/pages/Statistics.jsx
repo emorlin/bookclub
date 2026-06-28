@@ -5,6 +5,7 @@ import { useBookStats } from "../hooks/useBookStats";
 import AuthorGender from "../components/AuthorGender";
 import BooksPerMonthChart from "../components/BooksPerMonthChart";
 import BooksPerYearChart from "../components/BooksPerYearChart";
+import AvgRatingPerYearChart from "../components/AvgRatingPerYearChart";
 
 function Statistics() {
     const {
@@ -234,6 +235,9 @@ function Statistics() {
                 </div>
                 <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
                     <BooksPerMonthChart books={books} />
+                </div>
+                <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
+                    <AvgRatingPerYearChart books={books} />
                 </div>
             </div>
         </div>
