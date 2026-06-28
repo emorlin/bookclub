@@ -5,15 +5,26 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --color-bookclub-blue-50: #f4f7fb;
-    --color-bookclub-blue-100: #e7eff7;
-    --color-bookclub-blue-200: #cadeed;
-    --color-bookclub-blue-300: #9cc2dd;
-    --color-bookclub-blue-400: #5f9dc7;
-    --color-bookclub-blue-500: #4386b4;
-    --color-bookclub-blue-600: #326b97;
-    --color-bookclub-blue-700: #29567b;
-    --color-bookclub-blue-800: #254a67;
-    --color-bookclub-blue-900: #243f56;
-    --color-bookclub-blue-950: #182939;
+    --color-paper-50: #faf8f5;
+    --color-paper-100: #f8f4ef;
+    --color-paper-200: #f0e8d8;
+    --color-paper-300: #e2d0b5;
+    --color-paper-400: #cdb38e;
+
+    --color-ink-700: #3d2e18;
+    --color-ink-800: #2a1f0e;
+    --color-ink-900: #1a1208;
+
+    --color-night-700: #1e3350;
+    --color-night-800: #152538;
+    --color-night-900: #0d1b2a;
+    --color-night-950: #080e18;
+
+    --color-cream-100: #f0ead8;
+    --color-cream-200: #e8dcc5;
+    --color-cream-300: #d8c9a8;
+
+    --color-amber-300: #e0b860;
+    --color-amber-400: #c9963c;
+    --color-amber-500: #b07d28;
 }

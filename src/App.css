@@ -14,50 +14,37 @@
     position: relative;
     left: 8px;
     content: " ▼";
-    opacity: 0.4;
+    opacity: 0.3;
     transition: opacity 0.2s ease-in-out;
 }
 
 [data-sorted="unsorted"]:hover:after {
-    opacity: 0.8;
+    opacity: 0.7;
     transition: opacity 0.2s ease-in-out;
 }
 
 h1 {
     background-image: url(/logo.svg);
     background-repeat: no-repeat;
-    background-size: 32px;
-    background-position: 0px 0px;
-    padding-left: 34px;
-
+    background-size: 26px;
+    background-position: 0px 2px;
+    padding-left: 32px;
 
     @media (width >=48rem) {
-        background-size: 38px;
-        padding-left: 44px;
+        background-size: 30px;
+        padding-left: 38px;
         background-position: 0px 3px;
     }
-
-    @media (width >=64rem) {
-        padding-left: 50px;
-        background-size: 46px;
-    }
-
-
 }
 
 .hero {
     background-size: cover;
     background-position: center center;
     background-image: url("/light-bg-min.webp");
-    opacity: 0.1;
+    opacity: 0.08;
 }
-
 
 .dark .hero {
     background-image: url("/dark-bg-min.webp");
-    opacity: 0.3;
+    opacity: 0.25;
 }
-
-
-/* Om användaren har ljust tema i systemet */
-@media (prefers-color-scheme: light) {}

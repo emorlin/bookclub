@@ -12,18 +12,16 @@ function BookList() {
     const { books, status } = useBooks();
     const [sortConfig, setSortConfig] = useState({ order: "readDate", asc: false });
     const [filtered, setFiltered] = useState("all");
-    const [searched, setSearched] = useState(""); // 👈 ändrat från "all" till ""
+    const [searched, setSearched] = useState("");
     const [shownInTable, setShownInTable] = useState();
     const navigate = useNavigate();
     const options = toSelectOptions();
 
-    // Filtrering + sortering
     const visibleBooks = useMemo(() => {
         if (status !== loadingStatus.loaded || !Array.isArray(books)) return [];
 
         let base = filtered === "all" ? books : books.filter((b) => b.fields.pickedBy === filtered);
 
-        // Filtrera på söksträngen
         if (searched && searched.trim() !== "") {
             const lower = searched.toLowerCase();
             base = base.filter((b) => {
@@ -33,11 +31,7 @@ function BookList() {
             });
         }
 
-        return sortBooks({
-            books: base,
-            order: sortConfig.order,
-            asc: sortConfig.asc,
-        });
+        return sortBooks({ books: base, order: sortConfig.order, asc: sortConfig.asc });
     }, [books, filtered, sortConfig, status, searched]);
 
     useEffect(() => {
@@ -50,45 +44,32 @@ function BookList() {
         setSortConfig({ order, asc });
     };
 
-    //uppdatera searched när användaren skriver
-    const searchBook = (e) => {
-        setSearched(e.target.value);
-    };
+    const searchBook = (e) => setSearched(e.target.value);
 
     if (status !== loadingStatus.loaded) {
         return (
-            <div className="relative isolate overflow-hidden bg-bookclub-blue-50 py-12 sm:py-16">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
-                    <div className="overflow-x-auto">
-                        <LoadingIndicator status={status} />
-                    </div>
+            <div className="bg-paper-50 dark:bg-night-900 py-12 sm:py-16">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-cream-100">
+                    <LoadingIndicator status={status} />
                 </div>
             </div>
         );
     }
 
     return (
-        <div
-            id="bookstable"
-            className="relative isolate overflow-hidden py-12 sm:py-16 bg-white dark:bg-gray-900">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
-                <h2 className="text-3xl font-semibold  dark:text-white sm:text-2xl mb-4">Lästa böcker</h2>
+        <div id="bookstable" className="bg-paper-50 dark:bg-night-900 py-12 sm:py-16">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                <h2 className="text-2xl font-bold text-ink-900 dark:text-cream-100 mb-6">Lästa böcker</h2>
 
-                <div
-                    aria-live="polite"
-                    aria-atomic="true"
-                    className="sr-only"
-                    id="tableUpdateMessage">
+                <div aria-live="polite" aria-atomic="true" className="sr-only" id="tableUpdateMessage">
                     {shownInTable}
                 </div>
 
                 {/* Filter och sökfält */}
-                <div className="flex flex-col sm:flex-row mt-2 mb-6 gap-4">
-                    <div className="w-full sm:w-64">
-                        <label
-                            htmlFor="pickedBy"
-                            className="block text-sm/6 font-medium dark:text-white">
-                            Visa böcker valda av
+                <div className="flex flex-col sm:flex-row mb-8 gap-4">
+                    <div className="w-full sm:w-56">
+                        <label htmlFor="pickedBy" className="block text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 mb-1.5">
+                            Vald av
                         </label>
                         <div className="grid">
                             <select
@@ -97,40 +78,21 @@ function BookList() {
                                 onChange={(e) => setFiltered(e.target.value)}
                                 id="pickedBy"
                                 name="pickedBy"
-                                className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                <option
-                                    key="001"
-                                    value="all">
-                                    Alla
-                                </option>
+                                className="col-start-1 row-start-1 w-full appearance-none rounded-lg bg-white dark:bg-night-800 border border-paper-300 dark:border-night-700 px-3 py-2 text-sm text-ink-900 dark:text-cream-100 focus:outline-2 focus:outline-amber-400">
+                                <option value="all">Alla</option>
                                 {options.map(({ value, label }) => (
-                                    <option
-                                        key={value}
-                                        value={value}>
-                                        {label}
-                                    </option>
+                                    <option key={value} value={value}>{label}</option>
                                 ))}
                             </select>
-                            <svg
-                                viewBox="0 0 16 16"
-                                fill="currentColor"
-                                data-slot="icon"
-                                aria-hidden="true"
-                                className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end dark:text-gray-500 sm:size-4">
-                                <path
-                                    d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-                                    clipRule="evenodd"
-                                    fillRule="evenodd"
-                                />
+                            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" className="pointer-events-none col-start-1 row-start-1 mr-2 size-4 self-center justify-self-end text-ink-700 dark:text-cream-300">
+                                <path d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" fillRule="evenodd" />
                             </svg>
                         </div>
                     </div>
 
                     <div className="w-full sm:w-64">
-                        <label
-                            htmlFor="searchBook"
-                            className="block text-sm/6 font-medium dark:text-white">
-                            Sök bok
+                        <label htmlFor="searchBook" className="block text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 mb-1.5">
+                            Sök
                         </label>
                         <input
                             id="searchBook"
@@ -140,131 +102,55 @@ function BookList() {
                             onChange={searchBook}
                             autoComplete="off"
                             placeholder="Titel eller författare"
-                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            className="block w-full rounded-lg bg-white dark:bg-night-800 border border-paper-300 dark:border-night-700 px-3 py-2 text-sm text-ink-900 dark:text-cream-100 placeholder:text-ink-700/50 dark:placeholder:text-cream-300/40 focus:outline-2 focus:outline-amber-400"
                         />
                     </div>
                 </div>
 
                 {/* Boktabell */}
-                <div className="overflow-x-auto">
-                    <table
-                        id="booksTable"
-                        className="min-w-full divide-y divide-gray-700">
+                <div className="overflow-x-auto rounded-xl border border-paper-300 dark:border-night-700">
+                    <table id="booksTable" className="min-w-full">
                         <thead>
-                            <tr>
-                                <th
-                                    aria-sort={
-                                        sortConfig.order === "readDate"
-                                            ? sortConfig.asc
-                                                ? "ascending"
-                                                : "descending"
-                                            : ""
-                                    }
-                                    className="pr-4 py-2 whitespace-nowrap text-left align-bottom cursor-pointer">
-                                    <button
-                                        aria-label="Sortera efter datum"
-                                        onClick={() => handleSort("readDate")}
-                                        data-sorted={
-                                            sortConfig.order === "readDate"
-                                                ? sortConfig.asc
-                                                    ? "asc"
-                                                    : "desc"
-                                                : "unsorted"
-                                        }
-                                        type="button">
-                                        Läst
-                                    </button>
-                                </th>
-                                <th
-                                    aria-sort={
-                                        sortConfig.order === "pickedBy"
-                                            ? sortConfig.asc
-                                                ? "ascending"
-                                                : "descending"
-                                            : ""
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
-                                    <button
-                                        aria-label="Sortera efter vem som valt boken"
-                                        data-sorted={
-                                            sortConfig.order === "pickedBy"
-                                                ? sortConfig.asc
-                                                    ? "asc"
-                                                    : "desc"
-                                                : "unsorted"
-                                        }
-                                        type="button"
-                                        onClick={() => handleSort("pickedBy")}>
-                                        Vald av
-                                    </button>
-                                </th>
-                                <th
-                                    aria-sort={
-                                        sortConfig.order === "title"
-                                            ? sortConfig.asc
-                                                ? "ascending"
-                                                : "descending"
-                                            : ""
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                            <tr className="border-b border-paper-300 dark:border-night-700 bg-paper-100 dark:bg-night-800">
+                                <th className="w-14 px-3 py-3" />
+                                <th className="px-3 py-3 text-left">
                                     <button
                                         aria-label="Sortera efter titel"
                                         type="button"
                                         onClick={() => handleSort("title")}
-                                        data-sorted={
-                                            sortConfig.order === "title"
-                                                ? sortConfig.asc
-                                                    ? "asc"
-                                                    : "desc"
-                                                : "unsorted"
-                                        }>
-                                        Titel
+                                        data-sorted={sortConfig.order === "title" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
+                                        className="text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 whitespace-nowrap">
+                                        Titel / Författare
                                     </button>
                                 </th>
-                                <th
-                                    aria-sort={
-                                        sortConfig.order === "author"
-                                            ? sortConfig.asc
-                                                ? "ascending"
-                                                : "descending"
-                                            : ""
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                <th className="px-3 py-3 text-left">
                                     <button
-                                        aria-label="Sortera efter författare"
+                                        aria-label="Sortera efter datum"
+                                        onClick={() => handleSort("readDate")}
+                                        data-sorted={sortConfig.order === "readDate" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
                                         type="button"
-                                        data-sorted={
-                                            sortConfig.order === "author"
-                                                ? sortConfig.asc
-                                                    ? "asc"
-                                                    : "desc"
-                                                : "unsorted"
-                                        }
-                                        onClick={() => handleSort("author")}>
-                                        Författare
+                                        className="text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 whitespace-nowrap">
+                                        Läst
                                     </button>
                                 </th>
-                                <th
-                                    aria-sort={
-                                        sortConfig.order === "rating"
-                                            ? sortConfig.asc
-                                                ? "ascending"
-                                                : "descending"
-                                            : ""
-                                    }
-                                    className="px-4 py-2 text-left align-bottom cursor-pointer whitespace-nowrap">
+                                <th className="px-3 py-3 text-left">
+                                    <button
+                                        aria-label="Sortera efter vem som valt boken"
+                                        data-sorted={sortConfig.order === "pickedBy" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
+                                        type="button"
+                                        onClick={() => handleSort("pickedBy")}
+                                        className="text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 whitespace-nowrap">
+                                        Vald av
+                                    </button>
+                                </th>
+                                <th className="px-3 py-3 text-left">
                                     <button
                                         aria-label="Sortera efter bokklubbens betyg"
                                         type="button"
                                         onClick={() => handleSort("rating")}
-                                        data-sorted={
-                                            sortConfig.order === "rating"
-                                                ? sortConfig.asc
-                                                    ? "asc"
-                                                    : "desc"
-                                                : "unsorted"
-                                        }>
-                                        Bokklubbens betyg
+                                        data-sorted={sortConfig.order === "rating" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
+                                        className="text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 whitespace-nowrap">
+                                        Betyg
                                     </button>
                                 </th>
                             </tr>
@@ -272,44 +158,54 @@ function BookList() {
                         {visibleBooks.length === 0 ? (
                             <tbody>
                                 <tr>
-                                    <td
-                                        colSpan={5}
-                                        className="py-4 text-center text-gray-500">
+                                    <td colSpan={5} className="py-12 text-center text-sm text-ink-700 dark:text-cream-300 bg-white dark:bg-night-900">
                                         Inga böcker att visa
                                     </td>
                                 </tr>
                             </tbody>
                         ) : (
-                            <tbody>
+                            <tbody className="bg-white dark:bg-night-900 divide-y divide-paper-200 dark:divide-night-800">
                                 {visibleBooks.map((book) => (
                                     <tr
-                                        onClick={() =>
-                                            navigate(`/book/${book.fields.isbn}`, {
-                                                state: { book },
-                                            })
-                                        }
+                                        onClick={() => navigate(`/book/${book.fields.isbn}`, { state: { book } })}
                                         key={book.sys.id}
-                                        className="border-b dark:border-gray-700 hover:dark:bg-gray-800 cursor-pointer">
-                                        <td className="pr-4 py-2 whitespace-nowrap">
-                                            {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
+                                        className="hover:bg-paper-100 dark:hover:bg-night-800 cursor-pointer transition-colors">
+                                        <td className="pl-3 pr-2 py-2.5 w-14">
+                                            {book.fields.coverImage ? (
+                                                <img
+                                                    src={book.fields.coverImage}
+                                                    alt=""
+                                                    className="w-9 h-13 object-cover rounded shadow-sm"
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <div className="w-9 h-13 bg-paper-200 dark:bg-night-700 rounded" />
+                                            )}
                                         </td>
-                                        <td className="px-4 py-2">{book.fields.pickedBy}</td>
-                                        <td className="px-4 py-2 min-w-2xs underline">
+                                        <td className="px-3 py-2.5">
                                             <NavLink
                                                 to={`/book/${book.fields.isbn}`}
                                                 state={{ book }}
-                                                className="underline">
+                                                className="block font-medium text-ink-900 dark:text-cream-100 hover:text-amber-500 dark:hover:text-amber-400 transition-colors">
                                                 {book.fields.bookTitle}
                                             </NavLink>
+                                            <span className="text-sm text-ink-700 dark:text-cream-300">
+                                                {book.fields.author}
+                                            </span>
                                         </td>
-                                        <td className="px-4 py-2 whitespace-nowrap">{book.fields.author}</td>
-                                        <td className="px-4 py-2 text-1xl">
+                                        <td className="px-3 py-2.5 text-sm text-ink-700 dark:text-cream-300 whitespace-nowrap">
+                                            {book.fields.readDate ? String(book.fields.readDate).slice(0, 7) : ""}
+                                        </td>
+                                        <td className="px-3 py-2.5 text-sm text-ink-700 dark:text-cream-300 whitespace-nowrap">
+                                            {book.fields.pickedBy}
+                                        </td>
+                                        <td className="px-3 py-2.5">
                                             <span className="sr-only">{parseFloat(getAverageRating(book))} av 5</span>
                                             <Rating
                                                 readonly
                                                 allowFraction
                                                 initialValue={parseFloat(getAverageRating(book)) || 0}
-                                                size={20}
+                                                size={18}
                                                 SVGstyle={{ display: "inline-block" }}
                                             />
                                         </td>

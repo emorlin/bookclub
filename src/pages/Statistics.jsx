@@ -1,4 +1,3 @@
-import { useBooks } from "../hooks/useBooks";
 import { NavLink } from "react-router-dom";
 import {} from "../utils/bookstats/ratings";
 import { Rating } from "react-simple-star-rating";
@@ -23,311 +22,186 @@ function Statistics() {
     } = useBookStats();
 
     return (
-        <>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white bg-white dark:bg-gray-900  py-12 sm:py-16">
-                <h2 className="text-4xl font-semibold mb-8">Böckerna</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                    <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4  ">
-                        <h2 className="text-3xl font-semibold">De bästa</h2>
-                        <p className="mt-1 text-m dark:text-gray-200">Betyg fem från alla</p>
-                        <ul className="mt-4 space-y-2 flex flex-col ">
-                            {topRatedBooks.map((book) => (
-                                <li
-                                    className="text-xl/5"
-                                    key={book.sys.id}>
-                                    <h3 className="mb-1">
-                                        <NavLink
-                                            to={`/book/${book.fields.isbn}`}
-                                            className="underline underline-offset-2 decoration-1">
-                                            <span className="font-bold">{book.fields.bookTitle}, </span>
-                                            {book.fields.author}
-                                        </NavLink>
-                                    </h3>
-                                    <span className="text-sm"> Vald av: {book.fields.pickedBy} </span>
-                                    <span className="text-sm block">
-                                        {" "}
-                                        Betyg:
-                                        <Rating
-                                            className="-mt-1 ml-2"
-                                            readonly
-                                            allowFraction
-                                            initialValue={parseFloat(getAverageRating(book)) || 0}
-                                            size={16}
-                                            SVGstyle={{ display: "inline-block" }}
-                                        />
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                        <h2 className="text-3xl font-semibold">De sämsta</h2>
-                        <p className="mt-1 text-m dark:text-gray-200">Bottennappen</p>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-ink-900 dark:text-cream-100 py-12 sm:py-16">
 
-                        <ul className="mt-4 space-y-2 flex flex-col gap-1 ">
-                            {lowestRatedBooks.map((book) => (
-                                <li
-                                    className="text-xl/5"
-                                    key={book.sys.id}>
-                                    <h3 className="mb-1">
-                                        <NavLink
-                                            to={`/book/${book.fields.isbn}`}
-                                            className="underline underline-offset-2 decoration-1">
-                                            <span className="font-bold">{book.fields.bookTitle}, </span>
-                                            {book.fields.author}
-                                        </NavLink>
-                                    </h3>
+            <h2 className="text-3xl font-bold mb-6">Böckerna</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                <StatCard title="De bästa" subtitle="Betyg fem från alla">
+                    <ul className="mt-4 space-y-3">
+                        {topRatedBooks.map((book) => (
+                            <BookStatItem key={book.sys.id} book={book} getAverageRating={getAverageRating} />
+                        ))}
+                    </ul>
+                </StatCard>
 
-                                    <span className="text-sm block"> Vald av: {book.fields.pickedBy} </span>
-                                    <span className="text-sm block">
-                                        {" "}
-                                        Betyg:
-                                        <Rating
-                                            className="-mt-1 ml-2"
-                                            readonly
-                                            allowFraction
-                                            initialValue={parseFloat(getAverageRating(book)) || 0}
-                                            size={16}
-                                            SVGstyle={{ display: "inline-block" }}
-                                        />
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                        <h2 className="text-3xl font-semibold">Längst och kortast</h2>
+                <StatCard title="De sämsta" subtitle="Bottennappen">
+                    <ul className="mt-4 space-y-3">
+                        {lowestRatedBooks.map((book) => (
+                            <BookStatItem key={book.sys.id} book={book} getAverageRating={getAverageRating} />
+                        ))}
+                    </ul>
+                </StatCard>
 
-                        {longestBook && (
-                            <>
-                                <p className="mt-1 text-m dark:text-gray-200">Längsta boken</p>
-
-                                <div
-                                    className="text-xl/5 mt-2"
-                                    key={longestBook.sys.id}>
-                                    <span className="text-4xl block bold mt-0 mb-2">
-                                        {longestBook.fields.pages} sidor
-                                    </span>
-
-                                    <h3 className="mb-1">
-                                        <NavLink
-                                            to={`/book/${longestBook.fields.isbn}`}
-                                            className="underline underline-offset-2 decoration-1">
-                                            <span className="font-bold">{longestBook.fields.bookTitle}, </span>
-                                            {longestBook.fields.author}
-                                        </NavLink>
-                                    </h3>
-
-                                    <span className="text-sm block"> Vald av: {longestBook.fields.pickedBy} </span>
-                                    <span className="text-sm block">
-                                        {" "}
-                                        Betyg:
-                                        <Rating
-                                            className="-mt-1 ml-2"
-                                            readonly
-                                            allowFraction
-                                            initialValue={parseFloat(getAverageRating(longestBook)) || 0}
-                                            size={16}
-                                            SVGstyle={{ display: "inline-block" }}
-                                        />
-                                    </span>
-                                </div>
-                            </>
-                        )}
-                        {shortestBook && (
-                            <>
-                                <p className="mt-8 text-m dark:text-gray-200">Kortaste boken</p>
-                                <div
-                                    className="text-xl/5 mt-2"
-                                    key={shortestBook.sys.id}>
-                                    <span className="text-4xl block bold mt-0 mb-2">
-                                        {shortestBook.fields.pages} sidor
-                                    </span>
-                                    <h3 className="mb-1">
-                                        <NavLink
-                                            to={`/book/${shortestBook.fields.isbn}`}
-                                            className="underline underline-offset-2 decoration-1">
-                                            <span className="font-bold">{shortestBook.fields.bookTitle}, </span>
-                                            {shortestBook.fields.author}
-                                        </NavLink>
-                                    </h3>
-                                    <span className="text-sm block"> Vald av: {shortestBook.fields.pickedBy} </span>
-                                    <span className="text-sm block">
-                                        {" "}
-                                        Betyg:
-                                        <Rating
-                                            className="-mt-1 ml-2"
-                                            readonly
-                                            allowFraction
-                                            initialValue={parseFloat(getAverageRating(shortestBook)) || 0}
-                                            size={16}
-                                            SVGstyle={{ display: "inline-block" }}
-                                        />
-                                    </span>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
-                <h2 className="text-4xl font-semibold mb-2 mt-8">Medlemmarna</h2>
-                <h3 className="text-xl font-bold mb-8">Utdelat snittbetyg</h3>
-                {averageRatingPerReader && (
-                    <>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                            <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                <h4 className="text-xl ">Alla böcker</h4>
-
-                                <div className=" mt-2">
-                                    <ul className="mt-4 space-y-2 flex flex-col ">
-                                        {averageRatingPerReaderSorted("overall").map(([userName, stats]) => (
-                                            <li
-                                                key={userName}
-                                                className="flex justify-between">
-                                                <span>{userName}:</span>
-                                                <span className="font-bold">{stats.overall ?? "—"}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                <h4 className="text-xl ">Valda böcker</h4>
-
-                                <div className=" mt-2">
-                                    <ul className="mt-4 space-y-2 flex flex-col ">
-                                        {averageRatingPerReaderSorted("ownPicks").map(([userName, stats]) => (
-                                            <li
-                                                key={userName}
-                                                className="flex justify-between">
-                                                <span>{userName}:</span>
-                                                <span className="font-bold">{stats.ownPicks ?? "—"}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                <h4 className="text-xl ">Andras böcker</h4>
-
-                                <div className=" mt-2">
-                                    <ul className="mt-4 space-y-2 flex flex-col ">
-                                        {averageRatingPerReaderSorted("othersPicks").map(([userName, stats]) => (
-                                            <li
-                                                key={userName}
-                                                className="flex justify-between">
-                                                <span>{userName}:</span>
-                                                <span className="font-bold">{stats.othersPicks ?? "—"}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </>
-                )}
-                <>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                        {averageRatingPerReader && (
-                            <div>
-                                <h3 className="text-xl font-bold mb-8 mt-12">Mottaget snittbetyg</h3>
-                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                    <div className="">
-                                        <ul className="space-y-2 flex flex-col ">
-                                            {perUserAveragesRecieved.map(({ name, averageScore }) => (
-                                                <li
-                                                    key={name}
-                                                    className="flex justify-between">
-                                                    <span>{name}</span>
-                                                    <span className="font-bold">{averageScore ?? "—"}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        {averageRatingPerReader && (
-                            <div>
-                                <h3 className="text-xl font-bold mb-2 mt-12">
-                                    Mottaget snittbetyg
-                                    <span className="text-sm block mb-3">(egna betyg borträknat)</span>
-                                </h3>
-
-                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                    <div className="">
-                                        <ul className="space-y-2 flex flex-col ">
-                                            {perUserAveragesRecievedExcludeSelf.map(({ name, averageScore }) => (
-                                                <li
-                                                    key={name}
-                                                    className="flex justify-between">
-                                                    <span>{name}</span>
-                                                    <span className="font-bold">{averageScore ?? "—"}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        {averageRatingPerReader && (
-                            <div>
-                                <h3 className="text-xl font-bold mb-8 mt-12">Antal sidor på valda böcker</h3>
-                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                    <div className="">
-                                        <ul className=" space-y-2 flex flex-col ">
-                                            {pagesPerUser.map(({ name, sum }) => (
-                                                <li
-                                                    key={name}
-                                                    className="flex justify-between">
-                                                    <span>{name}</span>
-                                                    <span className="font-bold">{sum ?? "—"}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </>
-                <h2 className="text-4xl font-semibold mb-2 mt-8">Författarna</h2>
-                <>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                        {books && (
-                            <div>
-                                <h3 className="text-xl font-bold mb-8">Könsfördelning </h3>
-                                <AuthorGender books={books} />
-                            </div>
-                        )}
-                        {countries && (
-                            <div>
-                                <h3 className="text-xl font-bold mb-8">Var ifrån?</h3>
-                                <div className="group rounded-xl border dark:border-gray-700 dark:bg-gray-800 p-4 ">
-                                    <ul lang="en">
-                                        {Object.entries(countries)
-                                            .sort((a, b) => b[1] - a[1]) // sortera störst först
-                                            .map(([country, count]) => (
-                                                <li
-                                                    key={country}
-                                                    className="flex justify-between">
-                                                    <span>{country}</span>
-                                                    <span className="font-bold">{count ?? "—"}</span>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </>
-                <h2 className="text-4xl font-semibold mb-8 mt-8">Läsgnista - när på året</h2>
-
-                <div className="dark:border-gray-700 dark:bg-gray-800 border p-4   rounded-xl">
-                    <BooksPerMonthChart books={books} />
-                </div>
+                <StatCard title="Längst och kortast" subtitle="">
+                    {longestBook && (
+                        <>
+                            <p className="mt-3 text-sm text-ink-700 dark:text-cream-300">Längsta boken</p>
+                            <span className="text-4xl font-bold block mt-1 mb-2">{longestBook.fields.pages} sidor</span>
+                            <BookStatItem book={longestBook} getAverageRating={getAverageRating} />
+                        </>
+                    )}
+                    {shortestBook && (
+                        <>
+                            <p className="mt-6 text-sm text-ink-700 dark:text-cream-300">Kortaste boken</p>
+                            <span className="text-4xl font-bold block mt-1 mb-2">{shortestBook.fields.pages} sidor</span>
+                            <BookStatItem book={shortestBook} getAverageRating={getAverageRating} />
+                        </>
+                    )}
+                </StatCard>
             </div>
-        </>
+
+            <h2 className="text-3xl font-bold mb-2 mt-12">Medlemmarna</h2>
+            <h3 className="text-base font-semibold text-ink-700 dark:text-cream-300 mb-6">Utdelat snittbetyg</h3>
+
+            {averageRatingPerReader && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                    <StatCard title="Alla böcker" subtitle="">
+                        <ul className="mt-4 space-y-2">
+                            {averageRatingPerReaderSorted("overall").map(([userName, stats]) => (
+                                <ScoreRow key={userName} name={userName} value={stats.overall} />
+                            ))}
+                        </ul>
+                    </StatCard>
+                    <StatCard title="Valda böcker" subtitle="">
+                        <ul className="mt-4 space-y-2">
+                            {averageRatingPerReaderSorted("ownPicks").map(([userName, stats]) => (
+                                <ScoreRow key={userName} name={userName} value={stats.ownPicks} />
+                            ))}
+                        </ul>
+                    </StatCard>
+                    <StatCard title="Andras böcker" subtitle="">
+                        <ul className="mt-4 space-y-2">
+                            {averageRatingPerReaderSorted("othersPicks").map(([userName, stats]) => (
+                                <ScoreRow key={userName} name={userName} value={stats.othersPicks} />
+                            ))}
+                        </ul>
+                    </StatCard>
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-6">
+                {averageRatingPerReader && (
+                    <div>
+                        <h3 className="text-base font-semibold mb-4 mt-6">Mottaget snittbetyg</h3>
+                        <StatCard title="" subtitle="">
+                            <ul className="space-y-2">
+                                {perUserAveragesRecieved.map(({ name, averageScore }) => (
+                                    <ScoreRow key={name} name={name} value={averageScore} />
+                                ))}
+                            </ul>
+                        </StatCard>
+                    </div>
+                )}
+                {averageRatingPerReader && (
+                    <div>
+                        <h3 className="text-base font-semibold mb-4 mt-6">
+                            Mottaget snittbetyg
+                            <span className="text-xs font-normal text-ink-700 dark:text-cream-300 block">(egna betyg borträknat)</span>
+                        </h3>
+                        <StatCard title="" subtitle="">
+                            <ul className="space-y-2">
+                                {perUserAveragesRecievedExcludeSelf.map(({ name, averageScore }) => (
+                                    <ScoreRow key={name} name={name} value={averageScore} />
+                                ))}
+                            </ul>
+                        </StatCard>
+                    </div>
+                )}
+                {averageRatingPerReader && (
+                    <div>
+                        <h3 className="text-base font-semibold mb-4 mt-6">Sidor på valda böcker</h3>
+                        <StatCard title="" subtitle="">
+                            <ul className="space-y-2">
+                                {pagesPerUser.map(({ name, sum }) => (
+                                    <ScoreRow key={name} name={name} value={sum} />
+                                ))}
+                            </ul>
+                        </StatCard>
+                    </div>
+                )}
+            </div>
+
+            <h2 className="text-3xl font-bold mb-6 mt-12">Författarna</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                {books && (
+                    <div>
+                        <h3 className="text-base font-semibold mb-4">Könsfördelning</h3>
+                        <AuthorGender books={books} />
+                    </div>
+                )}
+                {countries && (
+                    <div>
+                        <h3 className="text-base font-semibold mb-4">Var ifrån?</h3>
+                        <StatCard title="" subtitle="">
+                            <ul lang="en" className="space-y-2">
+                                {Object.entries(countries)
+                                    .sort((a, b) => b[1] - a[1])
+                                    .map(([country, count]) => (
+                                        <ScoreRow key={country} name={country} value={count} />
+                                    ))}
+                            </ul>
+                        </StatCard>
+                    </div>
+                )}
+            </div>
+
+            <h2 className="text-3xl font-bold mb-6 mt-12">Läsgnista — när på året</h2>
+            <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
+                <BooksPerMonthChart books={books} />
+            </div>
+        </div>
+    );
+}
+
+function StatCard({ title, subtitle, children }) {
+    return (
+        <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-5">
+            {title && <h4 className="text-xl font-semibold">{title}</h4>}
+            {subtitle && <p className="mt-1 text-sm text-ink-700 dark:text-cream-300">{subtitle}</p>}
+            {children}
+        </div>
+    );
+}
+
+function ScoreRow({ name, value }) {
+    return (
+        <li className="flex justify-between items-center text-sm">
+            <span className="text-ink-800 dark:text-cream-200">{name}</span>
+            <span className="font-bold text-ink-900 dark:text-cream-100">{value ?? "—"}</span>
+        </li>
+    );
+}
+
+function BookStatItem({ book, getAverageRating }) {
+    return (
+        <li>
+            <NavLink
+                to={`/book/${book.fields.isbn}`}
+                className="font-semibold underline underline-offset-2 decoration-1 hover:text-amber-500 dark:hover:text-amber-400 transition-colors">
+                {book.fields.bookTitle}
+            </NavLink>
+            <span className="text-sm text-ink-700 dark:text-cream-300">, {book.fields.author}</span>
+            <div className="flex items-center gap-2 mt-0.5">
+                <Rating
+                    readonly
+                    allowFraction
+                    initialValue={parseFloat(getAverageRating(book)) || 0}
+                    size={14}
+                    SVGstyle={{ display: "inline-block" }}
+                />
+                <span className="text-xs text-ink-700 dark:text-cream-300">Vald av {book.fields.pickedBy}</span>
+            </div>
+        </li>
     );
 }
 

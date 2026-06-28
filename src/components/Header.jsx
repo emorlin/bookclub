@@ -1,9 +1,27 @@
+import { useState } from "react";
 import { useModal } from "../hooks/useModal";
 import ThemeToggler from "../components/ThemeToggler";
-import { BookOpen, Plus } from "lucide-react";
+import { Plus, Menu, X } from "lucide-react";
+import { NavLink } from "react-router-dom";
+
+const navLinkClass = ({ isActive }) =>
+    `px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+        isActive
+            ? "bg-ink-900 text-cream-100 dark:bg-cream-100 dark:text-night-900"
+            : "text-ink-800 dark:text-cream-200 hover:bg-paper-200 dark:hover:bg-night-800"
+    }`;
+
+const mobileNavLinkClass = ({ isActive }) =>
+    `block px-4 py-3 text-base font-medium border-b border-paper-200 dark:border-night-800 transition-colors ${
+        isActive
+            ? "text-amber-500 dark:text-amber-400 bg-paper-100 dark:bg-night-800"
+            : "text-ink-800 dark:text-cream-200 hover:bg-paper-100 dark:hover:bg-night-800"
+    }`;
 
 const Header = () => {
     const { openModal, isOpen } = useModal();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const closeMenu = () => setMenuOpen(false);
 
     return (
         <>
@@ -12,34 +30,60 @@ const Header = () => {
                 href="#mainCointent">
                 Hoppa till huvudinnehållet
             </a>
-            <header className="fixed top-0 left-0 w-full bg-bookclub-blue-200 dark:bg-gray-900 dark:text-white py-4 z-50 border-b dark:border-gray-800">
-                <div
-                    className="max-w-7xl mx-auto px-6 lg:px-8  flex flex-row
-                justify-between items-center gap-6">
-                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold">
+            <header className="fixed top-0 left-0 w-full backdrop-blur-md bg-paper-100/90 dark:bg-night-900/90 dark:text-cream-100 z-50 border-b border-paper-300 dark:border-night-700">
+                {/* Huvudrad */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-row justify-between items-center gap-3 h-14">
+                    <h1 className="text-lg font-bold shrink-0">
                         <a href="/">Bokklubben</a>
                     </h1>
-                    <ThemeToggler />
-                    <button
-                        aria-controls="book-modal"
-                        aria-label="Lägg till bok"
-                        aria-expanded={isOpen}
-                        onClick={() => openModal({})}
-                        className="px-2 py-1 sm:px-4 sm:py-2 text-sm sm:text-lg rounded-lg sm:rounded-xl border focus:text-black focus:bg-white border-w
-                        hite dark:text-white focus:dark:text-black cursor-pointer min-h-10">
-                        <span className="hidden sm:inline">Lägg till bok</span>
-                        <span className="sm:hidden">
-                            <Plus
-                                className="inline-block"
-                                size={18}
-                            />
-                            <BookOpen
-                                size={18}
-                                className="inline-block ml-1"
-                            />
-                        </span>
-                    </button>
+
+                    {/* Desktop-nav */}
+                    <nav className="hidden sm:flex gap-1">
+                        <NavLink to="/" end className={navLinkClass}>Böcker</NavLink>
+                        <NavLink to="/statistik" className={navLinkClass}>Statistik</NavLink>
+                        <NavLink to="/om" className={navLinkClass}>Om</NavLink>
+                    </nav>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                        <div className="hidden sm:block">
+                            <ThemeToggler />
+                        </div>
+                        <button
+                            aria-controls="book-modal"
+                            aria-label="Lägg till bok"
+                            aria-expanded={isOpen}
+                            onClick={() => openModal({})}
+                            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-ink-900 text-cream-100 dark:bg-amber-400 dark:text-night-900 hover:opacity-90 cursor-pointer transition-opacity h-9">
+                            <Plus size={14} />
+                            <span className="hidden sm:inline">Lägg till bok</span>
+                        </button>
+
+                        {/* Hamburger-knapp (bara mobil) */}
+                        <button
+                            aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
+                            aria-expanded={menuOpen}
+                            aria-controls="mobile-menu"
+                            onClick={() => setMenuOpen((o) => !o)}
+                            className="sm:hidden flex items-center justify-center h-9 w-9 rounded-lg text-ink-800 dark:text-cream-200 hover:bg-paper-200 dark:hover:bg-night-800 transition-colors">
+                            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
+                    </div>
                 </div>
+
+                {/* Mobil-meny (dropdown) */}
+                {menuOpen && (
+                    <div id="mobile-menu" className="sm:hidden border-t border-paper-300 dark:border-night-700 bg-paper-100/95 dark:bg-night-900/95 backdrop-blur-md">
+                        <nav>
+                            <NavLink to="/" end className={mobileNavLinkClass} onClick={closeMenu}>Böcker</NavLink>
+                            <NavLink to="/statistik" className={mobileNavLinkClass} onClick={closeMenu}>Statistik</NavLink>
+                            <NavLink to="/om" className={mobileNavLinkClass} onClick={closeMenu}>Om</NavLink>
+                        </nav>
+                        <div className="px-4 py-3 flex items-center gap-3">
+                            <span className="text-sm text-ink-700 dark:text-cream-300">Tema</span>
+                            <ThemeToggler />
+                        </div>
+                    </div>
+                )}
             </header>
         </>
     );

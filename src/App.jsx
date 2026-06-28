@@ -42,7 +42,7 @@ function App() {
                                     <>
                                         <StartpageHero />
                                         <main
-                                            className="dark:bg-gray-900"
+                                            className="bg-paper-50 dark:bg-night-900"
                                             id="mainCointent">
                                             <BookList />
                                         </main>
@@ -53,7 +53,7 @@ function App() {
                                 path="/book/:isbn"
                                 element={
                                     <main
-                                        className="dark:bg-gray-900"
+                                        className="bg-paper-50 dark:bg-night-900"
                                         id="mainCointent">
                                         <Book />
                                     </main>
@@ -66,7 +66,7 @@ function App() {
                                     <>
                                         <StartpageHero />
                                         <main
-                                            className="dark:bg-gray-900"
+                                            className="bg-paper-50 dark:bg-night-900"
                                             id="mainCointent">
                                             <Statistics />
                                         </main>
