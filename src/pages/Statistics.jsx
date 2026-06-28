@@ -6,6 +6,7 @@ import AuthorGender from "../components/AuthorGender";
 import BooksPerMonthChart from "../components/BooksPerMonthChart";
 import BooksPerYearChart from "../components/BooksPerYearChart";
 import AvgRatingPerYearChart from "../components/AvgRatingPerYearChart";
+import PagesPerYearChart from "../components/PagesPerYearChart";
 
 function Statistics() {
     const {
@@ -228,7 +229,7 @@ function Statistics() {
                 )}
             </div>
 
-            <h2 className="text-3xl font-bold mb-6 mt-12">Läsgnista — när på året</h2>
+            <h2 className="text-3xl font-bold mb-6 mt-12">Trender över tid</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
                     <BooksPerYearChart books={books} />
@@ -238,6 +239,9 @@ function Statistics() {
                 </div>
                 <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
                     <AvgRatingPerYearChart books={books} />
+                </div>
+                <div className="rounded-xl border border-paper-300 dark:border-night-700 bg-white dark:bg-night-800 p-4">
+                    <PagesPerYearChart books={books} />
                 </div>
             </div>
         </div>

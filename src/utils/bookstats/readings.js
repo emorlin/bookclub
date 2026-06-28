@@ -1,3 +1,25 @@
+export function getPagesPerYear(books) {
+    const byYear = {};
+
+    books.forEach((book) => {
+        const readDate = book.fields?.readDate;
+        const pages = book.fields?.pages;
+        if (!readDate || !pages) return;
+        const year = new Date(readDate).getFullYear();
+        byYear[year] = (byYear[year] || 0) + pages;
+    });
+
+    if (Object.keys(byYear).length === 0) return {};
+
+    const minYear = Math.min(...Object.keys(byYear).map(Number));
+    const maxYear = Math.max(...Object.keys(byYear).map(Number));
+    const result = {};
+    for (let y = minYear; y <= maxYear; y++) {
+        result[y] = byYear[y] ?? 0;
+    }
+    return result;
+}
+
 export function getAvgRatingPerYear(books) {
     const byYear = {};
 
