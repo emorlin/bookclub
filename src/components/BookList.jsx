@@ -114,14 +114,24 @@ function BookList() {
                             <tr className="border-b border-paper-300 dark:border-night-700 bg-paper-100 dark:bg-night-800">
                                 <th className="w-14 px-3 py-3" />
                                 <th className="px-3 py-3 text-left">
-                                    <button
-                                        aria-label="Sortera efter titel"
-                                        type="button"
-                                        onClick={() => handleSort("title")}
-                                        data-sorted={sortConfig.order === "title" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
-                                        className="text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 whitespace-nowrap">
-                                        Titel / Författare
-                                    </button>
+                                    <div className="flex flex-row items-center gap-6">
+                                        <button
+                                            aria-label="Sortera efter titel"
+                                            type="button"
+                                            onClick={() => handleSort("title")}
+                                            data-sorted={sortConfig.order === "title" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
+                                            className="text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cream-300 whitespace-nowrap text-left">
+                                            Titel
+                                        </button>
+                                        <button
+                                            aria-label="Sortera efter författare"
+                                            type="button"
+                                            onClick={() => handleSort("author")}
+                                            data-sorted={sortConfig.order === "author" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
+                                            className="text-xs font-semibold uppercase tracking-wide text-ink-700/60 dark:text-cream-300/60 whitespace-nowrap text-left">
+                                            Författare
+                                        </button>
+                                    </div>
                                 </th>
                                 <th className="px-3 py-3 text-left">
                                     <button
