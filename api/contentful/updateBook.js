@@ -1,7 +1,7 @@
 import { parseAndValidate, getContentfulEnv, buildFields } from "./utils/contentfulHelpers.js";
 
 export default async function handler(req, res) {
-    const { body, error } = parseAndValidate(req);
+    const { body, error } = await parseAndValidate(req);
     if (error) return res.status(error.status).json({ error: error.message });
 
     if (req.method !== "POST") {

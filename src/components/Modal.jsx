@@ -3,9 +3,10 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/re
 import { getBookByIsbn } from "../api/isbnLookup";
 import { toSelectOptions, readers } from "../utils/readers";
 import { useBooks } from "../hooks/useBooks";
+import { useAuth } from "@clerk/clerk-react";
 
 export default function Modal({ open = false, setOpen = () => {}, data }) {
-    const [formPassword, setFormPassword] = useState("");
+    const { getToken } = useAuth();
     const isFirstRender = useRef(true);
     const { books } = useBooks();
     const options = toSelectOptions();
@@ -166,9 +167,10 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
         const path = isUpdate ? `/api/contentful/updateBook` : `/api/contentful/createBook`;
 
         try {
+            const token = await getToken();
             const res = await fetch(path, {
                 method: "POST",
-                headers: { "Content-Type": "application/json", "X-Form-Secret": formPassword },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify(payload),
             });
             const data = await res.json();
@@ -224,22 +226,6 @@ export default function Modal({ open = false, setOpen = () => {}, data }) {
                                 <form
                                     onSubmit={handleSubmit}
                                     className="mt-6">
-                                    <label
-                                        htmlFor="formPassword"
-                                        className="block text-sm/6 font-medium dark:text-gray-900 mt-4 mb-2">
-                                        Lösenord
-                                    </label>
-                                    <input
-                                        id="formPassword"
-                                        type="password"
-                                        autoComplete="off"
-                                        defaultValue={formPassword}
-                                        onChange={(e) => setFormPassword(e.target.value)}
-                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base dark:text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:dark:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                        placeholder="Skriv lösenordet"
-                                        required
-                                    />
-
                                     <fieldset className="border dark:border-gray-300 rounded-md p-4 mt-8">
                                         <legend className="text-m font-medium dark:text-gray-700 px-1">
                                             Information om boken

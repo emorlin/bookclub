@@ -12,6 +12,8 @@
         "dev:local": "vercel dev --local-config vercel.dev.json"
     },
     "dependencies": {
+        "@clerk/backend": "^3.8.4",
+        "@clerk/clerk-react": "^5.61.8",
         "@headlessui/react": "^2.2.7",
         "@tailwindcss/vite": "^4.1.12",
         "chart.js": "^4.5.0",

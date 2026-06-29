@@ -1,21 +1,27 @@
 import contentfulManagement from "contentful-management";
 import { config as loadEnv } from "dotenv";
-import timingSafeEq from "../../utils/timingSafeEq.js";
 import safeParseJSON from "../../utils/safeParseJSON.js";
+import { verifyToken } from "@clerk/backend";
 
 if (!process.env.VERCEL) {
     loadEnv({ path: ".env.local" });
 }
 
-// Gemensam parsing och auth-kontroll
-export function parseAndValidate(req) {
+// Gemensam parsing och auth-kontroll via Clerk
+export async function parseAndValidate(req) {
     const raw = req.body ?? {};
     const body = typeof raw === "string" ? safeParseJSON(raw) : raw;
 
-    const expected = String(process.env.FORM_SECRET_PROD).trim();
-    const provided = String(req.headers["x-form-secret"] || body?.secret || "").trim();
+    const authHeader = req.headers["authorization"] ?? "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 
-    if (!expected || !provided || !timingSafeEq(provided, expected)) {
+    if (!token) {
+        return { error: { status: 401, message: "Unauthorized" } };
+    }
+
+    try {
+        await verifyToken(token, { secretKey: process.env.CLERK_SECRET_KEY });
+    } catch {
         return { error: { status: 401, message: "Unauthorized" } };
     }
 
