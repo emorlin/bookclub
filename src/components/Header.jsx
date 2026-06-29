@@ -27,7 +27,7 @@ const Header = () => {
     return (
         <>
             <a
-                className="text-black bg-white focus:relative z-99 p-4 w-auto text-center"
+                className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-ink-900 focus:text-cream-100 focus:shadow-lg"
                 href="#mainCointent">
                 Hoppa till huvudinnehållet
             </a>
@@ -38,7 +38,7 @@ const Header = () => {
                     </h1>
 
                     {/* Desktop-nav */}
-                    <nav className="hidden sm:flex gap-1">
+                    <nav aria-label="Huvudnavigation" className="hidden sm:flex gap-1">
                         <NavLink to="/" end className={navLinkClass}>Böcker</NavLink>
                         <NavLink to="/statistik" className={navLinkClass}>Statistik</NavLink>
                         <NavLink to="/om" className={navLinkClass}>Om</NavLink>
@@ -89,7 +89,7 @@ const Header = () => {
                 {/* Mobil-meny */}
                 {menuOpen && (
                     <div id="mobile-menu" className="sm:hidden border-t border-paper-300 dark:border-night-700 bg-paper-100/95 dark:bg-night-900/95 backdrop-blur-md">
-                        <nav>
+                        <nav aria-label="Mobilnavigation">
                             <NavLink to="/" end className={mobileNavLinkClass} onClick={closeMenu}>Böcker</NavLink>
                             <NavLink to="/statistik" className={mobileNavLinkClass} onClick={closeMenu}>Statistik</NavLink>
                             <NavLink to="/om" className={mobileNavLinkClass} onClick={closeMenu}>Om</NavLink>

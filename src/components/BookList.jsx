@@ -112,8 +112,10 @@ function BookList() {
                     <table id="booksTable" className="min-w-full">
                         <thead>
                             <tr className="border-b border-paper-300 dark:border-night-700 bg-paper-100 dark:bg-night-800">
-                                <th className="w-14 px-3 py-3" />
-                                <th className="px-3 py-3 text-left">
+                                <th scope="col" className="w-14 px-3 py-3">
+                                    <span className="sr-only">Omslag</span>
+                                </th>
+                                <th scope="col" className="px-3 py-3 text-left">
                                     <div className="flex flex-row items-center gap-6">
                                         <button
                                             aria-label="Sortera efter titel"
@@ -133,7 +135,7 @@ function BookList() {
                                         </button>
                                     </div>
                                 </th>
-                                <th className="px-3 py-3 text-left">
+                                <th scope="col" className="px-3 py-3 text-left">
                                     <button
                                         aria-label="Sortera efter datum"
                                         onClick={() => handleSort("readDate")}
@@ -143,7 +145,7 @@ function BookList() {
                                         Läst
                                     </button>
                                 </th>
-                                <th className="px-3 py-3 text-left">
+                                <th scope="col" className="px-3 py-3 text-left">
                                     <button
                                         aria-label="Sortera efter vem som valt boken"
                                         data-sorted={sortConfig.order === "pickedBy" ? (sortConfig.asc ? "asc" : "desc") : "unsorted"}
@@ -153,7 +155,7 @@ function BookList() {
                                         Vald av
                                     </button>
                                 </th>
-                                <th className="px-3 py-3 text-left">
+                                <th scope="col" className="px-3 py-3 text-left">
                                     <button
                                         aria-label="Sortera efter bokklubbens betyg"
                                         type="button"

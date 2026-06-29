@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useIsDarkMode } from "../hooks/useIsDarkMode";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -20,15 +20,7 @@ function AvgRatingPerYearChart({ books }) {
     const labels = Object.keys(ratingsByYear);
     const values = Object.values(ratingsByYear);
 
-    const [isDark, setIsDark] = useState(document.documentElement.classList.contains("dark"));
-
-    useEffect(() => {
-        const observer = new MutationObserver(() => {
-            setIsDark(document.documentElement.classList.contains("dark"));
-        });
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-        return () => observer.disconnect();
-    }, []);
+    const isDark = useIsDarkMode();
 
     const textColor = isDark ? "#f0ead8" : "#1a1208";
     const lineColor = isDark ? "rgba(201, 150, 60, 1)" : "rgba(176, 125, 40, 1)";

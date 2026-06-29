@@ -100,7 +100,7 @@ function About() {
                         Mathias har en tendens att introducera författare som utmanar både språk och form.
                     </p>
 
-                    {stats?.malePct !== null && (
+                    {stats?.malePct != null && (
                         <p className="mt-6">
                             När vi ser tillbaka på vår statistik kan vi se att{" "}
                             <strong>{stats.malePct} %</strong> av de lästa författarna är män och{" "}

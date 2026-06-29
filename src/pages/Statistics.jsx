@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import {} from "../utils/bookstats/ratings";
+import { readers } from "../utils/readers";
 import { Rating } from "react-simple-star-rating";
 import { useBookStats } from "../hooks/useBookStats";
 import AuthorGender from "../components/AuthorGender";
@@ -290,7 +290,7 @@ function BookStatItem({ book, getAverageRating }) {
     );
 }
 
-const names = ["Erik", "Tomas", "Mathias"];
+const names = readers.map((r) => r.name);
 
 const genitive = (name) => (name.endsWith("s") ? name : `${name}s`);
 
@@ -313,10 +313,11 @@ function RatingMatrix({ matrix }) {
             <table className="w-full text-sm">
                 <thead>
                     <tr>
-                        <th className="text-left pb-3 pr-4 text-ink-700 dark:text-cream-300 font-medium w-28"></th>
+                        <th scope="col" className="text-left pb-3 pr-4 text-ink-700 dark:text-cream-300 font-medium w-28"></th>
                         {names.map((picker) => (
                             <th
                                 key={picker}
+                                scope="col"
                                 className="pb-3 px-2 text-center font-semibold text-ink-900 dark:text-cream-100">
                                 {genitive(picker)} böcker
                             </th>
@@ -326,9 +327,9 @@ function RatingMatrix({ matrix }) {
                 <tbody className="divide-y divide-paper-200 dark:divide-night-700">
                     {names.map((rater) => (
                         <tr key={rater}>
-                            <td className="py-3 pr-4 font-semibold text-ink-900 dark:text-cream-100 whitespace-nowrap">
+                            <th scope="row" className="py-3 pr-4 font-semibold text-ink-900 dark:text-cream-100 whitespace-nowrap text-left">
                                 {genitive(rater)} betyg
-                            </td>
+                            </th>
                             {names.map((picker) => {
                                 const val = matrix[rater]?.[picker];
                                 const isOwn = rater === picker;

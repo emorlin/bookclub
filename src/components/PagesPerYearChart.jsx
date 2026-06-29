@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useIsDarkMode } from "../hooks/useIsDarkMode";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { getPagesPerYear } from "../utils/bookstats/readings";
@@ -10,15 +10,7 @@ function PagesPerYearChart({ books }) {
     const labels = Object.keys(pagesByYear);
     const values = Object.values(pagesByYear);
 
-    const [isDark, setIsDark] = useState(document.documentElement.classList.contains("dark"));
-
-    useEffect(() => {
-        const observer = new MutationObserver(() => {
-            setIsDark(document.documentElement.classList.contains("dark"));
-        });
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-        return () => observer.disconnect();
-    }, []);
+    const isDark = useIsDarkMode();
 
     const textColor = isDark ? "#f0ead8" : "#1a1208";
     const barColor = isDark ? "rgba(201, 150, 60, 0.8)" : "rgba(176, 125, 40, 0.75)";
