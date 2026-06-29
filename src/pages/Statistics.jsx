@@ -32,7 +32,6 @@ function Statistics() {
                 <StatCard
                     title="De bästa"
                     subtitle="Betyg fem från alla">
-                    pen{" "}
                     <div className="mt-4 space-y-3">
                         {topRatedBooks.map((book) => (
                             <BookStatItem
